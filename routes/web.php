@@ -14,17 +14,11 @@ use App\Http\Controllers\AdminController as ad;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::view('layouts', 'admin.layouts.layout');
-
-Route::get('test', [ad::class, 'readProduct']);
-
-Route::prefix('admin')->group(function () {
+Route::prefix('quantri')->group(function () {
+    // Master Layout
+    Route::get('/', [ad::class, 'index']);
     // CK Editor Upload adapter
     Route::post('/upload', [ad::class, 'uploadProductDescription']);
-    // Root
     // Danh mục sp
     Route::get('/danhmuc', [ad::class, 'category'])->name('quanlydanhmuc');
     Route::get('/danhmuc/them', [ad::class, 'createCategory'])->name('themdanhmuc');
@@ -39,10 +33,11 @@ Route::prefix('admin')->group(function () {
     Route::get('/sanpham', [ad::class, 'product'])->name('quanlysanpham');
     Route::get('/sannpham/listsanpham', [ad::class, 'readproduct'])->name('danhsachsanpham');
 });
+
+
+// Ck Finder
 Route::any('/ckfinder/connector', '\CKSource\CKFinderBridge\Controller\CKFinderController@requestAction')
     ->name('ckfinder_connector');
 
 Route::any('/ckfinder/browser', '\CKSource\CKFinderBridge\Controller\CKFinderController@browserAction')
     ->name('ckfinder_browser');
-
-    //hmmm

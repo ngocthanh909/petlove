@@ -10,6 +10,9 @@ class AdminController extends Controller
 {
     // Category Groups
     public $category;
+    function index(){
+        return view('admin.layouts.layout');
+    }
     public function __construct()
     {
         $category = DB::table('danhmucsp')->get();
@@ -124,8 +127,8 @@ class AdminController extends Controller
         }
         return redirect(url('admin/danhmuc'));
     }
-    public function readProduct(Request $request){
-        $result = DB::table('sanpham')->paginate($request->item);
+    public function readProduct(){
+        $result = DB::table('product')->join('productcategory', 'productcategory.CategoryID', '=', 'product.CategoryID')->paginate(20);
         return $result;
     }
     public function updateProduct(Request $request){

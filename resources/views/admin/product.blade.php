@@ -91,8 +91,8 @@
             "item": $('#item').val()
         }
         var rowTemplate = '<tr>' +
-            '<td><%this.name%> </td>' +
-            '<td><%this.secondName%> </td>' +
+            '<td><%this.id%> </td>' +
+            '<td><%this.danhmuc%> </td>' +
             '<td><%this.phone%> </td>' +
             '</tr>';
         console.log(data.item);
@@ -159,13 +159,6 @@
                     <div class="form-group">
                         <label>Mô tả</label>
                         <textarea type="text" name="mota" id="mota-a" class="form-control" required></textarea>
-                        {{-- <script>
-                        ClassicEditor
-                            .create(document.querySelector('#mota-a')).catch(error => {
-                                console.error(error);
-                            });
-
-                    </script> --}}
                     </div>
                 </div>
                 <div class="modal-footer">
