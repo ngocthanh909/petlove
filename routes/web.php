@@ -21,7 +21,6 @@ Route::view('layouts', 'admin.layouts.layout');
 
 Route::get('test', [ad::class, 'readProduct']);
 
-
 Route::prefix('admin')->group(function () {
     // CK Editor Upload adapter
     Route::post('/upload', [ad::class, 'uploadProductDescription']);
@@ -40,3 +39,8 @@ Route::prefix('admin')->group(function () {
     Route::get('/sanpham', [ad::class, 'product'])->name('quanlysanpham');
     Route::get('/sannpham/listsanpham', [ad::class, 'readproduct'])->name('danhsachsanpham');
 });
+Route::any('/ckfinder/connector', '\CKSource\CKFinderBridge\Controller\CKFinderController@requestAction')
+    ->name('ckfinder_connector');
+
+Route::any('/ckfinder/browser', '\CKSource\CKFinderBridge\Controller\CKFinderController@browserAction')
+    ->name('ckfinder_browser');
