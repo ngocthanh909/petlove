@@ -14,24 +14,19 @@ use App\Http\Controllers\AdminController as ad;
 |
 */
 
-Route::prefix('quantri')->group(function () {
+Route::prefix('admin')->group(function () {
     // Master Layout
     Route::get('/', [ad::class, 'index']);
-    // CK Editor Upload adapter
-    Route::post('/upload', [ad::class, 'uploadProductDescription']);
-    // Danh mục sp
-    Route::get('/danhmuc', [ad::class, 'category'])->name('quanlydanhmuc');
-    Route::get('/danhmuc/them', [ad::class, 'createCategory'])->name('themdanhmuc');
-    Route::get('/danhmuc/sua', [ad::class, 'updateCategory'])->name('suadanhmuc');
-    Route::get('/danhmuc/xoa', [ad::class, 'deleteCategory'])->name('xoadanhmuc');
-    // Nhãn hàng
-    Route::get('/nhanhang', [ad::class, 'brand'])->name('quanlynhanhang');
-    Route::get('/nhanhang/them', [ad::class, 'createBrand'])->name('themnhanhang');
-    Route::get('/nhanhang/sua', [ad::class, 'updateBrand'])->name('suanhanhang');
-    Route::get('/nhanhang/xoa', [ad::class, 'deleteBrand'])->name('xoanhanhang');
-    // Nhãn hàng
-    Route::get('/sanpham', [ad::class, 'product'])->name('quanlysanpham');
-    Route::get('/sannpham/listsanpham', [ad::class, 'readproduct'])->name('danhsachsanpham');
+    Route::get('/1', [ad::class, 'index'])->name('admin.product');
+    Route::get('/2', [ad::class, 'index'])->name('admin.brand');
+    Route::prefix('/category')->group(function () {
+        Route::get('/', [ad::class, 'categoryIndex'])->name('admin.category');
+        Route::get('/create', [ad::class, 'createCategory'])->name('admin.category.create');
+        Route::get('/read', [ad::class, 'readCategory'])->name('admin.category.read');
+        Route::get('/readsigle', [ad::class, 'readSingleCategory'])->name('admin.category.readsingle');
+        Route::get('/update', [ad::class, 'updateCategory'])->name('admin.category.update');
+        Route::get('/delete', [ad::class, 'deleteCategory'])->name('admin.category.delete');
+    });
 });
 
 

@@ -3,173 +3,177 @@
 @section('heading', 'Danh mục sản phẩm')
 @section('body')
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            @php
-            $response = session()->pull('response', null);
-            @endphp
-            @isset($response)
-            @if($response['status'] == 1)
-            <div class="alert alert-success">
-                {{$response['msg']}}
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Manage <b>Employees</b></h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
+                        <a href="#deleteModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
+                    </div>
+                </div>
             </div>
-            @elseif($response['status'] == 0)
-            <div class="alert alert-warning">
-                {{$response['msg']}}
+            <table id="table-wrapper" class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            <span class="custom-checkbox">
+                                <input type="checkbox" id="selectAll">
+                                <label for="selectAll"></label>
+                            </span>
+                        </th>
+                        <th>ID</th>
+                        <th>Danh mục cha</th>
+                        <th>Tên danh mục</th>
+                        <th>Slug</th>
+                        <th>Ngày thêm</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($categories as $category)
+                    <tr>
+                        <td><input type="checkbox" value="{{$category->CategoryID}}"></td>
+                        <td>{{$category->CategoryID}}</td>
+                        <td>{{$category->ParentID}}</td>
+                        <td>{{$category->Name}}</td>
+                        <td>{{$category->Slug}}</td>
+                        <td>{{$category->Time}}</td>
+                        <td>
+                            <a href="#editModal" class="edit" data-toggle="modal" data-categoryid="{{$category->CategoryID}}" data-parentid="{{$category->ParentID}}" data-name="{{$category->Name}}" data-slug="{{$category->Slug}}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a href="#deleteModal" class="delete" data-toggle="modal" data-CategoryID="{{$category->CategoryID}}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <div class="clearfix">
+                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                <ul class="pagination">
+                    <li class="page-item disabled"><a href="#">Previous</a></li>
+                    <li class="page-item"><a href="#" class="page-link">1</a></li>
+                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                    <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                    <li class="page-item"><a href="#" class="page-link">4</a></li>
+                    <li class="page-item"><a href="#" class="page-link">5</a></li>
+                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                </ul>
             </div>
-            @endif
-            @endisset </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 border-right">
-            <form method="get" action="{{route('themdanhmuc')}}">
-                <h5>Tạo danh mục mới</h5>
-                <div class="form-group">
-                    <label>Tên danh mục</label>
-                    <input type="text" class="form-control" id="category-name" name="tendanhmuc" placeholder="Tên danh mục" required>
-                </div>
-                <div class="form-group">
-                    <label>Slug</label>
-                    <input type="text" class="form-control" id="slug" name="slug" placeholder="Slug được tạo tự động, có thể hiệu chỉnh" required>
-                </div>
-                <div class="form-group">
-                    <label for="sel1">Danh mục cha</label>
-                    <select class="form-control" name="danhmuccha" required>
-                        <option value="0">Danh mục gốc</option>
-                        @foreach ($categories as $category)
-                        @include('admin.layouts.categoryselect', ['category' => $category, 'char' => ''])
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Tạo danh mục</button>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-8">
-            <form method="get" action="{{route('xoadanhmuc')}}" id="category-table">
-                <h5>Quản lý danh mục</h5>
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Tên danh mục</th>
-                            <th scope="col">Slug</th>
-                            <th scope="col">Hành động</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($categories as $category)
-                        @include('admin.layouts.categorytable', ['category' => $category, 'no' => $char = ''])
-                        @endforeach
-                    </tbody>
-                </table>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-danger">Xoá</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>
-<!-- Modal sửa -->
-<div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<!-- Add Modal HTML -->
+<div id="addModal" class="modal fade">
+    <div class="modal-dialog">
         <div class="modal-content">
-            <form method="get" id="edit-form" action="{{route('suadanhmuc')}}">
+            <form id="editForm" method="get" action="{{route('admin.category.create')}}">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Sửa danh mục</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h4 class="modal-title">Sửa danh mục</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
                         <label>ID</label>
-                        <input type="text" class="form-control" id="category-id" name="id" placeholder="ID" required>
+                        <input type="text" name="CategoryID" id="CategoryID" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label>Tên danh mục</label>
-                        <input type="text" class="form-control" id="category-name" name="tendanhmuc" placeholder="Tên danh mục" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Slug</label>
-                        <input type="text" class="form-control" id="slug" name="slug" placeholder="Slug được tạo tự động, có thể hiệu chỉnh" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="sel1">Danh mục cha</label>
-                        <select class="form-control" id="parent-id" name="danhmuccha" required>
-                            <option value="0">Danh mục gốc</option>
+                        <label>Danh mục cha</label>
+                        <select class="form-control" name="ParentID" id="ParentID" required>
                             @foreach ($categories as $category)
-                            @include('admin.layouts.categoryselect', ['category' => $category, 'char' => ''])
+                            <option value="{{$category->CategoryID}}">{{$category->Name}}</option>
                             @endforeach
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label>Tên danh mục</label>
+                        <input type="text" name="Name" id="Name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Slug</label>
+                        <input type="text" name="Slug" id="Slug" class="form-control" required>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button type="submit" id="edit-btn" class="btn btn-primary">Tạo danh mục</button>
+                    <input type="button" id="save" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" id="discard" class="btn btn-info" value="Save">
                 </div>
             </form>
         </div>
     </div>
-    <!--Modal xoá-->
-    <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form method="get" id="edit-form" action="{{route('suadanhmuc')}}">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Sửa danh mục</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+</div>
+<!-- Edit Modal HTML -->
+<div id="editModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="editForm" method="get" action="{{route('admin.category.update')}}">
+                <div class="modal-header">
+                    <h4 class="modal-title">Sửa danh mục</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>ID</label>
+                        <input type="text" name="CategoryID" id="CategoryID" class="form-control" required>
                     </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>ID</label>
-                            <input type="text" class="form-control" id="category-id" name="id" placeholder="ID" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Tên danh mục</label>
-                            <input type="text" class="form-control" id="category-name" name="tendanhmuc" placeholder="Tên danh mục" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Slug</label>
-                            <input type="text" class="form-control" id="slug" name="slug" placeholder="Slug được tạo tự động, có thể hiệu chỉnh" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="sel1">Danh mục cha</label>
-                            <select class="form-control" id="parent-id" name="danhmuccha" required>
-                                <option value="0">Danh mục gốc</option>
-                                @foreach ($categories as $category)
-                                @include('admin.layouts.categoryselect', ['category' => $category, 'char' => ''])
-                                @endforeach
-                            </select>
-                        </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                <button type="submit" id="edit-btn" class="btn btn-primary">Tạo danh mục</button>
-            </div>
+                    <div class="form-group">
+                        <label>Danh mục cha</label>
+                        <select class="form-control" name="ParentID" id="ParentID" required>
+                            @foreach ($categories as $category)
+                            <option value="{{$category->CategoryID}}">{{$category->Name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tên danh mục</label>
+                        <input type="text" name="Name" id="Name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Slug</label>
+                        <input type="text" name="Slug" id="Slug" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" id="save" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" id="discard" class="btn btn-info" value="Save">
+                </div>
             </form>
         </div>
     </div>
-    <!--END Modal xoá-->
 </div>
 <script>
-    $('#modal-edit').on('show.bs.modal', function(event) {
+    $('#editModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
-        var id = button.data('id')
-        var category = button.data('category')
-        var slug = button.data('slug')
-        var parentid = button.data('parentid')
+        var id = button.data('id') // Extract info from data-* attributes
         var modal = $(this)
-        modal.find('.modal-title').text('Sửa danh mục ' + category)
-        modal.find('#category-id').val(id)
-        modal.find('#category-name').val(category)
-        modal.find('#slug').val(slug)
-        modal.find('#parent-id').val(parentid)
+        modal.find('#CategoryID').val(button.data('categoryid'));
+        modal.find('#ParentID').val(button.data('parentid'));
+        modal.find('#Name').val(button.data('name'));
+        modal.find('#Slug').val(button.data('slug'));
     })
 
 </script>
+<!-- Delete Modal HTML -->
+<div id="deleteModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{route('admin.category.delete')}}" method="get">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Employee</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn xoá không?</p>
+                    <p class="text-warning"><small>Thay đổi này không thể hoàn tác được. Hãy cẩn thận</small></p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection

@@ -7,15 +7,15 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>@yield('title')</title>
-    <link href="{{asset('admin\css\styles.css')}}" rel="stylesheet" />
-    <link href="{{asset('admin\css\custom.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets\admin\css\styles.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets\admin\css\custom.css')}}" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="{{asset('admin\js\scripts.js')}}"></script>
-    <script src="{{asset('admin\js\slug.js')}}"></script>
-    <script src="{{asset('/js/table-renderer.js')}}"></script>
+    <script src="{{asset('assets\admin\js\scripts.js')}}"></script>
+    <script src="{{asset('assets\admin\js\slug.js')}}"></script>
+    <script src="{{asset('assets\admin\js\table-renderer.js')}}"></script>
     @include('ckfinder::setup')
 </head>
 <body>
@@ -62,9 +62,9 @@
                         </a>
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="{{route('quanlydanhmuc')}}">Quản lý danh mục</a>
-                                <a class="nav-link" href="{{route('quanlynhanhang')}}">Quản lý nhãn hàng</a>
-                                <a class="nav-link" href="{{route('quanlydanhmuc')}}">Quản lý sản phẩm</a>
+                                <a class="nav-link" href="{{route('admin.category')}}">Quản lý danh mục</a>
+                                <a class="nav-link" href="{{route('admin.brand')}}">Quản lý nhãn hàng</a>
+                                <a class="nav-link" href="{{route('admin.product')}}">Quản lý sản phẩm</a>
                             </nav>
                         </div>
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
@@ -123,10 +123,29 @@
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
                         <li class="breadcrumb-item active">Quản lý danh mục</li>
                     </ol>
+
                     <div class="mb-4">
-                        @yield('body')
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-12">
+                                    @php
+                                    $response = session()->pull('response', null);
+                                    @endphp
+                                    @isset($response)
+                                    @if($response['status'] == 1)
+                                    <div class="alert alert-success">
+                                        {{$response['msg']}}
+                                    </div>
+                                    @elseif($response['status'] == 0)
+                                    <div class="alert alert-warning">
+                                        {{$response['msg']}}
+                                    </div>
+                                    @endif
+                                    @endisset </div>
+                            </div>
+                            @yield('body')
+                        </div>
                     </div>
-                </div>
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid">
