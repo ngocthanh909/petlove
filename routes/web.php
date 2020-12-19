@@ -37,8 +37,8 @@ Route::prefix('admin')->group(function () {
     Route::prefix('/product')->group(function () {
         Route::get('/', [ad::class, 'productIndex'])->name('admin.product');
         Route::post('/create', [ad::class, 'createProduct'])->name('admin.product.create');
-        // Route::post('/update', [ad::class, 'updateBrand'])->name('admin.product.update');
-        // Route::get('/delete', [ad::class, 'deleteBrand'])->name('admin.product.delete');
+        Route::post('/update', [ad::class, 'updateProduct'])->name('admin.product.update');
+        Route::get('/delete', [ad::class, 'deleteProduct'])->name('admin.product.delete');
         // Route::get('/read', [ad::class, 'readBrand'])->name('admin.product.read');           
     });
 });

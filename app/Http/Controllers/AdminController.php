@@ -121,15 +121,38 @@ class AdminController extends Controller
         }
 
 
-        // function createBrand(Request $request){
-        //     $result = DB::table('brand')->insert(['Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "BrandAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
-        //     if ($result) {
-        //         session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-        //     } else {
-        //         session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-        //     }
-        //     return redirect(url('admin/brand'));
-        // }
+        function createProduct(Request $request){
+            $result = DB::table('product')->insert(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "ProductAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+            if ($result) {
+                session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
+            } else {
+                session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
+            }
+            return redirect(url('admin/product'));
+        }
+        function updateProduct(Request $request){
+            // $result = DB::table('product')->where('ProductID', $request->ProductID)->update(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "ProductAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+           if(isset($request->Avatar)){
+            $result = DB::table('product')->where('ProductID', '=', $request->ProductID)->update(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "ProductAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+           } else {
+            $result = DB::table('product')->where('ProductID', $request->ProductID)->update(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+            }
+            if ($result) {
+                session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
+            } else {
+                session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
+            }
+            return redirect(url('admin/product'));
+        }
+        function deleteProduct(Request $request){
+            $result = DB::table('product')->where('ProductID', $request->ProductID)->delete();
+            if ($result) {
+                session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
+            } else {
+                session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
+            }
+            return redirect(url('admin/product'));
+        }
         // function readBrand(){
         //     $result = DB::table('brand')->get();
         //     return $result;
@@ -151,13 +174,5 @@ class AdminController extends Controller
         //     }
         //     return redirect(url('admin/brand'));
         // }
-        // function deleteBrand(Request $request){
-        //     $result = DB::table('brand')->where('BrandID', $request->BrandID)->delete();
-        //     if ($result) {
-        //         session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-        //     } else {
-        //         session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-        //     }
-        //     return redirect(url('admin/brand'));
-        // }
+
 }
