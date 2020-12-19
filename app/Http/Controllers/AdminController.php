@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
+    //Helper methods
+    function returnStatus($result){
+        if ($result) {
+            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
+        } else {
+            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
+        }
+    }
     // Master
     function index(){
         return view('admin.layouts.layout');
@@ -20,11 +28,7 @@ class AdminController extends Controller
     }
     function createCategory(Request $request){
         $result = DB::table('productcategory')->insert(['ParentID' => $request->ParentID, 'Name' => $request->Name, 'Slug' => $request->Slug,  'Time' => date('Y-m-d H:i:s')]);
-        if ($result) {
-            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-        } else {
-            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-        }
+        $this->returnStatus($result);
         return redirect(url('admin/category'));
     }
     function readCategory(){
@@ -37,20 +41,12 @@ class AdminController extends Controller
     }
     function updateCategory(Request $request){
         $result = DB::table('productcategory')->where('CategoryID', $request->CategoryID)->update(['ParentID' => $request->ParentID, 'Name' => $request->Name, 'Slug' => $request->Slug,  'Time' => date('Y-m-d H:i:s')]);
-        if ($result) {
-            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-        } else {
-            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-        }
+        $this->returnStatus($result);
         return redirect(url('admin/category'));
     }
     function deleteCategory(Request $request){
         $result = DB::table('productcategory')->where('CategoryID', $request->CategoryID)->delete();
-        if ($result) {
-            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-        } else {
-            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-        }
+        $this->returnStatus($result);
         return redirect(url('admin/category'));
     }
     // Upload function
@@ -73,12 +69,8 @@ class AdminController extends Controller
         return view('admin.Brand', compact('brands'));
     }
     function createBrand(Request $request){
-        $result = DB::table('brand')->insert(['Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "images", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
-        if ($result) {
-            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-        } else {
-            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-        }
+        $result = DB::table('brand')->insert(['Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "BrandAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+        $this->returnStatus($result);
         return redirect(url('admin/brand'));
     }
     function readBrand(){
@@ -91,24 +83,16 @@ class AdminController extends Controller
     }
     function updateBrand(Request $request){
         if(isset($request->Avatar)){
-            $result = DB::table('brand')->where('BrandID',$request->BrandID)->update(['Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "images", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+            $result = DB::table('brand')->where('BrandID',$request->BrandID)->update(['Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "BrandAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
         } else {
             $result = DB::table('brand')->where('BrandID',$request->BrandID)->update(['Name' => $request->Name, 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
         }
-        if ($result) {
-            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-        } else {
-            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-        }
+        $this->returnStatus($result);
         return redirect(url('admin/brand'));
     }
     function deleteBrand(Request $request){
         $result = DB::table('brand')->where('BrandID', $request->BrandID)->delete();
-        if ($result) {
-            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-        } else {
-            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-        }
+        $this->returnStatus($result);
         return redirect(url('admin/brand'));
     }
 
@@ -121,69 +105,67 @@ class AdminController extends Controller
     }
     function createProduct(Request $request){
         $result = DB::table('product')->insert(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "ProductAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
-        if ($result) {
-            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-        } else {
-            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-        }
+        $this->returnStatus($result);
         return redirect(url('admin/product'));
     }
     function updateProduct(Request $request){
-        // $result = DB::table('product')->where('ProductID', $request->ProductID)->update(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "ProductAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
        if(isset($request->Avatar)){
         $result = DB::table('product')->where('ProductID', '=', $request->ProductID)->update(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "ProductAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
        } else {
         $result = DB::table('product')->where('ProductID', $request->ProductID)->update(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
         }
-        if ($result) {
-            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-        } else {
-            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-        }
+        $this->returnStatus($result);
         return redirect(url('admin/product'));
     }
     function deleteProduct(Request $request){
         $result = DB::table('product')->where('ProductID', $request->ProductID)->delete();
-        if ($result) {
-            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-        } else {
-            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-        }
+        $this->returnStatus($result);
         return redirect(url('admin/product'));
     }
 
     // CMS Category
-
-    // Brand
     function cmscategoryIndex(Request $request){
         $categories = DB::table('cmscategory')->paginate(10);
         return view('admin.cmscategory', compact('categories'));
     }
     function createCmsCategory(Request $request){
         $result = DB::table('cmscategory')->insert(['ParentID' => $request->ParentID, 'Name' => $request->Name, 'Slug' => $request->Slug,  'Time' => date('Y-m-d H:i:s')]);
-        if ($result) {
-            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-        } else {
-            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-        }
+        $this->returnStatus($result);
         return redirect(url('admin/cmscategory'));
     }
     function updateCmsCategory(Request $request){
         $result = DB::table('cmscategory')->where('CategoryID', $request->CategoryID)->update(['ParentID' => $request->ParentID, 'Name' => $request->Name, 'Slug' => $request->Slug,  'Time' => date('Y-m-d H:i:s')]);
-        if ($result) {
-            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-        } else {
-            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-        }
+        $this->returnStatus($result);
         return redirect(url('admin/cmscategory'));
     }
     function deleteCmsCategory(Request $request){
         $result = DB::table('cmscategory')->where('CategoryID', $request->CategoryID)->delete();
-        if ($result) {
-            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-        } else {
-            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-        }
+        $this->returnStatus($result);
         return redirect(url('admin/cmscategory'));
+    }
+    // CMS
+    function cmsIndex(){
+        $cmss = DB::table('cms')->paginate(20);
+        $categories = DB::table('cmscategory')->paginate(10);
+        return view('admin.cms')->with('cmss', $cmss)->with('categories', $categories);
+    }
+    function createCms(Request $request){
+        $result = DB::table('cms')->insert(['CategoryID' => $request->CategoryID, 'Title' => $request->Title, 'Description' => $request->Description, 'Content' => $request->Content, 'Avatar' => $this->fileUpload($request, 'Avatar', "CmsImage", $request->Slug), 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+        $this->returnStatus($result);
+        return redirect(url('admin/cms'));
+    }
+    function updateCms(Request $request){
+        if(isset($request->Avatar)){
+            $result = DB::table('cms')->where('CmsID', $request->CmsID)->update(['CategoryID' => $request->CategoryID, 'Title' => $request->Title, 'Description' => $request->Description, 'Content' => $request->Content, 'Avatar' => $this->fileUpload($request, 'Avatar', "CmsImage", $request->Slug), 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+        } else {
+            $result = DB::table('cms')->where('CmsID', $request->CmsID)->update(['CategoryID' => $request->CategoryID, 'Title' => $request->Title, 'Description' => $request->Description, 'Content' => $request->Content, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+        }
+        $this->returnStatus($result);
+        return redirect(url('admin/cms'));
+    }
+    function deleteCms(Request $request){
+        $result = DB::table('cms')->where('CmsID', $request->CmsID)->delete();
+        $this->returnStatus($result);
+        return redirect(url('admin/cms'));
     }
 }

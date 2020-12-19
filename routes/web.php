@@ -45,9 +45,13 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [ad::class, 'cmscategoryIndex'])->name('admin.cmscategory');
         Route::get('/create', [ad::class, 'createCmsCategory'])->name('admin.cmscategory.create');
         Route::get('/update', [ad::class, 'updateCmsCategory'])->name('admin.cmscategory.update');
-        Route::get('/delete', [ad::class, 'deleteCmsCategory'])->name('admin.cmscategory.delete');
-        // Route::post('/update', [ad::class, 'updateCmsCategory'])->name('admin.cmscategory.update');
-        // Route::get('/delete', [ad::class, 'deleteCmsCategory'])->name('admin.cmscategory.delete');          
+        Route::get('/delete', [ad::class, 'deleteCmsCategory'])->name('admin.cmscategory.delete');       
+    });
+    Route::prefix('/cms')->group(function () {
+        Route::get('/', [ad::class, 'cmsIndex'])->name('admin.cms');
+        Route::post('/create', [ad::class, 'createCms'])->name('admin.cms.create');
+        Route::post('/update', [ad::class, 'updateCms'])->name('admin.cms.update');
+        Route::get('/delete', [ad::class, 'deleteCms'])->name('admin.cms.delete');       
     });
 });
 Route::get('/', function(){

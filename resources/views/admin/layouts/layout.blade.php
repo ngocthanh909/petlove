@@ -76,7 +76,7 @@
                         <div class="collapse" id="cmsmanage" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{route('admin.cmscategory')}}">Quản lý danh mục</a>
-                                <a class="nav-link" href="{{route('admin.brand')}}">Quản lý bài viết</a>
+                                <a class="nav-link" href="{{route('admin.cms')}}">Quản lý bài viết</a>
                             </nav>
                         </div>
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
