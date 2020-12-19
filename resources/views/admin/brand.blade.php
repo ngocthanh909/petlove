@@ -40,7 +40,7 @@
                         <td><input type="checkbox" value="{{$brand->BrandID}}"></td>
                         <td>{{$brand->BrandID}}</td>
                         <td>{{$brand->Name}}</td>
-                        <td>{{$brand->Avatar}}</td>
+                        <td><img src="{{asset($brand->Avatar)}}" style="width:2rem; height auto"></td>
                         <td>{{$brand->Slug}}</td>
                         <td>{{$brand->Description}}</td>
                         <td>{{$brand->Time}}</td>
@@ -83,7 +83,7 @@
                     </div>
                     <div class="form-group">
                         <label>Ảnh đại diện</label>
-                        <input type="file" name="Avatar" id="Avatar" class="form-control" required>
+                        <input type="file" name="Avatar" id="Avatar" class="form-control-file" required>
                     </div>
                     <div class="form-group">
                         <label>Mô tả nhãn hàng</label>

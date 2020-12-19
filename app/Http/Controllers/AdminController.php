@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -59,11 +60,12 @@ class AdminController extends Controller
             $path = $file->path();
             $extension = $file->extension();
             $fileName = $fileName . '.' . $extension;
-            return $file->storeAs('images/' . $destination, $fileName);
+            $patch = $file->storeAs('public/'.$destination, $fileName);
+            return 'storage/'.$destination.'/'.$fileName;
         }
     }
-    public function testUpload(Request $request){
-        return $this->fileUpload($request, 'Avatar', "BrandAvatar/", "Hihi");
+    public function fileUpload2($request){
+
     }
     // Brand
     function brandIndex(Request $request){
@@ -71,7 +73,7 @@ class AdminController extends Controller
         return view('admin.Brand', compact('brands'));
     }
     function createBrand(Request $request){
-        $result = DB::table('brand')->insert(['Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "BrandAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+        $result = DB::table('brand')->insert(['Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "images", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
         if ($result) {
             session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
         } else {
@@ -89,7 +91,7 @@ class AdminController extends Controller
     }
     function updateBrand(Request $request){
         if(isset($request->Avatar)){
-            $result = DB::table('brand')->where('BrandID',$request->BrandID)->update(['Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "BrandAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+            $result = DB::table('brand')->where('BrandID',$request->BrandID)->update(['Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "images", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
         } else {
             $result = DB::table('brand')->where('BrandID',$request->BrandID)->update(['Name' => $request->Name, 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
         }
@@ -110,10 +112,12 @@ class AdminController extends Controller
         return redirect(url('admin/brand'));
     }
 
-        // Brand
+        // Product
         function productIndex(Request $request){
-            $brands = DB::table('product')->paginate(20);
-            return view('admin.Product', compact('brands'));
+            $products = DB::table('product')->paginate(20);
+            $brands = DB::table('brand')->get();
+            $categories = DB::table('productcategory')->get();
+            return view('admin.product')->with('products', $products)->with('categories', $categories)->with('brands', $brands);
         }
 
 
