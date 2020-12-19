@@ -13,8 +13,8 @@ class AdminController extends Controller
         return view('admin.layouts.layout');
     }
     // Category
-    function categoryIndex(){
-        $categories = DB::table('productcategory')->get();
+    function categoryIndex(Request $request){
+        $categories = DB::table('productcategory')->paginate(3);
         return view('admin.category', compact('categories'));
     }
     function createCategory(Request $request){
@@ -44,7 +44,7 @@ class AdminController extends Controller
         return redirect(url('admin/category'));
     }
     function deleteCategory(Request $request){
-        $result = DB::table('productcategory')->get();
+        $result = DB::table('productcategory')->where('CategoryID', $request->CategoryID)->delete();
         if ($result) {
             session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
         } else {
@@ -53,8 +53,107 @@ class AdminController extends Controller
         return redirect(url('admin/category'));
     }
     // Upload function
-    public function uploadProductDescription(Request $request){
-        $request->upload->move(public_path('uploads'), $request->file('upload')->getClientOriginalName());
-        echo json_encode(array('file_name' => $request->file('upload')->getClientOriginalName()));
+    public function fileUpload($request, $formvalue, $destination, $fileName){
+        if ($request->hasFile($formvalue)) {
+            $file = $request->file($formvalue);
+            $path = $file->path();
+            $extension = $file->extension();
+            $fileName = $fileName . '.' . $extension;
+            return $file->storeAs('images/' . $destination, $fileName);
+        }
     }
+    public function testUpload(Request $request){
+        return $this->fileUpload($request, 'Avatar', "BrandAvatar/", "Hihi");
+    }
+    // Brand
+    function brandIndex(Request $request){
+        $brands = DB::table('brand')->paginate(10);
+        return view('admin.Brand', compact('brands'));
+    }
+    function createBrand(Request $request){
+        $result = DB::table('brand')->insert(['Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "BrandAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+        if ($result) {
+            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
+        } else {
+            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
+        }
+        return redirect(url('admin/brand'));
+    }
+    function readBrand(){
+        $result = DB::table('brand')->get();
+        return $result;
+    }
+    function readSingleBrand(Request $request){
+        $result = DB::table('brand')->where('BrandID', '=', $request->id)->get();
+        return $result;
+    }
+    function updateBrand(Request $request){
+        if(isset($request->Avatar)){
+            $result = DB::table('brand')->where('BrandID',$request->BrandID)->update(['Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "BrandAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+        } else {
+            $result = DB::table('brand')->where('BrandID',$request->BrandID)->update(['Name' => $request->Name, 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+        }
+        if ($result) {
+            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
+        } else {
+            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
+        }
+        return redirect(url('admin/brand'));
+    }
+    function deleteBrand(Request $request){
+        $result = DB::table('brand')->where('BrandID', $request->BrandID)->delete();
+        if ($result) {
+            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
+        } else {
+            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
+        }
+        return redirect(url('admin/brand'));
+    }
+
+        // Brand
+        function productIndex(Request $request){
+            $brands = DB::table('product')->paginate(20);
+            return view('admin.Product', compact('brands'));
+        }
+
+
+        // function createBrand(Request $request){
+        //     $result = DB::table('brand')->insert(['Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "BrandAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+        //     if ($result) {
+        //         session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
+        //     } else {
+        //         session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
+        //     }
+        //     return redirect(url('admin/brand'));
+        // }
+        // function readBrand(){
+        //     $result = DB::table('brand')->get();
+        //     return $result;
+        // }
+        // function readSingleBrand(Request $request){
+        //     $result = DB::table('brand')->where('BrandID', '=', $request->id)->get();
+        //     return $result;
+        // }
+        // function updateBrand(Request $request){
+        //     if(isset($request->Avatar)){
+        //         $result = DB::table('brand')->where('BrandID',$request->BrandID)->update(['Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "BrandAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+        //     } else {
+        //         $result = DB::table('brand')->where('BrandID',$request->BrandID)->update(['Name' => $request->Name, 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+        //     }
+        //     if ($result) {
+        //         session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
+        //     } else {
+        //         session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
+        //     }
+        //     return redirect(url('admin/brand'));
+        // }
+        // function deleteBrand(Request $request){
+        //     $result = DB::table('brand')->where('BrandID', $request->BrandID)->delete();
+        //     if ($result) {
+        //         session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
+        //     } else {
+        //         session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
+        //     }
+        //     return redirect(url('admin/brand'));
+        // }
 }

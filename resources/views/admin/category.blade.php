@@ -38,32 +38,37 @@
                     <tr>
                         <td><input type="checkbox" value="{{$category->CategoryID}}"></td>
                         <td>{{$category->CategoryID}}</td>
-                        <td>{{$category->ParentID}}</td>
+
+                        <td>
+                            @php
+                            foreach($categories as $value){
+                            if($category->ParentID == $value->CategoryID){
+                            echo $value->Name;
+                            }
+                            }
+                            @endphp
+                        </td>
                         <td>{{$category->Name}}</td>
                         <td>{{$category->Slug}}</td>
                         <td>{{$category->Time}}</td>
                         <td>
                             <a href="#editModal" class="edit" data-toggle="modal" data-categoryid="{{$category->CategoryID}}" data-parentid="{{$category->ParentID}}" data-name="{{$category->Name}}" data-slug="{{$category->Slug}}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#deleteModal" class="delete" data-toggle="modal" data-CategoryID="{{$category->CategoryID}}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            <a href="#deleteModal" class="delete" data-toggle="modal" data-categoryid="{{$category->CategoryID}}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
             <div class="clearfix">
-                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                <ul class="pagination">
-                    <li class="page-item disabled"><a href="#">Previous</a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                </ul>
-            </div>
+                {{-- <div class="hint-text">Showing <b>{{$categories->to}}</b> out of <b>{{$categories->total}}</b> entries</div> --}}
+            <ul class="pagination">
+                <div class="d-flex justify-content-center">
+                    {{$categories->links()}}
+                </div>
+            </ul>
         </div>
     </div>
+</div>
 </div>
 <!-- Add Modal HTML -->
 <div id="addModal" class="modal fade">
@@ -168,6 +173,7 @@
                     <p>Bạn có chắc chắn muốn xoá không?</p>
                     <p class="text-warning"><small>Thay đổi này không thể hoàn tác được. Hãy cẩn thận</small></p>
                 </div>
+                <input type="text" name="CategoryID" id="CategoryID" class="d-none" />
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                     <input type="submit" class="btn btn-danger" value="Delete">
@@ -176,4 +182,12 @@
         </div>
     </div>
 </div>
+<script>
+    $('#deleteModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var modal = $(this)
+        modal.find('#CategoryID').val(button.data('categoryid'));
+    })
+
+</script>
 @endsection

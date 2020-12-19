@@ -27,8 +27,18 @@ Route::prefix('admin')->group(function () {
         Route::get('/update', [ad::class, 'updateCategory'])->name('admin.category.update');
         Route::get('/delete', [ad::class, 'deleteCategory'])->name('admin.category.delete');
     });
+    Route::prefix('/brand')->group(function () {
+        Route::get('/', [ad::class, 'brandIndex'])->name('admin.brand');
+        Route::post('/create', [ad::class, 'createBrand'])->name('admin.brand.create');
+        Route::post('/update', [ad::class, 'updateBrand'])->name('admin.brand.update');
+        Route::get('/delete', [ad::class, 'deleteBrand'])->name('admin.brand.delete');
+        Route::get('/read', [ad::class, 'readBrand'])->name('admin.brand.read');           
+    });
 });
-
+Route::get('/', function(){
+    return view('test');
+});
+Route::post('/testupload', [ad::class, 'testUpload'])->name('upload');
 
 // Ck Finder
 Route::any('/ckfinder/connector', '\CKSource\CKFinderBridge\Controller\CKFinderController@requestAction')
