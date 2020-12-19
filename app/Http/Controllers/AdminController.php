@@ -113,66 +113,77 @@ class AdminController extends Controller
     }
 
         // Product
-        function productIndex(Request $request){
-            $products = DB::table('product')->paginate(20);
-            $brands = DB::table('brand')->get();
-            $categories = DB::table('productcategory')->get();
-            return view('admin.product')->with('products', $products)->with('categories', $categories)->with('brands', $brands);
+    function productIndex(Request $request){
+        $products = DB::table('product')->paginate(20);
+        $brands = DB::table('brand')->get();
+        $categories = DB::table('productcategory')->get();
+        return view('admin.product')->with('products', $products)->with('categories', $categories)->with('brands', $brands);
+    }
+    function createProduct(Request $request){
+        $result = DB::table('product')->insert(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "ProductAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+        if ($result) {
+            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
+        } else {
+            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
         }
+        return redirect(url('admin/product'));
+    }
+    function updateProduct(Request $request){
+        // $result = DB::table('product')->where('ProductID', $request->ProductID)->update(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "ProductAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+       if(isset($request->Avatar)){
+        $result = DB::table('product')->where('ProductID', '=', $request->ProductID)->update(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "ProductAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+       } else {
+        $result = DB::table('product')->where('ProductID', $request->ProductID)->update(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+        }
+        if ($result) {
+            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
+        } else {
+            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
+        }
+        return redirect(url('admin/product'));
+    }
+    function deleteProduct(Request $request){
+        $result = DB::table('product')->where('ProductID', $request->ProductID)->delete();
+        if ($result) {
+            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
+        } else {
+            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
+        }
+        return redirect(url('admin/product'));
+    }
 
+    // CMS Category
 
-        function createProduct(Request $request){
-            $result = DB::table('product')->insert(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "ProductAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
-            if ($result) {
-                session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-            } else {
-                session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-            }
-            return redirect(url('admin/product'));
+    // Brand
+    function cmscategoryIndex(Request $request){
+        $categories = DB::table('cmscategory')->paginate(10);
+        return view('admin.cmscategory', compact('categories'));
+    }
+    function createCmsCategory(Request $request){
+        $result = DB::table('cmscategory')->insert(['ParentID' => $request->ParentID, 'Name' => $request->Name, 'Slug' => $request->Slug,  'Time' => date('Y-m-d H:i:s')]);
+        if ($result) {
+            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
+        } else {
+            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
         }
-        function updateProduct(Request $request){
-            // $result = DB::table('product')->where('ProductID', $request->ProductID)->update(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "ProductAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
-           if(isset($request->Avatar)){
-            $result = DB::table('product')->where('ProductID', '=', $request->ProductID)->update(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "ProductAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
-           } else {
-            $result = DB::table('product')->where('ProductID', $request->ProductID)->update(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
-            }
-            if ($result) {
-                session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-            } else {
-                session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-            }
-            return redirect(url('admin/product'));
+        return redirect(url('admin/cmscategory'));
+    }
+    function updateCmsCategory(Request $request){
+        $result = DB::table('cmscategory')->where('CategoryID', $request->CategoryID)->update(['ParentID' => $request->ParentID, 'Name' => $request->Name, 'Slug' => $request->Slug,  'Time' => date('Y-m-d H:i:s')]);
+        if ($result) {
+            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
+        } else {
+            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
         }
-        function deleteProduct(Request $request){
-            $result = DB::table('product')->where('ProductID', $request->ProductID)->delete();
-            if ($result) {
-                session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-            } else {
-                session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-            }
-            return redirect(url('admin/product'));
+        return redirect(url('admin/cmscategory'));
+    }
+    function deleteCmsCategory(Request $request){
+        $result = DB::table('cmscategory')->where('CategoryID', $request->CategoryID)->delete();
+        if ($result) {
+            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
+        } else {
+            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
         }
-        // function readBrand(){
-        //     $result = DB::table('brand')->get();
-        //     return $result;
-        // }
-        // function readSingleBrand(Request $request){
-        //     $result = DB::table('brand')->where('BrandID', '=', $request->id)->get();
-        //     return $result;
-        // }
-        // function updateBrand(Request $request){
-        //     if(isset($request->Avatar)){
-        //         $result = DB::table('brand')->where('BrandID',$request->BrandID)->update(['Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "BrandAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
-        //     } else {
-        //         $result = DB::table('brand')->where('BrandID',$request->BrandID)->update(['Name' => $request->Name, 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
-        //     }
-        //     if ($result) {
-        //         session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
-        //     } else {
-        //         session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
-        //     }
-        //     return redirect(url('admin/brand'));
-        // }
-
+        return redirect(url('admin/cmscategory'));
+    }
 }

@@ -41,6 +41,14 @@ Route::prefix('admin')->group(function () {
         Route::get('/delete', [ad::class, 'deleteProduct'])->name('admin.product.delete');
         // Route::get('/read', [ad::class, 'readBrand'])->name('admin.product.read');           
     });
+    Route::prefix('/cmscategory')->group(function () {
+        Route::get('/', [ad::class, 'cmscategoryIndex'])->name('admin.cmscategory');
+        Route::get('/create', [ad::class, 'createCmsCategory'])->name('admin.cmscategory.create');
+        Route::get('/update', [ad::class, 'updateCmsCategory'])->name('admin.cmscategory.update');
+        Route::get('/delete', [ad::class, 'deleteCmsCategory'])->name('admin.cmscategory.delete');
+        // Route::post('/update', [ad::class, 'updateCmsCategory'])->name('admin.cmscategory.update');
+        // Route::get('/delete', [ad::class, 'deleteCmsCategory'])->name('admin.cmscategory.delete');          
+    });
 });
 Route::get('/', function(){
     return view('test');
