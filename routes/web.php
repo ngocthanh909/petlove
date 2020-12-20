@@ -17,6 +17,8 @@ use App\Http\Controllers\AdminController as ad;
 Route::prefix('admin')->group(function () {
     // Master Layout
     Route::get('/', [ad::class, 'index']);
+    Route::get('/login', [ad::class, 'LoginIndex']);
+
     Route::get('/1', [ad::class, 'index'])->name('admin.product');
     Route::get('/2', [ad::class, 'index'])->name('admin.brand');
     Route::prefix('/category')->group(function () {
@@ -52,6 +54,12 @@ Route::prefix('admin')->group(function () {
         Route::post('/create', [ad::class, 'createCms'])->name('admin.cms.create');
         Route::post('/update', [ad::class, 'updateCms'])->name('admin.cms.update');
         Route::get('/delete', [ad::class, 'deleteCms'])->name('admin.cms.delete');       
+    });
+    Route::prefix('/deal')->group(function () {
+        // Route::get('/', [ad::class, 'dealIndex'])->name('admin.deal');
+        // Route::post('/create', [ad::class, 'createCms'])->name('admin.cms.create');
+        // Route::post('/update', [ad::class, 'updateCms'])->name('admin.cms.update');
+        // Route::get('/delete', [ad::class, 'deleteCms'])->name('admin.cms.delete');       
     });
 });
 Route::get('/', function(){

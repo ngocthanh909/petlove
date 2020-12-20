@@ -32,7 +32,10 @@
                         <th>Danh mục</th>
                         <th>Hãng</th>
                         <th>Mô tả</th>
-                        <th>Giá</th>
+                        <th>Giá gốc</th>
+                        <th>Giá hiện tại</th>
+                        <th>Giảm giá</th>
+                        <th>% Giá</th>
                         <th>Thời gian thêm</th>
                         <th>Hành động</th>
                     </tr>
@@ -48,10 +51,17 @@
                         <td>{{$product->CategoryID}}</td>
                         <td>{{$product->BrandID}}</td>
                         <td>{{$product->Description}}</td>
+                        <td>{{$product->OriginalPrice}}</td>
                         <td>{{$product->Price}}</td>
+                        <td>@if($product->Status == 1)
+                            Có
+                        @else
+                            Không
+                        @endif</td>
+                        <td>{{$product->Rate}}</td>
                         <td>{{$product->Time}}</td>
                         <td>
-                            <a href="#editModal" class="edit" data-toggle="modal" data-productid="{{$product->ProductID}}" data-categoryid="{{$product->CategoryID}}" data-brandid="{{$product->BrandID}}" data-name="{{$product->Name}}" data-sku="{{$product->Sku}}" data-slug="{{$product->Slug}}" data-avatar="{{$product->Avatar}}" data-description="{{$product->Description}}" data-price="{{$product->Price}}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a href="#editModal" class="edit" data-toggle="modal" data-productid="{{$product->ProductID}}" data-categoryid="{{$product->CategoryID}}" data-brandid="{{$product->BrandID}}" data-name="{{$product->Name}}" data-sku="{{$product->Sku}}" data-slug="{{$product->Slug}}" data-avatar="{{$product->Avatar}}" data-description="{{$product->Description}}" data-price="{{$product->Price}}" data-originalPrice="{{$product->OriginalPrice}}" data-status="{{$product->Status}}" data-rate="{{$product->Rate}}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                             <a href="#deleteModal" class="delete" data-toggle="modal" data-productid="{{$product->ProductID}}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                         </td>
                     </tr>
@@ -127,13 +137,35 @@
                     <div class="form-group row">
                         <label for="Price" class="col-4 col-form-label">Giá</label>
                         <div class="col-8">
-                            <input id="Price" name="Price" placeholder="Giá" type="text" class="form-control">
+                            <input id="OriginalPrice" name="OriginalPrice" placeholder="Giá" type="text" class="form-control">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="Description" class="col-4 col-form-label">Mô tả sản phẩm</label>
                         <div class="col-8">
                             <textarea id="Description" name="Description" cols="40" rows="10" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Status" class="col-4 col-form-label">Giảm giá</label>
+                        <div class="col-8">
+                            <select id="Status" name="Status" class="custom-select">
+                                <option value="1">Có</option>
+                                <option value="0">Không</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Rate" class="col-4 col-form-label">Phần trăm giảm</label>
+                        <div class="col-8">
+                            <div class="input-group">
+                                <input id="Rate" name="Rate" placeholder="Ví dụ: Nếu giảm 10% thì nhập vào 10" type="text" class="form-control">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-percent"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <input type="hidden" name="ProductID" id="ProductID">
@@ -205,13 +237,35 @@
                     <div class="form-group row">
                         <label for="Price" class="col-4 col-form-label">Giá</label>
                         <div class="col-8">
-                            <input id="Price" name="Price" placeholder="Giá" type="text" class="form-control">
+                            <input id="OriginalPrice" name="OriginalPrice" placeholder="Giá" type="text" class="form-control">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="Description" class="col-4 col-form-label">Mô tả sản phẩm</label>
                         <div class="col-8">
                             <textarea id="Description" name="Description" cols="40" rows="10" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Status" class="col-4 col-form-label">Giảm giá</label>
+                        <div class="col-8">
+                            <select id="Status" name="Status" class="custom-select">
+                                <option value="1">Có</option>
+                                <option value="0">Không</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Rate" class="col-4 col-form-label">Phần trăm giảm</label>
+                        <div class="col-8">
+                            <div class="input-group">
+                                <input id="Rate" name="Rate" placeholder="Ví dụ: Nếu giảm 10% thì nhập vào 10" type="text" class="form-control">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-percent"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <input type="hidden" name="ProductID" id="ProductID">
@@ -225,6 +279,18 @@
     </div>
 </div>
 <script>
+    $(document).ready(function() {
+        $('#Status').on('change', function() {
+            if ($('#Status').val() == 0) {
+                $("#Rate").attr("disabled", "disabled");
+            } else {
+                $("#Rate").removeAttr("disabled", "disabled");
+            }
+        });
+    })
+
+</script>
+<script>
     $('#editModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var id = button.data('id') // Extract info from data-* attributes
@@ -237,7 +303,12 @@
         modal.find('#Price').val(button.data('price'));
         modal.find('#Sku').val(button.data('sku'));
         modal.find('#Description').val(button.data('description'));
+        modal.find('#Status').val(button.data('status'));
+        modal.find('#OriginalPrice').val(button.data('originalprice'));
+        modal.find('#Rate').val(button.data('rate'));
+
     })
+
 </script>
 <!-- Delete Modal HTML -->
 <div id="deleteModal" class="modal fade">
@@ -252,7 +323,7 @@
                     <p>Bạn có chắc chắn muốn xoá không?</p>
                     <p class="text-warning"><small>Thay đổi này không thể hoàn tác được. Hãy cẩn thận</small></p>
                 </div>
-                <input type="hidden" name="ProductID" id="ProductID"/>
+                <input type="hidden" name="ProductID" id="ProductID" />
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                     <input type="submit" class="btn btn-danger" value="Delete">
@@ -267,5 +338,6 @@
         var modal = $(this)
         modal.find('#ProductID').val(button.data('productid'));
     })
+
 </script>
 @endsection

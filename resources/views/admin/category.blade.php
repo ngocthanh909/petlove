@@ -81,10 +81,6 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>ID</label>
-                        <input type="text" name="CategoryID" id="CategoryID" class="form-control" required>
-                    </div>
-                    <div class="form-group">
                         <label>Danh mục cha</label>
                         <select class="form-control" name="ParentID" id="ParentID" required>
                             @foreach ($categories as $category)
@@ -119,10 +115,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label>ID</label>
-                        <input type="text" name="CategoryID" id="CategoryID" class="form-control" required>
-                    </div>
+                    <input type="hidden" name="CategoryID" id="CategoryID" class="form-control" required>
                     <div class="form-group">
                         <label>Danh mục cha</label>
                         <select class="form-control" name="ParentID" id="ParentID" required>

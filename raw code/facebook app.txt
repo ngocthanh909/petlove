@@ -1,0 +1,30 @@
+947748449088802
+
+366a80c5bbacceedca3fde1657bcec7a
+
+Code tải trang đăng Nhập
+FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+});
+Response
+{
+    status: 'connected',
+    authResponse: {
+        accessToken: '...',
+        expiresIn:'...',
+        signedRequest:'...',
+        userID:'...'
+    }
+}
+status chỉ định trạng thái đăng nhập của người dùng ứng dụng. Trạng thái có thể là:
+connected - người đó đã đăng nhập Facebook và đăng nhập ứng dụng của bạn.
+not_authorized - người đó đã đăng nhập Facebook nhưng không đăng nhập ứng dụng của bạn.
+unknown - người đó không đăng nhập Facebook nên bạn không biết họ có đăng nhập ứng dụng của mình không hoặc FB.logout() đã được gọi trước đó và do vậy, không thể kết nối với Facebook.
+Có authResponse nếu trạng thái là connected và bao gồm các yếu tố sau:
+accessToken - bao gồm một mã truy cập cho người dùng ứng dụng.
+expiresIn - cho biết thời gian UNIX khi mã hết hạn và cần được gia hạn.
+signedRequest - một thông số được đánh dấu bao gồm thông tin về người dùng ứng dụng.
+userID - ID của người dùng ứng dụng.
+Sau khi ứng dụng biết trạng thái đăng nhập của người dùng, ứng dụng đó có thể thực hiện một trong những điều sau:
+Nếu người đó đăng nhập vào Facebook và ứng dụng của bạn, hãy chuyển họ đến trải nghiệm đăng nhập của ứng dụng.
+Nếu người đó không đăng nhập ứng dụng của bạn hoặc không đăng nhập Facebook, hãy nhắc họ bằng hộp thoại Đăng nhập bằng FB.login() hoặc hiển thị cho họ nút Đăng nhập.

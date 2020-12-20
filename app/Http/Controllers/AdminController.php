@@ -21,6 +21,10 @@ class AdminController extends Controller
     function index(){
         return view('admin.layouts.layout');
     }
+    //Login
+    function loginIndex(){
+        return view('admin.login');
+    }
     // Category
     function categoryIndex(Request $request){
         $categories = DB::table('productcategory')->paginate(3);
@@ -104,15 +108,27 @@ class AdminController extends Controller
         return view('admin.product')->with('products', $products)->with('categories', $categories)->with('brands', $brands);
     }
     function createProduct(Request $request){
-        $result = DB::table('product')->insert(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "ProductAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+        $Price = null;
+        if ($request->Status == 1){
+            $Price = $request->OriginalPrice - ($request->OriginalPrice * ($request->Rate / 100));
+        } else {
+            $Price = $request->OriginalPrice;
+        }
+        $result = DB::table('product')->insert(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $Price, 'OriginalPrice' => $request->OriginalPrice, 'Status' => $request->Status, 'Rate' => $request->Rate, 'Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "ProductAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
         $this->returnStatus($result);
         return redirect(url('admin/product'));
     }
     function updateProduct(Request $request){
+        $Price = null;
+        if ($request->Status == 1){
+            $Price = $request->OriginalPrice - ($request->OriginalPrice * ($request->Rate / 100));
+        } else {
+            $Price = $request->OriginalPrice;
+        }
        if(isset($request->Avatar)){
-        $result = DB::table('product')->where('ProductID', '=', $request->ProductID)->update(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "ProductAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+        $result = DB::table('product')->where('ProductID', '=', $request->ProductID)->update(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $Price, 'OriginalPrice' => $request->OriginalPrice, 'Status' => $request->Status, 'Rate' => $request->Rate, 'Name' => $request->Name, 'Avatar' => $this->fileUpload($request, 'Avatar', "ProductAvatar", $request->Slug), 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
        } else {
-        $result = DB::table('product')->where('ProductID', $request->ProductID)->update(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku, 'Price' => $request->Price, 'Name' => $request->Name, 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
+        $result = DB::table('product')->where('ProductID', $request->ProductID)->update(['BrandID' => $request->BrandID, 'CategoryID' => $request->CategoryID, 'Sku' => $request->Sku,  'Price' => $Price, 'OriginalPrice' => $request->OriginalPrice, 'Status' => $request->Status, 'Rate' => $request->Rate, 'Name' => $request->Name, 'Description' => $request->Description, 'Slug' => $request->Slug, 'Time' => date('Y-m-d H:i:s')]);
         }
         $this->returnStatus($result);
         return redirect(url('admin/product'));
