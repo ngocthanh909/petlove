@@ -13,6 +13,15 @@ use App\Http\Controllers\AdminController as ad;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', [ad::class, 'index']);
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('facebook')->redirect();
+})->name('login.facebook');
+Route::get('/auth/callback', function () {
+    $user = Socialite::driver('facebook')->user();
+    dd($user);
+});
+
 
 Route::prefix('admin')->group(function () {
     // Master Layout
@@ -62,14 +71,6 @@ Route::prefix('admin')->group(function () {
         // Route::get('/delete', [ad::class, 'deleteCms'])->name('admin.cms.delete');       
     });
 });
-Route::get('/', function(){
-    return view('test');
-});
+
+
 Route::post('/testupload', [ad::class, 'fileUpload2'])->name('upload');
-
-// Ck Finder
-Route::any('/ckfinder/connector', '\CKSource\CKFinderBridge\Controller\CKFinderController@requestAction')
-    ->name('ckfinder_connector');
-
-Route::any('/ckfinder/browser', '\CKSource\CKFinderBridge\Controller\CKFinderController@browserAction')
-    ->name('ckfinder_browser');

@@ -19,7 +19,7 @@ class AdminController extends Controller
     }
     // Master
     function index(){
-        return view('admin.layouts.layout');
+        return "<a href='/auth/redirect'>Login facebook</a>";
     }
     //Login
     function loginIndex(){
@@ -27,7 +27,7 @@ class AdminController extends Controller
     }
     // Category
     function categoryIndex(Request $request){
-        $categories = DB::table('productcategory')->paginate(3);
+        $categories = DB::table('productcategory')->paginate(20);
         return view('admin.category', compact('categories'));
     }
     function createCategory(Request $request){
