@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController as ad;
+use App\Http\Controllers\UserController as us;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,3 +75,8 @@ Route::prefix('admin')->group(function () {
 
 
 Route::post('/testupload', [ad::class, 'fileUpload2'])->name('upload');
+
+//User Routes
+Route::get('user',  [us::class, 'getIndex']);
+Route::get('blog',  [us::class, 'getBlog']);
+Route::get('browse',  [us::class, 'browseProduct']);
