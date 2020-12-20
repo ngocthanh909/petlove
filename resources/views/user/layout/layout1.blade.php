@@ -30,7 +30,7 @@
                 <div class="dropdown">
                     @foreach ($categories as $category)
                         @if ($category->ParentID == 0)
-                            <h5 class="level2-root">{{$category->Name}}</h5>
+                            <a href="{{ route('user.browse', $category->Slug) }}"><h5 class="level2-root">{{$category->Name}}</h5></a>
                         @endif
                     @endforeach
                 </div>

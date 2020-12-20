@@ -77,6 +77,10 @@ Route::prefix('admin')->group(function () {
 Route::post('/testupload', [ad::class, 'fileUpload2'])->name('upload');
 
 //User Routes
-Route::get('user',  [us::class, 'getIndex']);
-Route::get('blog',  [us::class, 'getBlog']);
+Route::get('user',  [us::class, 'getIndex'])->name('user.index');
+Route::get('blog',  [us::class, 'getBlog'])->name('user.blog');
 Route::get('browse',  [us::class, 'browseProduct']);
+
+Route::get('danh-muc/{tendanhmuc}',[us::class, 'browseProduct'])->name('user.browse');
+
+Route::get('updateslug' ,[us::class, 'updateSlug']);

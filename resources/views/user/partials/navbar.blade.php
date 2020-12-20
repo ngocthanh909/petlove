@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
-        <a class="navbar-brand" href="#"><img src="{{ asset('frontend/images/header-logo.svg') }}"></a>
+        <a class="navbar-brand" href="{{ route('user.index') }}"><img src="{{ asset('frontend/images/header-logo.svg') }}"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -11,13 +11,13 @@
                     <div class="tab-nav-desktop">
                         <!--Nav For Desktop-->
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">trang chủ <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="{{ route('user.index') }}">trang chủ <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" onclick="showCategories()">danh mục sản phẩm</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">blog và tin tức</a>
+                            <a class="nav-link" href="{{ route('user.blog') }}">blog và tin tức</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">liên hệ</a>

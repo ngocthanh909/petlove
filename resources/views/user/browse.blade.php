@@ -5,7 +5,24 @@
     <div class="row hid-on--mobile">
         <div class="col-lg-3 sidebar">
             <div class="box-filter">
-                <h5>Shop cho chó</h5>
+
+ 
+              
+                @foreach ($categories as $category)
+            
+                        @if ($category->Slug == $tendanhmuc)
+                            <h5>{{$category->Name}}</h5>
+                            <ul>
+                            @foreach ($categories as $subCategory)
+                                @if ($subCategory->ParentID == $category->CategoryID)
+                                    <a href="{{ route('user.browse' , $subCategory->Slug )}}"><li>{{$subCategory->Name}}</li></a>
+                                @endif
+                            @endforeach
+                        @endif
+           
+                @endforeach
+                </ul>
+                {{-- <h5>Shop cho chó</h5>
                 <ul>
                     <li>Thức ăn cho chó</li>
                     <li>Quần áo cho chó</li>
@@ -16,7 +33,7 @@
                     <li>Dụng cụ vệ sinh</li>
                     <li>Chuồng chó, giường, nhà, túi</li>
                     <li>Đồ chơi, phụ kiện huấn luyện</li>
-                </ul>
+                </ul> --}}
             </div>
 
             <div class="price-filter">
