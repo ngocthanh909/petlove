@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController as ad;
 use App\Http\Controllers\LoginController as login;
+use App\Http\Controllers\UserController as us;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,3 +66,12 @@ Route::prefix('admin')->middleware('adminAuth')->group(function () {
 
 
 Route::post('/testupload', [ad::class, 'fileUpload2'])->name('upload');
+
+//User Routes
+Route::get('user',  [us::class, 'getIndex'])->name('user.index');
+Route::get('blog',  [us::class, 'getBlog'])->name('user.blog');
+Route::get('browse',  [us::class, 'browseProduct']);
+
+Route::get('danh-muc/{tendanhmuc}',[us::class, 'browseProduct'])->name('user.browse');
+
+Route::get('updateslug' ,[us::class, 'updateSlug']);
