@@ -68,10 +68,20 @@ Route::prefix('admin')->middleware('adminAuth')->group(function () {
 Route::post('/testupload', [ad::class, 'fileUpload2'])->name('upload');
 
 //User Routes
-Route::get('user',  [us::class, 'getIndex'])->name('user.index');
-Route::get('blog',  [us::class, 'getBlog'])->name('user.blog');
-Route::get('browse',  [us::class, 'browseProduct']);
 
-Route::get('danh-muc/{tendanhmuc}',[us::class, 'browseProduct'])->name('user.browse');
+Route::prefix('/')->group(function() {
+    Route::get('/', [us::class, 'getIndex'])->name('user.index');
+    Route::get('/carts', [us::class, 'getCarts'])->name('user.carts');
+    Route::get('/san-pham/{tensanpham}', [us::class, 'getProduct'])->name('user.product');
+    Route::get('/gian-hang/{tendanhmuc}', [us::class, 'getCollection'])->name('user.collection');
+    Route::get('/blog', [us::class, 'getBlog'])->name('user.blog');
 
-Route::get('updateslug' ,[us::class, 'updateSlug']);
+    Route::get('/about', [us::class, 'getAbout'])->name('user.about');
+});
+
+
+Route::prefix('/user')->group(function() {
+    Route::get('/favorite', [us::class, 'profileFavorite'])->name('user.favorite');
+    Route::get('/profile', [us::class, 'profileSettings'])->name('user.settings');
+    Route::get('/delivery', [us::class, 'profileDelivery'])->name('user.delivery');
+});

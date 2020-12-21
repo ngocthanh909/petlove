@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login & Logout</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet">
+</head>
+<body>
+	<form>
+  <div class="cont">
+    <div class="form sign-in">
+      <h2>Đăng Nhập</h2>
+      <label>
+        <span>ĐỊA CHỈ EMAIL</span>
+        <input type="email" name="email" required>
+      </label>
+      <label>
+        <span>MẬT KHẨU</span>
+        <input type="password" name="password">
+      </label>
+      <button class="submit" type="button" onClick="location.href = 'index.html';">ĐĂNG NHẬP</button>
+      <p class="forgot-pass">Quên mật khẩu ?</p>
+
+      <div class="social-media">
+        <ul>
+          <li><img src="images/facebook.png"></li>
+          <li><img src="images/twitter.png"></li>
+          <li><img src="images/linkedin.png"></li>
+          <li><img src="images/instagram.png"></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sub-cont">
+      <div class="img">
+        <div class="img-text m-up">
+          <h2>Bạn chưa có tài khoản?</h2>
+          <p>Bằng cách tạo một tài khoản với cửa hàng của chúng tôi , bạn sẽ có thể thực hiện những quy trình mua hàng nhanh hơn , lưu trữ nhiều địa chỉ gửi hàng , xem và theo dõi đơn đặt hàng của bạn trong tài khoản của bạn và nhiều hơn nữa.</p>
+        </div>
+        <div class="img-text m-in">
+          <h2>Bạn đã có tài khoản?</h2>
+          <p>Nếu đã có tài khoản, chỉ cần đăng nhập. Chúng tôi sẽ nhớ bạn!</p>
+        </div>
+        <div class="img-btn">
+          <span class="m-up">Đăng ký</span>
+          <span class="m-in">Đăng nhập</span>
+        </div>
+      </div>
+      <div class="form sign-up">
+        <h2>Đăng ký</h2>
+        <label>
+          <span>Tên tài khoản</span>
+          <input type="text">
+        </label>
+        <label>
+          <span>Email</span>
+          <input type="email">
+        </label>
+        <label>
+          <span>Mật khẩu</span>
+          <input type="password">
+        </label>
+        <label>
+          <span>Nhập lại mật khẩu</span>
+          <input type="password">
+        </label>
+        <button type="submit" class="submit" onClick="location.href = 'order.html'">Đăng ký ngay</button>
+      </div>
+    </div>
+  </div>
+		</form>
+<script type="text/javascript" src="script.js"></script>
+</body>
+</html>

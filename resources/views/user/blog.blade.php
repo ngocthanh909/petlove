@@ -1,288 +1,69 @@
-@extends('user.layout.layout1' , ['categories' => $categories])
+@extends('user.layout.layout1')
+@section('breadcrumb')
+<div class="container">
+  <div id="tree">
+  <ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
+    <li class="breadcrumb-item"><a href="blog.html">dfdfdf</a></li>
+  </ul>
+  </div>
+</div>
+@endsection
 
 @section('content')
-<div class="container" style="margin-top: 20px;">
+<div class="container">
     <div class="row">
-        <div class="col-lg-9">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                        </ol>
-                        <div class="carousel-inner blog-carousel">
-                          <div class="carousel-item active">
-                            <img class="d-block w-100" src="https://www.petcity.vn/media/banner/09_Apr4e741c61970cf766d82a65017d288437.png" alt="First slide">
-                          </div>
-                          <div class="carousel-item">
-                            <img class="d-block w-100" src="https://www.petcity.vn/media/banner/25_Augab53eb6da2b1324d289324c583d4866f.png" alt="Second slide">
-                          </div>
-                          <div class="carousel-item">
-                            <img class="d-block w-100" src="https://www.petcity.vn/media/banner/25_Augab53eb6da2b1324d289324c583d4866f.png" alt="Third slide">
-                          </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                          <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                          <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-
-
-
-
-                </div>
-        
-                <div class="col-lg-6">
-                    
-                    <!-- <div class="card" style="border:none;">
-                        <div class="row">
-                            <div class="col-auto">
-                                <img src="https://www.petcity.vn/media/news/915_dat_cho_di_dao_01.jpg" style="width: 120px;" class="img-fluid" alt="">
-                            </div>
-                            <div class="col">
-                                <h4 class="blog-title">Những lưu ý khi cho chó đi chơi</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card" style="border:none;">
-                        <div class="row">
-                            <div class="col-auto">
-                                <img src="https://www.petcity.vn/media/news/915_dat_cho_di_dao_01.jpg" style="width: 120px;" class="img-fluid" alt="">
-                            </div>
-                            <div class="col">
-                                <h4 class="blog-title">Những lưu ý khi cho chó đi chơi</h4>
-                            </div>
-                        </div>
-                    </div> -->
-
-
-                </div>
-
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="box-news">
-                        <div class="block-head">
-                            <div class="head-title">
-                                Dịch vụ Pet Grooming <span class="title-badge">HOT</span>
-                            </div>
-                        </div>
-                        <div class="box-top">
-                            <a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="img">
-                                <img src="https://www.petcity.vn/media/news/1341_mua_h___t_t___ng_voucher.png" alt="Mua hạt cho Pet - Nhận voucher 50k"></a>
-                                <div class="right-side"><a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="name">Mua hạt cho Pet - Nhận voucher 50k</a>
-                                <span class="summary">Với hóa đơn thức ăn hạt có tổng trọng lượng từ 5kg tặng kèm voucher 50k áp dụng mua đồ dùng, đồ chơi + 𝑯𝒐𝒂̀𝒏 𝒕𝒊𝒆̂̀𝒏 thêm 30% tối đa 15k khi th..</span>
-                                <a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="more"><span>»</span>Xem tiếp</a>
-                                </div>
-                        </div>
-                        <br>
-                        <ul>
-                            <li><a href="/tin-khuyen-mai/thu-sau-ngay-vang-ron-rang-dat-ship-1322.html">THỨ SÁU NGÀY VÀNG- RỘN RÀNG ĐẶT SHIP </a></li>
-                            <li><a href="/mua-sam-de-dang-nhe-nhang-ve-gia.html">Mua sắm dễ dàng, Nhẹ nhàng về giá</a></li>
-                            <li><a href="/mua-hang-kim-ma-nhan-ngan-coupon.html">Mua hàng Kim Mã, nhận ngàn coupon</a></li>
-                            <li><a href="/265-16-quoc-te-thieu-nhi-gia-sale-het-y.html">(26/5 - 1/6) Quốc tế Thiếu nhi - Giá Sale hết ý</a></li>
-                            <li><a href="/petcity-mo-the-ngay-nhan-qua-lien-tay.html">PETCITY: MỞ THẺ NGAY - NHẬN QUÀ LIỀN TAY </a></li>
-                        </ul>
-                    </div>
-                    <div class="box-news">
-                        <div class="block-head">
-                            <div class="head-title">
-                                Dịch vụ Pet Grooming <span class="title-badge">HOT</span>
-                            </div>
-                        </div>
-                        <div class="box-top">
-                            <a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="img">
-                                <img src="https://www.petcity.vn/media/news/1341_mua_h___t_t___ng_voucher.png" alt="Mua hạt cho Pet - Nhận voucher 50k"></a>
-                                <div class="right-side"><a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="name">Mua hạt cho Pet - Nhận voucher 50k</a>
-                                <span class="summary">Với hóa đơn thức ăn hạt có tổng trọng lượng từ 5kg tặng kèm voucher 50k áp dụng mua đồ dùng, đồ chơi + 𝑯𝒐𝒂̀𝒏 𝒕𝒊𝒆̂̀𝒏 thêm 30% tối đa 15k khi th..</span>
-                                <a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="more"><span>»</span>Xem tiếp</a>
-                                </div>
-                        </div>
-                        
-                    </div>
-                    <div class="box-news">
-                        <div class="block-head">
-                            <div class="head-title">
-                                Dịch vụ Pet Grooming <span class="title-badge">HOT</span>
-                            </div>
-                        </div>
-                        <div class="box-top">
-                            <a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="img">
-                                <img src="https://www.petcity.vn/media/news/1341_mua_h___t_t___ng_voucher.png" alt="Mua hạt cho Pet - Nhận voucher 50k"></a>
-                                <div class="right-side"><a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="name">Mua hạt cho Pet - Nhận voucher 50k</a>
-                                <span class="summary">Với hóa đơn thức ăn hạt có tổng trọng lượng từ 5kg tặng kèm voucher 50k áp dụng mua đồ dùng, đồ chơi + 𝑯𝒐𝒂̀𝒏 𝒕𝒊𝒆̂̀𝒏 thêm 30% tối đa 15k khi th..</span>
-                                <a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="more"><span>»</span>Xem tiếp</a>
-                                </div>
-                        </div>
-                    </div>
-                    <div class="box-news">
-                        <div class="block-head">
-                            <div class="head-title">
-                                Dịch vụ Pet Grooming <span class="title-badge">HOT</span>
-                            </div>
-                        </div>
-                        <div class="box-top">
-                            <a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="img">
-                                <img src="https://www.petcity.vn/media/news/1341_mua_h___t_t___ng_voucher.png" alt="Mua hạt cho Pet - Nhận voucher 50k"></a>
-                                <div class="right-side"><a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="name">Mua hạt cho Pet - Nhận voucher 50k</a>
-                                <span class="summary">Với hóa đơn thức ăn hạt có tổng trọng lượng từ 5kg tặng kèm voucher 50k áp dụng mua đồ dùng, đồ chơi + 𝑯𝒐𝒂̀𝒏 𝒕𝒊𝒆̂̀𝒏 thêm 30% tối đa 15k khi th..</span>
-                                <a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="more"><span>»</span>Xem tiếp</a>
-                                </div>
-                        </div>
-                    </div>
-                    
-
-                </div>
-                <div class="col-lg-6">
-                    <div class="box-news">
-                        <div class="block-head">
-                            <div class="head-title">
-                                Dịch vụ Pet Grooming <span class="title-badge">HOT</span>
-                            </div>
-                        </div>
-                        <div class="box-top">
-                            <a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="img">
-                                <img src="https://www.petcity.vn/media/news/1341_mua_h___t_t___ng_voucher.png" alt="Mua hạt cho Pet - Nhận voucher 50k"></a>
-                                <div class="right-side"><a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="name">Mua hạt cho Pet - Nhận voucher 50k</a>
-                                <span class="summary">Với hóa đơn thức ăn hạt có tổng trọng lượng từ 5kg tặng kèm voucher 50k áp dụng mua đồ dùng, đồ chơi + 𝑯𝒐𝒂̀𝒏 𝒕𝒊𝒆̂̀𝒏 thêm 30% tối đa 15k khi th..</span>
-                                <a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="more"><span>»</span>Xem tiếp</a>
-                                </div>
-                        </div>
-                        <br>
-                        <ul>
-                            <li><a href="/tin-khuyen-mai/thu-sau-ngay-vang-ron-rang-dat-ship-1322.html">THỨ SÁU NGÀY VÀNG- RỘN RÀNG ĐẶT SHIP </a></li>
-                            <li><a href="/mua-sam-de-dang-nhe-nhang-ve-gia.html">Mua sắm dễ dàng, Nhẹ nhàng về giá</a></li>
-                           
-                        </ul>
-                    </div>
-                    <div class="box-news">
-                        <div class="block-head">
-                            <div class="head-title">
-                                Dịch vụ Pet Grooming <span class="title-badge">HOT</span>
-                            </div>
-                        </div>
-                        <div class="box-top">
-                            <a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="img">
-                                <img src="https://www.petcity.vn/media/news/831_1200__1_.png" alt="Mua hạt cho Pet - Nhận voucher 50k"></a>
-                                <div class="right-side"><a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="name">Mua hạt cho Pet - Nhận voucher 50k</a>
-                                <span class="summary">Với hóa đơn thức ăn hạt có tổng trọng lượng từ 5kg tặng kèm voucher 50k áp dụng mua đồ dùng, đồ chơi + 𝑯𝒐𝒂̀𝒏 𝒕𝒊𝒆̂̀𝒏 thêm 30% tối đa 15k khi th..</span>
-                                <a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="more"><span>»</span>Xem tiếp</a>
-                                </div>
-                        </div>
-                    </div>
-
-                    <div class="box-news">
-                        <div class="block-head">
-                            <div class="head-title">
-                                Dịch vụ Pet Grooming <span class="title-badge">HOT</span>
-                            </div>
-                        </div>
-                        <div class="box-top">
-                            <a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="img">
-                                <img src="https://www.petcity.vn/media/news/1341_mua_h___t_t___ng_voucher.png" alt="Mua hạt cho Pet - Nhận voucher 50k"></a>
-                                <div class="right-side"><a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="name">Mua hạt cho Pet - Nhận voucher 50k</a>
-                                <span class="summary">Với hóa đơn thức ăn hạt có tổng trọng lượng từ 5kg tặng kèm voucher 50k áp dụng mua đồ dùng, đồ chơi + 𝑯𝒐𝒂̀𝒏 𝒕𝒊𝒆̂̀𝒏 thêm 30% tối đa 15k khi th..</span>
-                                <a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="more"><span>»</span>Xem tiếp</a>
-                                </div>
-                        </div>
-                    </div>
-                    <div class="box-news">
-                        <div class="block-head">
-                            <div class="head-title">
-                                Dịch vụ Pet Grooming <span class="title-badge">HOT</span>
-                            </div>
-                        </div>
-                        <div class="box-top">
-                            <a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="img">
-                                <img src="https://www.petcity.vn/media/news/1341_mua_h___t_t___ng_voucher.png" alt="Mua hạt cho Pet - Nhận voucher 50k"></a>
-                                <div class="right-side"><a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="name">Mua hạt cho Pet - Nhận voucher 50k</a>
-                                <span class="summary">Với hóa đơn thức ăn hạt có tổng trọng lượng từ 5kg tặng kèm voucher 50k áp dụng mua đồ dùng, đồ chơi + 𝑯𝒐𝒂̀𝒏 𝒕𝒊𝒆̂̀𝒏 thêm 30% tối đa 15k khi th..</span>
-                                <a href="/tin-khuyen-mai/mua-hat-cho-pet-nhan-voucher-50k-1341.html" class="more"><span>»</span>Xem tiếp</a>
-                                </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-
+      <div class="col-md-8">
+        <div class="default-block p-4">
+          <div class="title-block mb-3">
+            <h5>BÀI VIẾT <b>NỔI BẬT</b></h5>
+          </div>
+          <div class="blog-picture"> <img src="{{ asset('frontend/images/Anhnen2.jpg') }}" class="img-fluid"> </div>
+          <div class="blog-section">
+            <p>
+            <a href="html/blog/blog0.html">
+            <h4>Mẹo chụp ảnh đẹp cho thú cưng của bạn</h4>
+            </a>
+            </p>
+            <p>Là một người yêu thú nuôi, chắc chắn bạn sẽ muốn lưu lại những kỷ niệm đẹp, hay khoảnh khắc hiếm có bên cạnh chúng. Dưới đây là một vài mẹo hay của nhiếp ảnh gia động vật - Mark Rogers để chụp ảnh cho thú cưng của mình được tự nhiên nhất, hài hước và đáng yêu nhất nhé.</p>
+          </div>
         </div>
-        <div class="col-lg-3">
-            <div class="block-head">
-                <div class="head-title">
-                    Sản phẩm HOT <span class="title-badge">HOT</span>
-                </div>
+      </div>
+      <div class="col-md-4 pl-0 responsive-block-1">
+        <div class="default-block p-4">
+          <div class="title-block mb-3">
+            <h5>BÀI VIẾT <b>MỚI NHẤT</b></h5>
+          </div>
+          <div class="topproduct-body">
+            <div class="topproduct-body-picture"><img src="{{ asset('frontend/images/cover.5e5b5575a108d.jpg') }}"></div>
+            <div class="topproduct-body-section">
+              <div class="topproduct-section-title"><a href="html/blog/blog1.html">Top 5 dòng chó tai dài được ưa chuộng nhất Việt Nam</a></div>
+              <p>Giống chó Teacup Poodle siêu dễ thương chỉ nhỏ bằng một ly trà... </p>
             </div>
-            <div class="hot-list">
-                <ul class="vertical-menu">
-                    <li class="mb-3">
-                        <a href="#">
-                            <div class="list-content">
-                                <div class="content-img">
-                                    <img src="https://www.petlove.com.br/images/products/213111/product/Ra%C3%A7%C3%A3o_Golden_Gatos_Adultos_Castrados_Salm%C3%A3o_31022435_1kg.jpg?1567010118">
-                                </div>
-                                <div class="content-info">
-                                    <div class="product-name">Thức ăn cho chó</div>
-                                    <div class="product-price">200.000 VNĐ</div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="vertical-menu">
-                    <li class="mb-3">
-                        <a href="#">
-                            <div class="list-content">
-                                <div class="content-img">
-                                    <img src="https://www.petlove.com.br/images/products/213111/product/Ra%C3%A7%C3%A3o_Golden_Gatos_Adultos_Castrados_Salm%C3%A3o_31022435_1kg.jpg?1567010118">
-                                </div>
-                                <div class="content-info">
-                                    <div class="product-name">Thức ăn cho chó</div>
-                                    <div class="product-price">200.000 VNĐ</div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="vertical-menu">
-                    <li class="mb-3">
-                        <a href="#">
-                            <div class="list-content">
-                                <div class="content-img">
-                                    <img src="https://www.petlove.com.br/images/products/213111/product/Ra%C3%A7%C3%A3o_Golden_Gatos_Adultos_Castrados_Salm%C3%A3o_31022435_1kg.jpg?1567010118">
-                                </div>
-                                <div class="content-info">
-                                    <div class="product-name">Thức ăn cho chó</div>
-                                    <div class="product-price">200.000 VNĐ</div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="vertical-menu">
-                    <li class="mb-3">
-                        <a href="#">
-                            <div class="list-content">
-                                <div class="content-img">
-                                    <img src="https://www.petlove.com.br/images/products/213111/product/Ra%C3%A7%C3%A3o_Golden_Gatos_Adultos_Castrados_Salm%C3%A3o_31022435_1kg.jpg?1567010118">
-                                </div>
-                                <div class="content-info">
-                                    <div class="product-name">Thức ăn cho chó</div>
-                                    <div class="product-price">200.000 VNĐ</div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+          </div>
+          <div class="topproduct-body">
+            <div class="topproduct-body-picture"><img src="{{ asset('frontend/images/cover.5e326ecb9a86e.jpg') }}"></div>
+            <div class="topproduct-body-section">
+              <div class="topproduct-section-title"><a href="html/blog/blog2.html">Chó Mang Thai Bao Lâu Thì Đẻ?</a></div>
+              <p>Chó mang bầu mấy tháng đẻ? Câu hỏi này chắc được rất nhiều "ông bà ngoại" quan tâm... </p>
             </div>
+          </div>
+          <div class="topproduct-body">
+            <div class="topproduct-body-picture"><img src="{{ asset('frontend/images/cover.5e44b5bd154a2.jpg') }}"></div>
+            <div class="topproduct-body-section">
+              <div class="topproduct-section-title"><a href="html/blog/blog3.html">Nhận biết chó có thai</a></div>
+              <p>Sẽ tuyệt vời hơn nếu sen có thể phát hiện ra những thay đổi về bề ngoài cũng như hành xử ... </p>
+            </div>
+          </div>
+          <div class="topproduct-body">
+            <div class="topproduct-body-picture"><img src="{{ asset('frontend/images/cover.5e4fe8409adbb.jpg') }}"></div>
+            <div class="topproduct-body-section">
+              <div class="topproduct-section-title"><a href="html/blog/blog4.html">Phải làm gì khi cún yêu tiêu chảy?</a></div>
+              <p>Tiêu chảy là bệnh khá phổ biến ở cún yêu. Nếu áp dụng đúng biện pháp chữa trị, bệnh ... </p>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 @endsection

@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<title>Gian hàng</title>
+	<!--Bootstrap, JQuery and Font-->
+	<link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!--<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js">
+    </script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!--End Bootstrap and Font-->
+	<!--User Define-->
+	<link rel="stylesheet" href="../../css/styles.css">
+	<link rel="icon" href="images/favicon/favicon.ico">
+	<!-- End User Define-->
+	<style>
+.cateogary-wrapper {
+	display: block;
+	width: 100%;
+	height: auto;
+	border: 1px solid grey;
+	margin-top: 10px;
+}
+.cateogary-wrapper .picture {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+.cateogary-wrapper .picture img {
+	width: 100%;
+	height: auto;
+}
+.cateogary-wrapper .title {
+	display: block;
+	text-align: center;
+}
+.cateogary-wrapper .title a {
+	display: block;
+	color: #B124EF;
+	font-weight: bold;
+	font-size: 1.3em;
+	padding: 10px 20px;
+}
+</style>
+	</head>
+	<body>
+<nav class="navbar navbar-inverse navbar-expand-xl navbar-dark sticky-top">
+      <div class="navbar-header d-flex col"> <a class="navbar-brand" href="#"><img src="../../images/logo-petlove.svg" class="navbar-logo"></a>
+    <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle navbar-toggler ml-auto"> <span class="navbar-toggler-icon"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+  </div>
+      <!-- Collection of nav links, forms, and other content for toggling -->
+      <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+    <form class="navbar-form form-inline">
+          <div class="input-group search-box">
+        <input type="text" id="search" class="form-control" placeholder="Search here...">
+        <span class="input-group-addon"><i class="fa fa-search violet"></i></span></div>
+        </form>
+    <ul class="nav navbar-nav navbar-right ml-auto">
+          <li class="nav-item active"><a href="#" class="nav-link"><i class="fa fa-home"></i><span>Home</span></a></li>
+          <li class="nav-item"><a href="#" class="nav-link"><i class="fa fa-gears"></i><span>Projects</span></a></li>
+          <li class="nav-item"><a href="#" class="nav-link"><i class="fa fa-users"></i><span>Team</span></a></li>
+          <li class="nav-item"><a href="#" class="nav-link"><i class="fa fa-pie-chart"></i><span>Reports</span></a></li>
+          <li class="nav-item"><a href="#" class="nav-link"><i class="fa fa-briefcase"></i><span>Careers</span></a></li>
+          <li class="nav-item"><a href="#" class="nav-link"><i class="fa fa-envelope"></i><span>Messages</span></a></li>
+          <li class="nav-item"><a href="#" class="nav-link"><i class="fa fa-bell"></i><span>Notifications</span></a></li>
+          <li class="nav-item dropdown"> <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"><img src="https://www.tutorialrepublic.com/examples/images/avatar/3.jpg" class="aab" alt="Avatar"> Antonio Moreno <strong class="caret"></strong></a>
+        <ul class="dropdown-menu">
+              <li><a href="#" class="dropdown-item"><i class="fa fa-user-o"></i>Hồ sơ</a></li>
+              <li><a href="#" class="dropdown-item"><i class="fa fa-shopping-cart"></i>Giỏ hàng</a></li>
+              <li><a href="#" class="dropdown-item"><i class="fas fa-heart"></i>Đã thích</a></li>
+              <li class="divider dropdown-divider"></li>
+              <li><a href="#" class="dropdown-item"><i class="material-icons">&#xE8AC;</i>Đăng xuất</a></li>
+            </ul>
+      </li>
+        </ul>
+  </div>
+    </nav>
+<div id="product-page-pc">
+      <div class="container-fluid">
+    <div id="tree">
+          <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#"><i class="fa fa-home"></i></a></li>
+        <li class="breadcrumb-item"><a href="#">Gian hàng</a></li>
+      </ul>
+        </div>
+  </div>
+    </div>
+<div class="container">
+      <center>
+    <h3>Gian hàng</h3>
+  </center>
+      <div class="row">
+    <div class="col-md-4">
+          <div class="cateogary-wrapper">
+        <div class="picture"> <img src="../../images/product/collection/dog.jpg"> </div>
+        <div class="title"> <a href="#">Chó</a> </div>
+      </div>
+        </div>
+    <div class="col-md-4">
+          <div class="cateogary-wrapper">
+        <div class="picture"> <img src="../../images/product/collection/cat.jpg"> </div>
+        <div class="title"> <a href="#">Mèo</a> </div>
+      </div>
+        </div>
+    <div class="col-md-4">
+          <div class="cateogary-wrapper">
+        <div class="picture"> <img src="../../images/product/collection/bird.jpg"> </div>
+        <div class="title"> <a href="#">Chim</a> </div>
+      </div>
+        </div>
+  </div>
+      <div class="row">
+    <div class="col-md-4">
+          <div class="cateogary-wrapper">
+        <div class="picture"> <img src="../../images/product/collection/collection_5_418x380_crop_top.jpg"> </div>
+        <div class="title"> <a href="#">Thỏ</a> </div>
+      </div>
+        </div>
+    <div class="col-md-4">
+          <div class="cateogary-wrapper">
+        <div class="picture"> <img src="../../images/product/collection/fish.jpg"> </div>
+        <div class="title"> <a href="#">Cá</a> </div>
+      </div>
+        </div>
+    <div class="col-md-4">
+          <div class="cateogary-wrapper">
+        <div class="picture"> <img src="../../images/product/collection/collection_6_418x380_crop_top.jpg"> </div>
+        <div class="title"> <a href="#">Kì nhông</a> </div>
+      </div>
+        </div>
+  </div>
+    </div>
+<!----------- Footer ------------>
+<div class="container-fluid border-top mb-3 d-none d-lg-block" id="footer">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="footer-help">
+        <p>
+        <h5>Làm thế nào chúng tôi có thể giúp bạn?</h5>
+        </p>
+        <p>Tìm hiểu thêm về công ty, chính sách của chúng tôi và nhận dịch vụ tốt nhất trong thị trường thú cưng</p>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="footer-join">
+        <h6 class="mb-3">Tham gia</h6>
+        <p><a href="#">Đường dây nóng</a></p>
+        <p><a href="#">Trở thành nhà phân phối</a></p>
+        <p><a href="#">Văn phòng đại diện</a></p>
+        <hr width="80%">
+        <p><a href="mailto:thanhstp99@gmail.com" style="font-size: 13px"><i class="fa fa-envelope"></i> thanhstp99@gmail.com</a></p>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="footer-social">
+        <h6 class="mb-3">Theo dõi</h6>
+        <a href="#"><img src="../../images/social_icon/icon_facebook.svg" class="social-icon"></a> <a href="#"><img src="../../images/social_icon/icon_youtube.svg" class="social-icon"></a> <a href="#"><img src="../../images/social_icon/icon_instagram.svg" class="social-icon"></a>
+        
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="footer-policies">
+        <h6 class="mb-3">Chính sách</h6>
+        <p><a href="#">Đường dây nóng</a></p>
+        <p><a href="#">Trở thành nhà phân phối</a></p>
+        <p><a href="#">Văn phòng đại diện</a></p>
+        <hr width="80%">
+        <p><a href="malto:thanhstp99@gmail.com" style="font-size: 13px"><i class="fa fa-envelope"></i> thanhstp99@gmail.com</a></p>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="footer-institutional">
+        <h6 class="mb-3">Tổ chức</h6>
+        <p><a href="#">Đường dây nóng</a></p>
+        <p><a href="#">Trở thành nhà phân phối</a></p>
+        <p><a href="#">Văn phòng đại diện</a></p>
+        <hr width="80%">
+        <p><a href="malto:thanhstp99@gmail.com" style="font-size: 13px"><i class="fa fa-envelope"></i> thanhstp99@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row mt-3">
+    <div class="col-md-6"> <span style="display: block">Hình thức thanh toán</span> <img class="paid-method" src="../../images/paid/methods.svg"> </div>
+    <div class="col-md-6 text-right"> <span style="display: block">Công ty TNHH Petlove</span> <span style="display: block">Địa chỉ: 23 Nguyễn Minh Châu, Hòa Quý, Ngũ Hành Sơn, Đà Nẵng</span>
+      <p></p>
+    </div>
+  </div>
+</div>
+<!----------- End Footer ------------>
+</body>
+</html>

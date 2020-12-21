@@ -1,0 +1,220 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "camera-house";
+  src:url("../fonts/camera-house.eot");
+  src:url("../fonts/camera-house.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/camera-house.woff") format("woff"),
+    url("../fonts/camera-house.ttf") format("truetype"),
+    url("../fonts/camera-house.svg#camera-house") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "camera-house" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "camera-house" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-051-24-hours:before {
+  content: "\61";
+}
+.icon-051-basketball:before {
+  content: "\62";
+}
+.icon-051-book:before {
+  content: "\63";
+}
+.icon-051-buy:before {
+  content: "\64";
+}
+.icon-051-calculator:before {
+  content: "\65";
+}
+.icon-051-calendar:before {
+  content: "\66";
+}
+.icon-051-cash:before {
+  content: "\67";
+}
+.icon-051-chat:before {
+  content: "\68";
+}
+.icon-051-checked:before {
+  content: "\69";
+}
+.icon-051-close:before {
+  content: "\6a";
+}
+.icon-051-courier:before {
+  content: "\6b";
+}
+.icon-051-credit-card:before {
+  content: "\6c";
+}
+.icon-051-currency:before {
+  content: "\6d";
+}
+.icon-051-delivery-truck:before {
+  content: "\6e";
+}
+.icon-051-discount:before {
+  content: "\6f";
+}
+.icon-051-discount-1:before {
+  content: "\70";
+}
+.icon-051-dislike:before {
+  content: "\71";
+}
+.icon-051-dress:before {
+  content: "\72";
+}
+.icon-051-favourite:before {
+  content: "\73";
+}
+.icon-051-garbage:before {
+  content: "\74";
+}
+.icon-051-gift:before {
+  content: "\75";
+}
+.icon-051-guitar:before {
+  content: "\76";
+}
+.icon-051-high-heels:before {
+  content: "\77";
+}
+.icon-051-like:before {
+  content: "\78";
+}
+.icon-051-medal:before {
+  content: "\79";
+}
+.icon-051-message:before {
+  content: "\7a";
+}
+.icon-051-notification:before {
+  content: "\41";
+}
+.icon-051-online-shop:before {
+  content: "\42";
+}
+.icon-051-online-shop-1:before {
+  content: "\43";
+}
+.icon-051-open:before {
+  content: "\44";
+}
+.icon-051-package:before {
+  content: "\45";
+}
+.icon-051-photo-camera:before {
+  content: "\46";
+}
+.icon-051-piggy-bank:before {
+  content: "\47";
+}
+.icon-051-placeholder:before {
+  content: "\48";
+}
+.icon-051-placeholder-1:before {
+  content: "\49";
+}
+.icon-051-price-tag:before {
+  content: "\4a";
+}
+.icon-051-purse:before {
+  content: "\4b";
+}
+.icon-051-qr-code:before {
+  content: "\4c";
+}
+.icon-051-search:before {
+  content: "\4d";
+}
+.icon-051-shield:before {
+  content: "\4e";
+}
+.icon-051-shirt:before {
+  content: "\4f";
+}
+.icon-051-shop:before {
+  content: "\50";
+}
+.icon-051-shopping-bag:before {
+  content: "\51";
+}
+.icon-051-shopping-basket:before {
+  content: "\52";
+}
+.icon-051-shopping-cart:before {
+  content: "\53";
+}
+.icon-051-shopping-cart-1:before {
+  content: "\54";
+}
+.icon-051-support:before {
+  content: "\55";
+}
+.icon-051-table:before {
+  content: "\56";
+}
+.icon-051-trolley:before {
+  content: "\57";
+}
+.icon-051-wallet:before {
+  content: "\58";
+}
+.icon-cart:before {
+  content: "\59";
+}
+.icon-checked:before {
+  content: "\5a";
+}
+.icon-delivery-truck:before {
+  content: "\30";
+}
+.icon-dollar-symbol:before {
+  content: "\31";
+}
+.icon-magnifying-glass:before {
+  content: "\32";
+}
+.icon-phone-call:before {
+  content: "\33";
+}
+.icon-ios-plus-empty:before {
+  content: "\34";
+}
+.icon-android-remove:before {
+  content: "\35";
+}
+.icon-android-add:before {
+  content: "\36";
+}
+.icon-close:before {
+  content: "\37";
+}

@@ -1,0 +1,333 @@
+function getProductList(url,holder,limit,actionLoad){
+   //actionLoad = replace or append
+  	$.getJSON(url,function(result){
+  		var data = result.list;
+  		var html="";
+  		Object.keys(data).forEach(function(key,keyIndex){
+  			if(keyIndex < limit){
+              
+              var productName = data[key].productName;
+              var productUrl = data[key].productUrl;
+              var productModel = data[key].productModel;
+              var quantity = data[key].quantity;
+              var productId = data[key].productId;
+              var productImage = data[key].productImage.large;
+              if (productImage == '') productImage = "/template/default/images/no_image.jpg";
+              var price = data[key].price;
+              var priceFormat = formatCurrency(price)+"đ";
+              if (price == 0) priceFormat = "Liên hệ";
+              var marketPrice = data[key].marketPrice;
+              var discount = "";
+              if (marketPrice > price) {
+                  discount = Math.ceil(100 - price * 100 / marketPrice);
+              }
+              var specialOffer = "";
+              if(data[key].specialOffer.all.length > 0) specialOffer=data[key].specialOffer.all[0].title;
+              var proRating = data[key].rating;
+              var proVisit = data[key].visit;
+
+
+              html+='<li>';
+              html+='<div class="p_container">';
+              html+='<div class="type">';
+              if (typeof data[key].productType.organic !== 'undefined') {
+              if(data[key].productType.organic==1) html+='<i class="organic"></i>';
+              }
+              if(specialOffer!='') html+='<i class="ico promo"></i>';
+              if(data[key].productType.isBestSale==1) html+='<i class="ico sale"></i>';
+              if(data[key].productType.isNew==1 && data[key].productType.isBestSale !=1) html+='<i class="new"></i>';
+              if(quantity < 1 && 1 < 2) html+='<i class="ico out"></i>';
+              if(discount!='') html+='<i class="off">-'+discount+'%</i>';
+              html+='</div>';
+              html+='<a href="'+productUrl+'" class="newp-img"><img src="'+productImage+'" alt="'+productName+'" /></a>';
+              html+='<a href="'+productUrl+'" class="newp-name">'+productName+'</a>';
+
+              html+='<div class="p-price">';
+              if(discount!='') html+='<span class="p-old-price">'+formatCurrency(marketPrice)+'</span>';
+              html+=priceFormat;
+              html+='</div>';
+
+              html+='<div class="rate_detail">';
+              html+='<img src="/template/2017/images/star_'+proRating+'.png" alt="rate"/>';
+              html+='<p style="margin:0;font-size: 13px;text-align:center;"> '+proVisit+' lượt mua </p>';
+              html+='</div>';
+
+              if(quantity > 0)html+="<a href='javascript:void(0);' onclick=\"javascript:addToShoppingCart('pro',"+productId+",1,"+price+")\" class='btn-violet add home'>CHỌN MUA</a>";
+              else
+              html+='<a href="javascript:;" class="btn-gray out home">TẠM HẾT HÀNG</a>';
+              html+='</div>';
+
+              html+='</div>';
+              html+='</li>';
+  			}
+  		});
+  		
+  		if (typeof actionLoad === 'undefined') { actionLoad = 'replace'; }
+  		if(actionLoad=='replace') $(holder).html(html);
+  		else $(holder).append(html);
+  	});
+}
+
+$(document).ready(function(){
+  	$('.fancybox').fancybox();
+  	new WOW().init();
+  	//----
+  	$('.p-btn-buy,.btn-violet.add').attr("href","javascript:;").attr("data-src","/gio-hang?cmd=ajax");
+  	$('.p-btn-buy,.btn-violet.add').attr("data-fancybox","ajax").attr("data-type","ajax");
+  	$('[data-type="ajax"]').fancybox({
+      infobar : false
+    });
+  	/*-toTop-*/
+    $(function() {
+        $(window).scroll(function() {
+            if($(this).scrollTop() != 0) {
+                $('#toTop').fadeIn().addClass("active");
+            } else {
+                $('#toTop').fadeOut().removeClass('active');
+            }
+        });
+
+        $('#toTop').click(function() {
+            $('body,html').animate({scrollTop:0},800);
+        });
+    });
+  	/*-select-dropdown-hide-onclick-area-*/
+    $(window).click(function() {
+    	$('#suggestions').hide()
+	});
+
+	$('#suggestions').click(function(event){
+	    event.stopPropagation();
+	});
+  	/*-tab-*/
+    $(".tabs a").click(function(){
+        var id = $(this).attr("data-id");
+        var name = $(this).attr("data-view");
+        $(this).parent().find("a").removeClass("active");
+        $(this).addClass("active");
+        $(name + " .tab-cont").hide();
+        $(id).fadeIn();
+    });
+  	//------
+
+});
+
+$(document).ajaxStop(function(){
+  	$('.p-btn-buy,.p-btn-buy-offline,.btn-violet.add').attr("href","javascript:;").attr("data-src","/gio-hang?cmd=ajax");
+  	$('.p-btn-buy,.p-btn-buy-offline,.btn-violet.add').attr("data-fancybox","ajax").attr("data-type","ajax");
+  	$('.p-btn-buy-offline').attr("href","javascript:;").attr("data-src","/gio-hang?cmd=ajax&buy=offline");
+  
+  	$('[data-type="ajax"]').fancybox({
+      infobar : false
+    });
+  
+});
+
+$(function() {
+  $(window).scroll(function() {
+    if($(this).scrollTop() > 350) {
+      $('#nav-hori').addClass('fixed').removeClass('default');
+    } else {$('#nav-hori').removeClass('fixed').addClass('default');;}
+  });
+});
+
+function loadBrand() {
+  if($('#loadBrand').html() == ''){$('#loadBrand').load('/brand?cmd=ajax&show=homepage');}
+}
+
+function get_article_list(cat_id,type){
+  $.post("/ajax/get_article_list.php?cmd=ajax&show=" + type + "&catId="+ cat_id +"&page=" + 1, function(data) {
+    if(data.length > 10) {
+      $("#row_a"+cat_id).html(data);
+    }else{
+    }
+  });
+}
+
+function AjaxGetBanner(temp,bnCatId,catProId,holder) {
+  var url= "/ajax/get_json.php?action=banner&template="+temp+"&show=10&location="+bnCatId+"&category=" + catProId;
+  //console.log(url);
+  $.getJSON( url, function(data) {
+    var list = "";
+    $.each( data, function( key, val ) {
+      var item =[];
+      for(var i=0; i < val.length ; i++){
+        item = val[i];
+        
+        list += "<li><a href='" + item.desUrl + "'><img src='" + item.fileUrl + "'></a></li>";
+          
+      }
+    });
+    $('#'+holder).append(list);
+  });
+}
+
+function get_hot_list(url,id,holder) {
+  var link = "/"+ url + "?scat_id=" + id + "&cmd=ajax&show=home_page";
+  $("#c"+id).addClass('ajax');
+  $("#"+holder).load(link);
+}
+
+function addToShoppingCartPopup(e, t, n, r) {
+    null == hura_read_cookie("shopping_cart_store") && hura_create_cookie("shopping_cart_store", ",", 30);
+    var o = hura_read_cookie("shopping_cart_store");
+    if (-1 == o.search("," + e + "-" + t + "-")) {
+        var i = o + "," + e + "-" + t + "-" + n + "-" + r;
+        hura_create_cookie("shopping_cart_store", i, 30), $("#cart-header").click();
+    } else alert("Sản phẩm đã có trong giỏ hàng!")
+}
+
+function format_price(str_price){
+    var arr_price = str_price.split('');
+    var format_price="";
+    var price="";
+    var arr_temp;
+    var dem=0;
+    for(i=arr_price.length-1; i>=0; i--){
+
+        if(dem==3 || dem==6 || dem == 9 || dem==12 || dem==15 || dem==18 || dem==21) arr_price[i]="."+arr_price[i];
+        dem++;
+        format_price += arr_price[i];
+    }
+
+    arr_temp = format_price.split('');
+    for(i=arr_temp.length-1; i>=0; i--){
+        price+= arr_temp[i];
+    }
+    return price;
+};
+
+function open_modal(id) {
+    $('#'+id).slideToggle();
+}
+
+function get_hot_list(url,id,holder) {
+  	/*var link = "/"+ url + "?scat_id=" + id;
+    location.href = link;*/
+  	
+  	var link = "/"+ url + "?scat_id=" + id + "&cmd=ajax&show=home_page";
+  	$("#c"+id).addClass('ajax');
+    $("#"+holder).load(link);
+}
+
+function get_product_hot_list(url,id,holder) {
+  	var link = "/"+ url + "?scat_id=" + id + "&cmd=ajax&show=home_page";
+    $("#"+holder).load(link);
+}
+
+function selector_name() {
+    var a = $("#search_category option:selected").text();
+    $("#selector_name").html(a);
+}
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+
+
+$(function(){
+//For automating the time of deals of the day
+window.setInterval(function(){
+var d = new Date();
+var hrs = parseInt(d.getHours());
+var dd = parseInt(d.getDate());
+var monthNames = [ "Jan ", "Feb ", "Mar ", "Apr ", "May ", "Jun ", "Jul ", "Aug ", "Sep ", "Oct ", "Nov ", "Dec " ];
+var mmm = monthNames[d.getMonth()];
+var lastDay  = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+var lDay = lastDay.getDate();
+
+if(hrs >= 1 && hrs <= 24)
+{
+	autoDate(mmm + dd + ' 2015 23:59:59');
+}
+else
+{  
+	autoDate(mmm + (hrs < 1 ? dd : ((dd + 1) > lDay ? 1 : dd + 1 )) + ' 2015 00:00:00');
+} }, 1000);
+
+function autoDate(TargetDate)
+{
+	var TargetDate = new Date(TargetDate);
+
+	var msPerDay = 24 * 60 * 60 * 1000 ;
+		var today = new Date();
+        var localOffset = -today.getTimezoneOffset() / 60;
+		var destOffset = 7;
+		var offset = destOffset - localOffset;
+        var tamaraw = (new Date( new Date().getTime() + offset * 3600 * 1000));
+   		var timeLeft = (TargetDate.getTime() - tamaraw.getTime());
+		var e_daysLeft = timeLeft / msPerDay;
+		var daysLeft = Math.floor(e_daysLeft);
+		var e_hrsLeft = (e_daysLeft - daysLeft)*24;
+		var hrsLeft = Math.floor(e_hrsLeft);
+        if (hrsLeft <= 9) { var hrsLeft = "0" + hrsLeft };
+		var e_minsLeft = (e_hrsLeft - hrsLeft)*60;
+		var minsLeft = Math.floor(e_minsLeft);
+        if (minsLeft <= 9) { var minsLeft = "0" + minsLeft };
+		var e_secsLeft = (e_minsLeft - minsLeft)*60;
+		var secsLeft = Math.floor(e_secsLeft);
+        if (secsLeft <= 9) { var secsLeft = "0" + secsLeft };
+        if (daysLeft == 0 ) {
+	        var timeString = hrsLeft + ":" + minsLeft + ":" + secsLeft ;
+			$('.time24h').html(timeString);
+        }
+}
+});
+
+//-----
+var year = '';
+    var month = '';
+    var day = '';
+    var hour = '';
+    var minute = '';
+    var second = '';
+    var timeEnd = new Date(year, month, day, hour, minute, second);
+    var dateNow = new Date();
+    var countTime = 0;
+
+    function GetDealTime(_date, _id)
+    {
+        countTime++;
+        amount = _date - countTime;
+
+        if(amount < 0){
+            $(_id).html("Kết thúc");
+        }else{
+            var hours = 0;
+            var mins = 0;
+            var secs = 0;
+            var out = "";
+
+            //amount = Math.floor(amount/ 1000); //Làm tròn số thập phân, tính khoảng thời gian theo giây
+
+            //Tính ngày
+            days = Math.floor(amount / 86400);
+            amount = amount % 86400;
+
+            //Tính giờ
+            hours = Math.floor(amount / 3600);
+            amount = amount % 3600;
+
+            //Tính phút
+            mins = Math.floor(amount / 60);
+            amount = amount % 60;
+
+            //Tính số giây còn lại
+            secs = Math.floor(amount);
+
+            //Xuất ra HTML
+            out += (days<=9?'0':'')+days +" "+((days==1)?"":"")+"Ngày: ";
+            out += (hours<=9?'0':'')+hours +" "+((hours==1)?"hour":"")+": ";
+            out += (mins<=9?'0':'')+mins +"'"+((mins==1)?"min":"")+": ";
+            out += (secs<=9?'0':'')+secs +"''"+((secs==1)?"sec":"")+": ";
+            out = out.substr(0,out.length-2);
+
+            document.getElementById(_id).innerHTML = out;
+            window.setTimeout(function(){GetDealTime(_date,_id)}, 1000);
+        }
+}
+//-----

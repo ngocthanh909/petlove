@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Quản trị sản phẩm</title>
+<!--CSS-->
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/admin-css.css">
+<link rel="stylesheet" href="css/all.css">
+<link rel="stylesheet" href="css/flaticon.css">
+<!--Script--> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> 
+<script src="js/bootstrap.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="icon" href="images/favicon/favicon.ico">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark sticky-top mb-3"> <a href="admin-dashboard.html" class="navbar-brand"><img src="images/logo-petlove.svg" alt="petlove logo" class=""></a>
+  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse"> <span class="navbar-toggler-icon"></span> </button>
+  <!-- Collection of nav links, forms, and other content for toggling -->
+  <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+    <div class="navbar-nav ml-auto">
+      <div class="nav-item dropdown"> <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><img src="images/hhoahi.jpg" class="avatar rounded-circle" alt="Avatar"> Thanh Hoa <strong class="caret"></strong></a>
+        <div class="dropdown-menu"><div class="divider dropdown-divider"></div>
+          <a href="admin-login.html" class="dropdown-item"><i class="fal fa-sign-out-alt"></i> Đăng xuất</a> </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+      <div class="default-block">
+        <div class="profile-userpic"> <img src="images/user/95853632_1288908511314610_6236089456328179712_n.jpg" class="img-responsive d-flex"  alt=""> </div>
+        <!-- END SIDEBAR USERPIC --> 
+        <!-- SIDEBAR USER TITLE -->
+        <div class="profile-usertitle">
+          <div class="profile-usertitle-name"> thanhstp99@gmail.com </div>
+          <div class="profile-usertitle-job"> Quản trị viên <i class="far fa-crown"></i></div>
+        </div>
+        <div class="profile-usermenu">
+          <ul class="nav flex-column">
+            <li> <a href="admin-dashboard.html"><i class="fas fa-home"></i>Trang chủ admin</a> </li>
+            <li class="active"> <a href="admin-product.html"><i class="fas fa-shopping-bag"></i>Sản phẩm</a> </li>
+            <li> <a href="admin-news.html"><i class="fas fa-newspaper"></i> Tin tức</a></li>
+            <li> <a href="admin-cart.html"><i class="fas fa-shopping-cart"></i>Đơn hàng</a> </li>
+            <li> <a href="admin-overal.html"><i class="fas fa-chart-pie"></i>Thống kê</a> </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-10 pl-0 responsive-block-1"> 
+      <!--Breadcrumb-->
+      <div class="default-block">
+        <div id="tree">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i> Dashboard</a></li>
+            <li class="breadcrumb-item"><a class="active" href="#">Quản trị sản phẩm</a></li>
+          </ul>
+        </div>
+      </div>
+      <!--Product-->
+      <div class="default-block mt-3">
+        <h5>Sản phẩm</h5>
+        <!--Product head-->
+        <div class="ad-product-head">
+          <button id="btn-add" class="btn btn-violet"><i class="fas fa-plus-circle"></i> Thêm sản phẩm</button>
+          <button id="btn-remove" class="btn btn-violet"><i class="fas fa-minus-circle"></i> Xoá sản phẩm</button>
+          <button id="btn-edit" class="btn btn-violet"><i class="fas fa-pen-square"></i> Sửa sản phẩm</button>
+        </div>
+        <!--Product body-->
+        <div class="ad-product-body mt-3">
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th>STT</th>
+                <th>Mã sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th>Mô tả sản phẩm</th>
+                <th>Giá</th>
+				 <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>PETRC632212</td>
+                <td>Royal Canin Urinary Canine Dog 2kg - Dành cho chó bị sỏi thận</td>
+                <td>ko có mô tả</td>
+                <td>431.000Đ</td>
+				<td><input type="checkbox"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thành công-->
+<div class="modal" id="modalSucess">
+  <div class="modal-dialog">
+    <div class="modal-content"> 
+      
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Thêm sản phẩm</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Modal body -->
+      <div class="modal-body"> Thành công </div>
+      
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-violet" data-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thêm -->
+<div class="modal" id="modalAdd">
+  <div class="modal-dialog">
+    <div class="modal-content"> 
+      
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Thêm sản phẩm</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form>
+          <div class="modal-fortmat">
+			<p>
+            <input type="text" placeholder="Mã sản phẩm">
+          </p>
+          <p>
+            <input type="text" placeholder="Tên phẩm">
+          </p>
+          <p>
+            <input type="text" placeholder="Mô tả sản phẩm">
+          </p>
+          <p>
+            <input type="text" placeholder="Giá sản phẩm">
+          </p>
+		</div>
+        </form>
+      </div>
+      
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-violet" data-dismiss="modal" id="btn-addmodal">Thêm sản phẩm</button>
+        <button type="button" class="btn btn-violet" data-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal sửa -->
+<div class="modal" id="modalEdit">
+  <div class="modal-dialog">
+    <div class="modal-content"> 
+      
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Sửa sản phẩm</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form>
+          <div class="modal-fortmat">
+			<p>
+            <input type="text" placeholder="Mã sản phẩm">
+          </p>
+          <p>
+            <input type="text" placeholder="Tên phẩm">
+          </p>
+          <p>
+            <input type="text" placeholder="Mô tả sản phẩm">
+          </p>
+          <p>
+            <input type="text" placeholder="Giá sản phẩm">
+          </p>
+		</div>
+        </form>
+      </div>
+      
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-violet" data-dismiss="modal" id="btn-editmodal">Sửa sản phẩm</button>
+        <button type="button" class="btn btn-violet" data-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal xoá-->
+<div class="modal" id="modalDelete">
+  <div class="modal-dialog">
+    <div class="modal-content"> 
+      
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Xoá sản phẩm</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Modal body -->
+      <div class="modal-body"> Bạn có muốn xoá sản phẩm này? </div>
+      
+      <!-- Modal footer -->
+      <div class="modal-footer">
+		<button type="button" class="btn btn-violet" data-dismiss="modal" id="btn-deletetmodal">Xoá sản phẩm</button>
+        <button type="button" class="btn btn-violet" data-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function(){
+  $("#btn-add").click(function(){
+	  $("#modalAdd").modal();
+  });
+	  $("#btn-addmodal").click(function(){
+	  $("#modalAdd").modal("hide");
+		$("#modalSucess").modal();
+  });
+$("#btn-edit").click(function(){
+	  $("#modalEdit").modal();
+  		});
+	  $("#btn-editmodal").click(function(){
+	  $("#modalEdit").modal("hide");
+		$("#modalSucess").modal();
+  });
+$("#btn-remove").click(function(){
+	  $("#modalDelete").modal();
+  		});
+	  $("#btn-deletetmodal").click(function(){
+	  $("#modalDelete").modal("hide");
+		$("#modalSucess").modal();
+  });
+});
+
+</script>
+</body>
+</html>

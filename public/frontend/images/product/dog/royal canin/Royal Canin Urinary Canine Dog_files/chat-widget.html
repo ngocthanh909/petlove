@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!-- saved from url=(0309)https://sp.zalo.me/plugins/chat-widget?position=null&oaid=860821253437017483&welcomemessage=R%E1%BA%A5t%20vui%20khi%20%C4%91%C6%B0%E1%BB%A3c%20h%E1%BB%97%20tr%E1%BB%A3%20b%E1%BA%A1n!&autopopup=0&width=350&height=420&style=2&id=cb0aba2d-47f3-44ed-af34-4ff4697b5c97&domain=www.petcity.vn&android=false&ios=false -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <title>Chat Button</title>
+        <script src="./sdk-server-1.0.0.js.download"></script>
+        <link href="./main-1.3.8.css" rel="stylesheet">
+        <style>
+            html, body {
+                background-color: transparent !important;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body style="">
+        <script>
+            var zsp_oaid = '860821253437017483';
+            var zsp_welcome = 'Rất vui khi được hỗ trợ bạn!';
+            var zsp_auto = 0;
+            var zsp_width = 350;
+            var zsp_height= 420;
+            window.styleClosedChatBox = 2;
+            if(!window.styleClosedChatBox) {
+                window.styleClosedChatBox = 1;
+            } else if (window.styleClosedChatBox != 1 && window.styleClosedChatBox != 2) { 
+                window.styleClosedChatBox = 1;
+            }
+            window.oaInfo = [{"menuData":"http:\/\/shop.zalo.me\/store?pageId=860821253437017483","menuStatus":1,"listSubMenu":[],"menuId":91911,"menuType":10,"menuName":"Vào shop"}] || [];
+            var w = 0;
+            var h = 0;
+
+            var widthBoxClosed = 70;
+            var widthBoxClosedWithToolTip = 280;
+            var heightBoxClosed = 70;
+
+           function openChat() {
+            ZSDKServer.postMessage('zchat_widget_open_chat_box', {
+                width: zsp_width,
+                height: zsp_height
+            });
+            w = zsp_width;
+            h = zsp_height;
+        }
+
+        function closeChat() {
+            if(window.styleClosedChatBox == 1) {
+                ZSDKServer.postMessage('zchat_widget_close_chat_box', {
+                    width: 256, 
+                    height: 46 
+                });
+                w = 256; 
+                h = 46; 
+            } else {
+                ZSDKServer.postMessage('zchat_widget_close_chat_box', {
+                    width: widthBoxClosedWithToolTip || widthBoxClosed,
+                    height: heightBoxClosed
+                });
+                w = widthBoxClosedWithToolTip || widthBoxClosed;
+                h = heightBoxClosed;
+            }
+        }
+
+        function closeChatBoxTooltip() {
+            widthBoxClosedWithToolTip = null;
+            w = widthBoxClosed;
+            h = heightBoxClosed;
+            closeChat();
+        }
+
+        function showSticker() {
+            ZSDKServer.postMessage('zchat_widget_toggle_sticker', {
+                width: zsp_width,
+                height: zsp_height
+            });
+            w = zsp_width;
+            h = zsp_height;
+        }
+
+        function closeSticker() {
+            ZSDKServer.postMessage('zchat_widget_toggle_sticker', {
+                width: zsp_width,
+                height: zsp_height
+            });
+            w = zsp_width;
+            h = zsp_height;
+        }
+
+        function showLightbox() {
+            ZSDKServer.postMessage('zchat_widget_show_light_box', {
+                width: '100%',
+                height: '100%',
+                isDiv: true
+            });
+        }
+
+        function closeLightbox() {
+            ZSDKServer.postMessage('zchat_widget_close_light_box', {
+                width: w,
+                height: h,
+                isDiv: true
+            });
+        }
+
+        function openUrl(url) {
+            ZSDKServer.postMessage('zsdk_newtab', {
+                url: url
+            });
+        }
+
+
+        window.onload = function () {
+            ZSDKServer.init();
+
+        };
+        </script>
+        <div id="zoa_widget" class="zs"><div class="zs-wrap-widget" style="height: auto; width: calc(100% - 6px); top: 10px; left: 3px;"><div class="zs-container "><div class="zs-tooltips-container " id="zsToolTips"><span id="block-with-text" style="display: flex; align-items: center;"><i class="zs-icon"><i class="zs-ic zs-ic-move"></i></i><div style="max-height: 38px; line-height: 19px; overflow: hidden;">Chat với PETCITY!</div></span></div><i class="zs-ico zs-has-notify" id="button-main"><div class="zs-ico-main"></div><em></em></i></div><iframe src="./islog.html" style="width: 0px; height: 0px; border: 0px;"></iframe></div></div>
+        <script type="text/javascript" src="./main-1.3.8.js.download"></script>
+    
+</body></html>
