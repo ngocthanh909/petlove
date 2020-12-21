@@ -1,3 +1,4 @@
+//Cái này bỏ vào trang chính
 <div class="col-md-8">
     <h5>Quản lý danh mục</h5>
     <ul class="">
@@ -6,7 +7,7 @@
         @endforeach
     </ul>
 </div>
-
+//cái này trong file blade cần đệ quy
 <div class="form-check">
     <label class="form-check-label" for="check1">
         <input type="checkbox" class="form-check-input" id="check1" name="id-danh-muc" value="{{$category->id}}">{{ $category->tendanhmuc }}

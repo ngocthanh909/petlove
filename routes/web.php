@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController as ad;
+use App\Http\Controllers\LoginController as login;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,20 +15,16 @@ use App\Http\Controllers\AdminController as ad;
 |
 */
 Route::get('/', [ad::class, 'index']);
-Route::get('/auth/redirect', function () {
-    return Socialite::driver('facebook')->redirect();
-})->name('login.facebook');
-Route::get('/auth/callback', function () {
-    $user = Socialite::driver('facebook')->user();
-    dd($user);
-});
+Route::get('/auth/redirect', [login::class, 'redirect'])->name('login.facebook');
+Route::get('/auth/callback', [login::class, 'callback']);
 
+Route::get('admin/login', [login::class, 'adminLoginIndex'])->name('admin.login');
+Route::post('admin/login', [login::class, 'authAdmin'])->name('admin.login.auth');
+Route::get('admin/logout', [login::class, 'adminLogout'])->name('admin.logout');
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('adminAuth')->group(function () {
     // Master Layout
-    Route::get('/', [ad::class, 'index']);
-    Route::get('/login', [ad::class, 'LoginIndex']);
-
+    Route::get('/', [ad::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/1', [ad::class, 'index'])->name('admin.product');
     Route::get('/2', [ad::class, 'index'])->name('admin.brand');
     Route::prefix('/category')->group(function () {
@@ -49,8 +46,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [ad::class, 'productIndex'])->name('admin.product');
         Route::post('/create', [ad::class, 'createProduct'])->name('admin.product.create');
         Route::post('/update', [ad::class, 'updateProduct'])->name('admin.product.update');
-        Route::get('/delete', [ad::class, 'deleteProduct'])->name('admin.product.delete');
-        // Route::get('/read', [ad::class, 'readBrand'])->name('admin.product.read');           
+        Route::get('/delete', [ad::class, 'deleteProduct'])->name('admin.product.delete');      
     });
     Route::prefix('/cmscategory')->group(function () {
         Route::get('/', [ad::class, 'cmscategoryIndex'])->name('admin.cmscategory');
@@ -64,12 +60,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/update', [ad::class, 'updateCms'])->name('admin.cms.update');
         Route::get('/delete', [ad::class, 'deleteCms'])->name('admin.cms.delete');       
     });
-    Route::prefix('/deal')->group(function () {
-        // Route::get('/', [ad::class, 'dealIndex'])->name('admin.deal');
-        // Route::post('/create', [ad::class, 'createCms'])->name('admin.cms.create');
-        // Route::post('/update', [ad::class, 'updateCms'])->name('admin.cms.update');
-        // Route::get('/delete', [ad::class, 'deleteCms'])->name('admin.cms.delete');       
-    });
+
 });
 
 

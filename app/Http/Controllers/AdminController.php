@@ -18,9 +18,13 @@ class AdminController extends Controller
         }
     }
     // Master
-    function index(){
-        return "<a href='/auth/redirect'>Login facebook</a>";
+    // function login(){
+    //     return "<a href='/auth/redirect'>Login facebook</a>";
+    // }
+    function dashboard(){
+        return view('admin.dashboard');
     }
+    
     //Login
     function loginIndex(){
         return view('admin.login');
