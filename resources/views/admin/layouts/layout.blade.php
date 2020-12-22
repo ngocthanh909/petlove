@@ -33,12 +33,12 @@
         <!-- Navbar-->
         <ul class="navbar-nav ml-auto ml-md-0">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i>{{session('userData')['Name']}}</a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="#">Settings</a>
-                    <a class="dropdown-item" href="#">Activity Log</a>
+                    <a class="dropdown-item" href="#">Cài đặt</a>
+                    <a class="dropdown-item" href="#">Hoạt động</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="login.html">Logout</a>
+                    <a class="dropdown-item" href="{{route('admin.logout')}}">Đăng xuất</a>
                 </div>
             </li>
         </ul>
@@ -48,11 +48,13 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
+                        <!-- Bảng điều khiển -->
                         <div class="sb-sidenav-menu-heading">Core</div>
                         <a class="nav-link" href="{{route('admin.dashboard')}}">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Bảng điều khiển
                         </a>
+                        <!-- Quản lý sản phẩm -->
                         <div class="sb-sidenav-menu-heading">QUẢN LÝ SẢN PHẨM</div>
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#productmanage" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
@@ -66,7 +68,7 @@
                                 <a class="nav-link" href="{{route('admin.product')}}">Quản lý sản phẩm</a>
                             </nav>
                         </div>
-
+                        <!-- Quản lý nội dung -->
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#cmsmanage" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                             Quản lý nội dung
@@ -83,6 +85,9 @@
                             Quản lý tin tức
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
+
+
+
                         <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
@@ -109,7 +114,16 @@
                                 </div>
                             </nav>
                         </div>
-                        <div class="sb-sidenav-menu-heading">Addons</div>
+                        <div class="sb-sidenav-menu-heading">Quản lý tài khoản</div>
+                        <a class="nav-link" href="charts.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Tài khoản thành viên
+                        </a>
+                        <a class="nav-link" href="tables.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Tài khoản quản trị
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Thống kê</div>
                         <a class="nav-link" href="charts.html">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Charts
@@ -121,8 +135,8 @@
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
-                    Start Bootstrap
+                    <div class="small">Đăng nhập dưới tên</div>
+                    {{session('userData')['Name']}} - {{session('userData')['RoleName']}}
                 </div>
             </nav>
         </div>
@@ -140,32 +154,40 @@
                             <div class="row">
                                 <div class="col-12">
                                     @php
-                                    $response = session()->pull('response', null);
+                                    $response = (['code' => session()->pull('code'), 'msg' => session()->pull('msg')]);
                                     @endphp
-                                    @isset($response)
-                                    @if($response['status'] == 1)
-                                    <div class="alert alert-success">
-                                        {{$response['msg']}}
+                                    @isset($response['code'])
+                                    @if($response['code'] == 1)
+                                    <div class="alert alert-success alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        @foreach((array)$response['msg'] as $key => $value)
+                                        {{$value}}
+                                        @endforeach
                                     </div>
-                                    @elseif($response['status'] == 0)
-                                    <div class="alert alert-warning">
-                                        {{$response['msg']}}
+                                    @elseif($response['code'] == 0)
+                                    <div class="alert alert-danger alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        @foreach((array)$response['msg'] as $key => $value)
+                                        {{$value}}
+                                        @endforeach
                                     </div>
                                     @endif
-                                    @endisset </div>
+                                    @endisset
+                                </div>
                             </div>
                             @yield('body')
                         </div>
                     </div>
+                </div>
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2020</div>
+                        <div class="text-muted">Petlove {{date("Y")}}</div>
                         <div>
-                            <a href="#">Privacy Policy</a>
+                            <a href="#">Chính sách quyền riêng tư</a>
                             &middot;
-                            <a href="#">Terms &amp; Conditions</a>
+                            <a href="#">Điều khoản sử dụng</a>
                         </div>
                     </div>
                 </div>

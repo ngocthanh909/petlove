@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use DB;
+use App\Http\Controllers\HelplerController as Helper;
 
 
 class LoginController extends Controller
-{   
+{
     //UserLogin
     public function login($userData){
         session(['userData'=> $userData, 'msg' => "Đăng nhập thành công"]);
@@ -33,7 +34,7 @@ class LoginController extends Controller
         if ($this->checkUser($user->getId())){
             $this->login($userData);
             return redirect(route('admin.dashboard'));
-        } else {            
+        } else {
             $result = DB::table('user')->insert($userData);
             if($result){
                 $this->login($userData);
@@ -59,15 +60,17 @@ class LoginController extends Controller
     public function authAdmin(Request $request){
         $result = DB::table('admin')->where('Username', $request->Username)->where('Password', $request->Password)->get();
         if(isset($result[0])){
-            $role = null;
-            if ($result[0]->Role == 0){
-                $role = "Quản trị viên";
+            $role = $result[0]->Role;
+            $roleName = null;
+            if ($role){
+                $roleName = "Nhân viên";
             } else {
-                $role = "Nhân viên";
+                $roleName = "Quản trị viên";
             }
             $userData = [
                 'Name' => $result[0]->Name,
                 'Role' => $role,
+                'RoleName' => $roleName,
             ];
             $this->adminLogin($userData);
             return redirect(route('admin.dashboard'));
@@ -77,10 +80,12 @@ class LoginController extends Controller
         }
     }
     public function adminLogin($userData){
-        session(['userData'=> $userData, 'msg' => "Đăng nhập thành công"]);
+        session(['logged' => 1, 'userData'=> $userData, 'msg' => "Đăng nhập thành công"]);
     }
     public function adminLogout(){
         session()->forget('userData');
+        session()->forget('logged');
         session(['msg' => "Đã đăng xuất"]);
+        return $this->redirect(route('admin.login'));
     }
 }

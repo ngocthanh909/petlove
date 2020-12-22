@@ -15,7 +15,7 @@ use App\Http\Controllers\UserController as us;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [ad::class, 'index']);
+// Route::get('/', [ad::class, 'index']);
 Route::get('/auth/redirect', [login::class, 'redirect'])->name('login.facebook');
 Route::get('/auth/callback', [login::class, 'callback']);
 
@@ -24,10 +24,7 @@ Route::post('admin/login', [login::class, 'authAdmin'])->name('admin.login.auth'
 Route::get('admin/logout', [login::class, 'adminLogout'])->name('admin.logout');
 
 Route::prefix('admin')->middleware('adminAuth')->group(function () {
-    // Master Layout
     Route::get('/', [ad::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/1', [ad::class, 'index'])->name('admin.product');
-    Route::get('/2', [ad::class, 'index'])->name('admin.brand');
     Route::prefix('/category')->group(function () {
         Route::get('/', [ad::class, 'categoryIndex'])->name('admin.category');
         Route::get('/create', [ad::class, 'createCategory'])->name('admin.category.create');

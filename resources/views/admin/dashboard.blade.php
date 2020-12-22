@@ -5,4 +5,7 @@
     <h3>Quản trị hệ thống!</h3>
     Chào mừng {{session('userData')['Name']}}
     <a href="{{route('admin.logout')}}">Đăng xuất</a>
+    @php
+        var_dump(session('userData'));
+    @endphp
 @endsection

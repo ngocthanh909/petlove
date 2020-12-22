@@ -6,25 +6,23 @@ use Illuminate\Http\Request;
 use DB;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\HelplerController as Helpler;
 
 class AdminController extends Controller
 {
     //Helper methods
     function returnStatus($result){
         if ($result) {
-            session(['response' => ['status' => 1, 'msg' => 'Thao tác thành công']]);
+            Helpler::message(1, ['Thao tác thành công!', 'Vãi lon']);
         } else {
-            session(['response' => ['status' => 0, 'msg' => 'Thao tác thất bại. Vui lòng kiểm tra lại']]);
+            Helpler::message(0, ['Thao tác thất bại! Vui lòng kiểm tra lại!']);
         }
     }
-    // Master
-    // function login(){
-    //     return "<a href='/auth/redirect'>Login facebook</a>";
-    // }
+
     function dashboard(){
         return view('admin.dashboard');
     }
-    
+
     //Login
     function loginIndex(){
         return view('admin.login');
