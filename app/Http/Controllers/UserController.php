@@ -4,11 +4,39 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\View;
 class UserController extends Controller
-{
+
+{   
+    public function __construct(){
+    
+        View::share('categories', $this->createNested($this->masterIndex(), 0));
+
+    }
+    function createNested($categories, $parentId = 0)
+    {
+        $results = [];
+        foreach ($categories as $category) {
+            if ($parentId == $category->ParentID) {
+                $nextParentId = $category->CategoryID;
+                $category->children = $this->createNested($categories, $nextParentId);
+                $results[] = $category;
+            }
+        }
+        return $results;
+    }
+
+    
     public function getIndex(){
         $categories = DB::table('productcategory')->get();
         return view('user.index',compact('categories'));
+    }
+    function index(){
+        return view('user.index');
+    }
+    public function masterIndex(){
+        $categories = DB::table('productcategory')->get();
+        return ($categories);
     }
     public function getProduct($tensanpham){
 

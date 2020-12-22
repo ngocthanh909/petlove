@@ -67,18 +67,20 @@ Route::post('/testupload', [ad::class, 'fileUpload2'])->name('upload');
 //User Routes
 
 Route::prefix('/')->group(function() {
-    Route::get('/', [us::class, 'getIndex'])->name('user.index');
-    Route::get('/carts', [us::class, 'getCarts'])->name('user.carts');
-    Route::get('/san-pham/{tensanpham}', [us::class, 'getProduct'])->name('user.product');
-    Route::get('/gian-hang/{tendanhmuc}', [us::class, 'getCollection'])->name('user.collection');
-    Route::get('/blog', [us::class, 'getBlog'])->name('user.blog');
+    // Route::get('/', [us::class, 'getIndex'])->name('user.index');
+    // Route::get('/carts', [us::class, 'getCarts'])->name('user.carts');
+    // Route::get('/san-pham/{tensanpham}', [us::class, 'getProduct'])->name('user.product');
+    // Route::get('/gian-hang/{tendanhmuc}', [us::class, 'getCollection'])->name('user.collection');
+    // Route::get('/blog', [us::class, 'getBlog'])->name('user.blog');
 
-    Route::get('/about', [us::class, 'getAbout'])->name('user.about');
+    // Route::get('/about', [us::class, 'getAbout'])->name('user.about');
 });
 
+// Route::get('/master', [us::class, 'masterIndex']);
+Route::get('/', [us::class, 'index']);
 
-Route::prefix('/user')->group(function() {
-    Route::get('/favorite', [us::class, 'profileFavorite'])->name('user.favorite');
-    Route::get('/profile', [us::class, 'profileSettings'])->name('user.settings');
-    Route::get('/delivery', [us::class, 'profileDelivery'])->name('user.delivery');
-});
+// Route::prefix('/user')->group(function() {
+//     Route::get('/favorite', [us::class, 'profileFavorite'])->name('user.favorite');
+//     Route::get('/profile', [us::class, 'profileSettings'])->name('user.settings');
+//     Route::get('/delivery', [us::class, 'profileDelivery'])->name('user.delivery');
+// });
