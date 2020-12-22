@@ -4,60 +4,61 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-use Illuminate\Support\Str;
-
 class UserController extends Controller
 {
-    private $categories;
-    public function __construct(){
-        $this->categories = DB::table('productcategory')->get();
-    }
     public function getIndex(){
-        return view('user.index')->with(array('categories'=> $this->categories));
+        $categories = DB::table('productcategory')->get();
+        return view('user.index',compact('categories'));
     }
+    public function getProduct($tensanpham){
 
+        $product = DB::table('product')->where('Slug', $tensanpham)->first();
+        $brand = DB::table('brand')->where('BrandID', $product->BrandID)->first();
+        return view('user.product')->with(array('product' => $product , 'brand' => $brand->Name ));
+    }
     public function getBlog(){
-        return view('user.blog')->with(array('categories'=> $this->categories));
+        return view('user.blog');
+    }
+    public function getAbout(){
+        return view('user.about');
+    }
+    public function getCarts(){
+        return view('user.carts');
+    }
+
+    public function profileSettings(){
+        return view('user.account.profile');
+    }
+
+    public function profileFavorite(){
+        return view('user.account.favorite');
     }
 
 
-    public function browseProduct($tendanhmuc){
-        // $categorySide = "";
-        // foreach($this->categories as $category){
-        //     if ($category->ParentID == 0){
-        //         if ($category->Slug == $tendanhmuc){
-        //             $queryID = $category->CategoryID;
-        //             $categorySide .= "<h5>". $category->Name ."</h5><ul>";
-        //             foreach($this->categories as $subCategory){
-        //                 if ($subCategory->ParentID == $queryID){
-        //                     $categorySide.= '<a href'.  .'><li>'. $subCategory->Name .'</li>';
-        //                 }
-        //             }
-        //             $categorySide .= "</ul>";
-        //         }
-        //     }
-        // }
+    private $parentCategories = "";
 
-        return view('user.browse')->with(array('categories'=> $this->categories , 'tendanhmuc' => $tendanhmuc));
-    }
-
-    public function updateSlug(){
-        foreach($this->categories as $category){
-            $count = 0;
-            $slug = Str::slug($category->Name, '-');
-            $temp = $slug;
-            echo "Input:  " . $temp . "<br>";
-            while (DB::table('productcategory')->where('Slug', '=', $temp)->exists()) {
-                echo "Trùng:  " . $temp . "<br>";
-                $count++;
-                $temp =  $slug . "-". $count;
-            }
-            echo "Final:  " . $temp . "<br><br>";
-            DB::table('productcategory')->where('CategoryID', $category->CategoryID)->update(['Slug' => $temp]);
-            
-            
+    function findParentCategories($id){
+        if ($id != 0){
+            $category = DB::table('productcategory')->where('CategoryID', $id)->first();
+            $this->parentCategories .= $category->Slug . "|" . $category->Name . "/";
+            $this->findParentCategories($category->ParentID);
         }
-        echo "Done";
+
+    }
+    public function getCollection($tendanhmuc){
+        $categories = DB::table('productcategory')->get();
+        foreach($categories as $category){
+            if ($category->Slug == $tendanhmuc){
+                $test = $this->findParentCategories( $category->CategoryID);
+                break;
+            }
+        }
+
+        $categoriesArr = explode("/",$this->parentCategories);
+        return view('user.collection')->with(array('categories'=> $categories , 'tendanhmuc' => $tendanhmuc , 'categoriesArr' => $categoriesArr));
     }
 
+    public function profileDelivery(){
+        return view('user.account.delivery');
+    }
 }

@@ -1,0 +1,387 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Tải khoản</title>
+<!--CSS-->
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/all.css">
+<!--Script-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/js-image-zoom.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+<!--================== HEADER ==================-->
+<!--Navbar-->
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark sticky-top"><a href="index.html" class="navbar-brand"><img src="images/logo-petlove.svg" alt="petlove logo" class=""></a>
+  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse"> <span class="navbar-toggler-icon"></span> </button>
+  <!-- Collection of nav links, forms, and other content for toggling -->
+  <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+    <form class="navbar-form form-inline" onsubmit="return false">
+      <div class="input-group search-box">
+        <input type="text" id="search" class="form-control" placeholder="Tìm kiếm...">
+        <button id="searchbtn" class="input-group-addon"><i class="fal fa-search"></i></button>
+      </div>
+    </form>
+    <div class="navbar-nav ml-auto"> <a href="index.html" class="nav-item nav-link"><i class="fa fa-home"></i><span>Trang chủ</span></a> <a href="collection.html" class="nav-item nav-link"><i class="fas fa-bags-shopping"></i><span>Gian hàng</span></a><a href="blog.html" class="nav-item nav-link"><i class="fas fa-book"></i><span>Blog và tin tức</span></a> <a href="cart.html" class="nav-item nav-link active"><i class="fad fa-shopping-cart"></i><span>Giỏ hàng</span></a> <a href="profile.html" class="nav-item nav-link"><i class="fad fa-box-heart"></i><span>Yêu thích</span></a> <a href="about.html" class="nav-item nav-link"><i class="fas fa-info-circle"></i><span>Về chúng tôi</span></a>
+      <div class="nav-item dropdown"> <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><img src="images/hhoahi.jpg" class="avatar rounded-circle" alt="Avatar"> Thanh Hoa <strong class="caret"></strong></a>
+        <div class="dropdown-menu"> <a href="profile.html" class="dropdown-item"><i class="fal fa-address-card"></i> Hồ sơ</a> <a href="profile.html" class="dropdown-item"><i class="fal fa-truck"></i> Tiến độ giao hàng</a> <a href="profile.html" class="dropdown-item"><i class="fad fa-box-heart"></i> Yêu thích</a>
+          <div class="divider dropdown-divider"></div>
+          <a href="login.html" class="dropdown-item"><i class="fal fa-sign-out-alt"></i> Logout</a> </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- Ko có kết quả -->
+  <div class="modal fade" id="modalFalse">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title">Kết quả tìm kiếm</h5>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <p>Không có sản phẩm nào trùng khớp với từ khoá&nbsp;<span id="keywordfalse"></span></p>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+<!-- Có kết quả -->
+  <div class="modal fade" id="modalTrue">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title">Kết quả tìm kiếm</h5>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <p>Tìm thấy&nbsp;<span>1</span>&nbsp;kết quả cho từ khoá&nbsp;<span id="keywordtrue"></span></p>
+			<div class="cartpage-productlist">
+        			<div id="item" class="cartpage-productlist-item">
+        				<div class="cartpage-productlist-item-img">
+        					<img src="images/product/dog/royal canin/4372_ava.jpg">
+        				</div>
+        				<div class="cartpage-productlist-item-section">
+        					<div class="cartpage-productlist-item-section-name">
+        						<a href="html/sanpham/cho/sanpham1.html">Royal Canin Urinary Canine Dog 2kg - Dành cho chó bị sỏi thận</a>
+        					</div>
+        					<div class="cartpage-productlist-item-section-price">
+        						<span>100.000</span><span> VNĐ</span>
+        					</div>
+        				</div>
+        			</div>
+        			
+        		</div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+<script>
+  $(document).ready(function(){
+  $("#searchbtn").click(function(){
+	  var key = document.getElementById("search").value;
+	  if (key == "royal") {
+		  var keywordtrue = document.getElementById("keywordtrue").innerHTML = key;
+		  $("#modalTrue").modal();
+	  } else {
+		  var keywordfalse = document.getElementById("keywordfalse").innerHTML = key;
+		  $("#modalFalse").modal();
+	  }
+  });
+});
+</script>
+<!--Breadcrumb-->
+<div class="container">
+  <div id="tree">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html"><em class="fa fa-home"></em></a></li>
+      <li class="breadcrumb-item"><a class="active" href="cart.html">Giỏ hàng</a></li>
+      <li class="breadcrumb-item"><a href="order.html">Thanh toán</a></li>
+    </ul>
+  </div>
+</div>
+<!--Body Begin-->
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="orderblock">
+        <div class="order-sidebar">
+          <div class="order-sidebar-img"><img src="images/orderpage/—Pngtree—female customers shopping online vector_5347768.png"></div>
+          <div class="order-sidebar-processblock">
+            <ul>
+              <li id="login-link" class="done"><a href="#" onClick="alert('Bạn đã đang nhập trước đó')"><i class="fal fa-sign-in-alt"></i>&nbsp; Đăng nhập</a></li>
+              <li id="profile-link"  class="active"><a href="#"><i class="fal fa-info-circle"></i>&nbsp; Thông tin cá nhân</a></li>
+              <li id="address-link"><a href="#"><i class="fal fa-map-marker-alt"></i>&nbsp; Địa chỉ giao hàng</a></li>
+              <li id="payment-link"><a href="#"><i class="fal fa-credit-card-front"></i>&nbsp;Hình thức thanh toán</a></li>
+              <li id="sucess-link"><a href="#"><i class="fal fa-box-check"></i>&nbsp;Hoàn tất</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9 pl-0 ">
+      <div class="cartpage-block responsive-block-1">
+        <div id="profile-form">
+          <div class="dogcat-sidebar-title"><i class="fal fa-info-circle"></i>&nbsp;THÔNG TIN CÁ NHÂN</div>
+          <div class="profile-body ml-3">
+            <div class="profile-row">
+              <div class="row-title">Họ và tên:</div>
+              <div class="row-content">
+                <input type="text" value="Đỗ Ngọc Thanh">
+              </div>
+            </div>
+            <div class="profile-row">
+              <div class="row-title">Ngày sinh:</div>
+              <div class="row-content">
+                <input type="date" value="1999-10-05">
+              </div>
+            </div>
+            <div class="profile-row">
+              <div class="row-title">Email:</div>
+              <div class="row-content">
+                <input type="email" value="thanhstp99@gmail.com">
+              </div>
+            </div>
+            <div class="profile-row">
+              <div class="row-title">SĐT:</div>
+              <div class="row-content">
+                <input type="text" value="0347539143">
+              </div>
+            </div>
+            <div class="profile-row">
+              <div class="row-title">Địa chỉ:</div>
+              <div class="row-content">
+                <input type="text" value="Thôn Ngân Điền, Xã Sơn Hà, Huyện Sơn Hòa, Tỉnh Phú Yên">
+              </div>
+            </div>
+          </div>
+          <center>
+            <a id="profile-done" href="#" class="profile-submit">Tiếp theo</a>
+          </center>
+        </div>
+        <div id="address-form">
+          <div class="dogcat-sidebar-title"><i class="fal fa-map-marker-alt"></i>&nbsp;ĐỊA CHỈ GIAO HÀNG</div>
+          <div class="profile-body ml-3">
+            <div class="profile-row">
+              <div class="row-title">Tỉnh/ thành phố</div>
+              <div class="row-content">
+                <input type="text" value="Đà Nẵng">
+              </div>
+            </div>
+            <div class="profile-row">
+              <div class="row-title">Quận / huyện / thị xã</div>
+              <div class="row-content">
+                <input type="text" value="Ngũ Hành Sơn">
+              </div>
+            </div>
+            <div class="profile-row">
+              <div class="row-title">Xã, phường, thị trấn</div>
+              <div class="row-content">
+                <input type="text" value="Hòa Quý">
+              </div>
+            </div>
+            <div class="profile-row">
+              <div class="row-title">Đường</div>
+              <div class="row-content">
+                <input type="text" value="Nguyễn Minh Châu">
+              </div>
+            </div>
+            <div class="profile-row">
+              <div class="row-title">Số nhà</div>
+              <div class="row-content">
+                <input type="text" value="69">
+              </div>
+            </div>
+          </div>
+          <center>
+            <a id="address-done" href="#" class="profile-submit">Tiếp theo</a>
+          </center>
+        </div>
+        <div id="payment-form">
+          <div class="dogcat-sidebar-title"><i cladss="fal fa-credit-card-front"></i>&nbsp;THÔNG TIN THANH TOÁN</div>
+          <aside class="col mt-3">
+            <article id="credit-form" class="card">
+              <div class="card-body p-5">
+                <ul class="nav bg-light nav-pills rounded nav-fill mb-3" role="tablist">
+                  <li class="nav-item"><a class="nav-link active" data-toggle="pill" href="#nav-tab-card"><i class="fa fa-credit-card"></i>&nbsp;Credit card</a></li>
+                  <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#nav-tab-paypal"><i class="fab fa-paypal"></i>Paypal</a></li>
+                  <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#nav-tab-bank"><i class="fal fa-qrcode"></i>QR Code</a></li>
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane fade show active" id="nav-tab-card">
+                    <p class="alert alert-success">Some text success or error</p>
+                    <form role="form">
+                      <div class="form-group">
+                        <label for="username">Full name (on the card)</label>
+                        <input type="text" class="form-control" name="username" placeholder="" required="" value="THANH DO NGOC">
+                      </div>
+                      <!-- form-group.// -->
+                      
+                      <div class="form-group">
+                        <label for="cardNumber">Card number</label>
+                        <div class="input-group">
+                          <input type="text" class="form-control" name="cardNumber" placeholder="" value="6969696969">
+                          <div class="input-group-append"><span class="input-group-text text-muted"><i class="fab fa-cc-visa"></i> <i class="fab fa-cc-amex"></i> <i class="fab fa-cc-mastercard"></i></span></div>
+                        </div>
+                      </div>
+                      <!-- form-group.// -->
+                      
+                      <div class="row">
+                        <div class="col-sm-8">
+                          <div class="form-group">
+                            <label><span class="hidden-xs">Expiration</span></label>
+                            <div class="input-group">
+                              <input type="number" class="form-control" placeholder="MM" name="" value="09">
+                              <input type="number" class="form-control" placeholder="YY" name="" value="2099">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label data-toggle="tooltip" title="" data-original-title="3 digits code on back side of the card">CVV<i class="fa fa-question-circle"></i></label>
+                            <input type="number" class="form-control" required="" value="520">
+                          </div>
+                          <!-- form-group.// -->
+                        </div>
+                      </div>
+                      <!-- row.// -->
+                      <button id="end" class="subscribe btn btn-primary btn-block" type="button">Confirm</button>
+                    </form>
+                  </div>
+                  <!-- tab-pane.// -->
+                  <div class="tab-pane fade" id="nav-tab-paypal">
+                    <p>Paypal is easiest way to pay online</p>
+                    <p>
+                      <button type="button" class="btn btn-primary"><i class="fab fa-paypal"></i>Log in my Paypal</button>
+                    </p>
+                    <p><strong>Note:</strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                      tempor incididunt ut labore et dolore magna aliqua.</p>
+                  </div>
+                  <div class="tab-pane fade" id="nav-tab-bank">
+                    <p>Bank accaunt details</p>
+                    <dl class="param">
+                      <dt>BANK:</dt>
+                      <dd>THE WORLD BANK</dd>
+                    </dl>
+                    <dl class="param">
+                      <dt>Accaunt number:</dt>
+                      <dd>12345678912345</dd>
+                    </dl>
+                    <dl class="param">
+                      <dt>IBAN:</dt>
+                      <dd>123456789</dd>
+                    </dl>
+                    <p><strong>Note:</strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                      tempor incididunt ut labore et dolore magna aliqua.</p>
+                  </div>
+                  <!-- tab-pane.// -->
+                </div>
+                <!-- tab-content .// -->
+                
+              </div>
+              <!-- card-body.// -->
+            </article>
+            <!-- card.// -->
+            
+          </aside>
+          <!-- col.// -->
+          
+        </div>
+        <div id="done-form">
+        	<div class="order-sucess">
+        		<div class="order-success-img">
+        			<img src="images/paid/kisspng-pembroke-welsh-corgi-cardigan-welsh-corgi-sticker-corgis-because-im-sad-5badb105e50a67.8824204715381097019382.png">
+        		</div>
+        		<div class="order-success-text">Cảm ơn <span>Thanh</span> đã đặt hàng <i style="color: #F24783" class="fad fa-heart"></i></div>
+        		<div class="order-success-text-secondary">Bạn có thể kiểm tra tiến độ đơn hàng tại <a href="profile - Copy.html">đây</a></div>
+        	</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+//$("#profile-form").hide();
+$("#address-form").hide();
+$("#payment-form").hide();
+$("#done-form").hide();
+	
+$("#profile-link").click(function(){
+	$("#profile-form").show();
+	$("#address-form").hide();
+	$("#payment-form").hide();
+	$("li").removeClass("active");
+	$("#profile-link").addClass("active");
+});	
+$("#address-link").click(function(){
+	$("#profile-form").hide();
+	$("#address-form").show();
+	$("#payment-form").hide();
+	$("li").removeClass("active");
+	$("#address-link").addClass("active");
+});		
+$("#payment-link").click(function(){
+	$("#profile-form").hide();
+	$("#address-form").hide();
+	$("#payment-form").show();
+	$("li").removeClass("active");
+	$("#payment-link").addClass("active");
+});	
+	
+	
+$("#profile-done").click(function(){
+	$("#profile-link").addClass("done");
+	$("li").removeClass("active");
+	$("#address-link").addClass("active");
+	$("#profile-form").hide();
+	$("#address-form").show();
+	$("#payment-form").hide();
+});
+$("#address-done").click(function(){
+	$("#address-link").addClass("done");
+	$("li").removeClass("active");
+	$("#payment-link").addClass("active");
+	$("li").removeClass("active");
+	$("#sucess-link").addClass("active");
+	$("#profile-form").hide();
+	$("#address-form").hide();
+	$("#payment-form").show();
+});
+	
+$("#end").click(function(){
+	$("#sucess-link").addClass("done");
+	$("#payment-link").addClass("done");	
+	$("#profile-form").hide();
+	$("#address-form").hide();
+	$("#payment-form").hide();
+	$("#done-form").show();
+	
+});
+	
+</script>
+</html>

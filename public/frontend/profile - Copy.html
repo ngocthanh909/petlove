@@ -1,0 +1,311 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Tiến trình giao hàng</title>
+<!--Bootstrap, JQuery and Font-->
+<link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js">
+    </script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!--End Bootstrap and Font-->
+<!--User Define-->
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/all.css">
+<link rel="icon" href="images/favicon/favicon.ico">
+<style></style>
+</head>
+
+<body>
+<!--Navbar-->
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark sticky-top"><a href="index.html" class="navbar-brand"><img src="images/logo-petlove.svg" alt="petlove logo" class=""></a>
+  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse"> <span class="navbar-toggler-icon"></span> </button>
+  <!-- Collection of nav links, forms, and other content for toggling -->
+  <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+    <form class="navbar-form form-inline" onsubmit="return false">
+      <div class="input-group search-box">
+        <input type="text" id="search" class="form-control" placeholder="Tìm kiếm...">
+        <button id="searchbtn" class="input-group-addon"><i class="fal fa-search"></i></button>
+      </div>
+    </form>
+    <div class="navbar-nav ml-auto"> <a href="index.html" class="nav-item nav-link active"><i class="fa fa-home"></i><span>Trang chủ</span></a> <a href="collection.html" class="nav-item nav-link"><i class="fas fa-bags-shopping"></i><span>Gian hàng</span></a><a href="blog.html" class="nav-item nav-link"><i class="fas fa-book"></i><span>Blog và tin tức</span></a> <a href="cart.html" class="nav-item nav-link"><i class="fad fa-shopping-cart"></i><span>Giỏ hàng</span></a> <a href="profile.html" class="nav-item nav-link"><i class="fad fa-box-heart"></i><span>Yêu thích</span></a> <a href="about.html" class="nav-item nav-link"><i class="fas fa-info-circle"></i><span>Về chúng tôi</span></a>
+      <div class="nav-item dropdown"> <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><img src="images/hhoahi.jpg" class="avatar rounded-circle" alt="Avatar"> Thanh Hoa <strong class="caret"></strong></a>
+        <div class="dropdown-menu"> <a href="profile.html" class="dropdown-item"><i class="fal fa-address-card"></i> Hồ sơ</a> <a href="profile.html" class="dropdown-item"><i class="fal fa-truck"></i> Tiến độ giao hàng</a> <a href="profile.html" class="dropdown-item"><i class="fad fa-box-heart"></i> Yêu thích</a>
+          <div class="divider dropdown-divider"></div>
+          <a href="login.html" class="dropdown-item"><i class="fal fa-sign-out-alt"></i> Logout</a> </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- Ko có kết quả -->
+  <div class="modal fade" id="modalFalse">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title">Kết quả tìm kiếm</h5>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <p>Không có sản phẩm nào trùng khớp với từ khoá&nbsp;<span id="keywordfalse"></span></p>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+<!-- Có kết quả -->
+  <div class="modal fade" id="modalTrue">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title">Kết quả tìm kiếm</h5>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <p>Tìm thấy&nbsp;<span>1</span>&nbsp;kết quả cho từ khoá&nbsp;<span id="keywordtrue"></span></p>
+			<div class="cartpage-productlist">
+        			<div id="item" class="cartpage-productlist-item">
+        				<div class="cartpage-productlist-item-img">
+        					<img src="images/product/dog/royal canin/4372_ava.jpg">
+        				</div>
+        				<div class="cartpage-productlist-item-section">
+        					<div class="cartpage-productlist-item-section-name">
+        						<a href="html/sanpham/cho/sanpham1.html">Royal Canin Urinary Canine Dog 2kg - Dành cho chó bị sỏi thận</a>
+        					</div>
+        					<div class="cartpage-productlist-item-section-price">
+        						<span>100.000</span><span> VNĐ</span>
+        					</div>
+        				</div>
+        			</div>
+        			
+        		</div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+<script>
+  $(document).ready(function(){
+  $("#searchbtn").click(function(){
+	  var key = document.getElementById("search").value;
+	  if (key == "royal") {
+		  var keywordtrue = document.getElementById("keywordtrue").innerHTML = key;
+		  $("#modalTrue").modal();
+	  } else {
+		  var keywordfalse = document.getElementById("keywordfalse").innerHTML = key;
+		  $("#modalFalse").modal();
+	  }
+  });
+});
+</script>
+<!--Breadcrumb-->
+<div class="container">
+  <div id="tree">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
+      <li class="breadcrumb-item"><a class="active" href="profile.html">Tài khỏan</a></li>
+    </ul>
+  </div>
+</div>
+<!--Body Begin-->
+<div class="container">
+  <div class="row profile">
+    <div class="col-md-3 pl-0 pr-0">
+      <div class="profile-sidebar"> 
+        <!-- SIDEBAR USERPIC -->
+        <div class="profile-userpic"> <img src="images/hhoahi.jpg" class="img-responsive d-flex"  alt=""> </div>
+        <!-- END SIDEBAR USERPIC --> 
+        <!-- SIDEBAR USER TITLE -->
+        <div class="profile-usertitle">
+          <div class="profile-usertitle-name"> Thanh Hoa&nbsp; </div>
+          <div class="profile-usertitle-job"> Khách hàng thân thiết <i class="far fa-crown"></i></div>
+        </div>
+        <!-- END SIDEBAR USER TITLE --> 
+        <!-- SIDEBAR BUTTONS -->
+        <div class="profile-userbuttons">
+          <button type="button" class="btn btn-success btn-sm">Follow</button>
+          <button type="button" class="btn btn-danger btn-sm">Message</button>
+        </div>
+        <!-- END SIDEBAR BUTTONS --> 
+        <!-- SIDEBAR MENU -->
+        <div class="profile-usermenu">
+          <ul class="nav flex-column">
+            <li id="profile-link"> <a href="profile.html"><i class="fal fa-user"></i>Tài khoản </a> </li>
+            <li id="wishlist-link"> <a href="profile.html"> <em class="fal fa-heart"></em> Yêu thích </a></li>
+            <li  class="active"> <a href="profile - Copy.html"> <i class="fal fa-shipping-fast"></i> Đang giao hàng </a> </li>
+          </ul>
+        </div>
+        <!-- END MENU --> 
+      </div>
+    </div>
+    <div class="col-md-9 responsive-block-2 pl-0 pr-0 pl-3">
+      <div class="wrapper-content" id="wrapper-content">
+		 <div id="profile">
+          <div class="profile-title"><i class="fal fa-shipping-fast"></i> Tiến trình giao hàng </div>
+          <div class="profile-body">
+            <div class="profile-row">
+              <div class="row-title">B1. Chuẩn bị hàng: </div>
+              <div class="row-content">
+                Đã xong <i class="far fa-check-circle" style="color: green"></i>
+              </div>
+            </div>
+            <div class="profile-row">
+              <div class="row-title">B2: Giao hàng cho đơn vị vận chuyển:</div>
+              <div class="row-content">
+                Đã xong <i class="far fa-check-circle" style="color: green"></i>
+              </div>
+            </div>
+            <div class="profile-row">
+              <div class="row-title">B3: Chuyển hàng:</div>
+              <div class="row-content">
+                Chưa xong <i class="far fa-times-circle" style="color: red"></i>
+              </div>
+            </div>
+            <div class="profile-row">
+              <div class="row-title">B5: Giao hàng cho Shipper: </div>
+              <div class="row-content">
+                Chưa xong <i class="far fa-times-circle" style="color: red"></i>
+              </div>
+            </div>
+            <div class="profile-row">
+              <div class="row-title">Thời gian giao hàng dự kiến: </div>
+              <div class="row-content">
+                5/7/2020
+              </div>
+            </div>
+          </div>
+          <center>
+          </center>
+        </div>  
+      </div>
+    </div>
+  </div>
+</div>
+	<!--===============FOOTER==============-->
+<footer id="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="footer-info">
+          <div class="footer-info-logo"> <img src="images/logo-petlove.svg"> </div>
+          <div class="footer-info-text">
+            <p><a href="#"><i class="far fa-map-marked"></i> Địa chỉ: Nguyễn Minh Châu, Hòa Quý, Ngũ Hành Sơn, Đà Nẵng</a></p>
+            <p><a href="mailto:dnthanh.19it3@sict.udn.vn"><i class="fal fa-envelope-open-text"></i> Email: dnthanh.19it3@sict.udn.vn</a></p>
+            <p><a href="tel:0347539143"><i class="far fa-phone"></i> Hotline: 0347539143</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="footer-useful">
+          <div class="footer-useful-title">Liên kết nhanh</div>
+          <div class="row">
+            <div class="col-6">
+              <div class="footer-useful-link">
+                <p><a href="index.html">Trang chủ</a></p>
+                <p><a href="collection.html">Gian hàng</a></p>
+                <p><a href="cart">Giỏ hàng</a></p>
+                <p><a href="blog.html">Blog</a></p>
+
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="footer-useful-link">
+                               <p><a href="about.html">Về chúng tôi</a></p>
+                <p><a href="about.html">Chính sách pháp lý</a></p>
+                <p><a href="#">Trở thành đối tác</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="footer-news">
+          <div class="footer-news-title">Đăng kí nhận tin tức khuyến mãi từ Petlove</div>
+          <div class="footer-news-text">
+            <p>Nhận email thông báo về tin tức khuyến mãi của Petlove. Hoàn toàn miễn phí</p>
+          </div>
+          <div style="margin-top: 10px">
+            <input type="email">
+            <input type="button" value="Đăng kí" style="color: #fff; background: #B224EF; border: none">
+          </div>
+          <div class="footer-social" style="margin-top: 10px;">
+            <p>Theo dõi chúng tôi trên</p>
+            <a href="http//facebookcom/ngocthanh909"><img src="images/social_icon/icon_facebook.svg" class="social-icon"></a> <a href="#"><img src="images/social_icon/icon_youtube.svg" class="social-icon"></a> <a href="http//instagram.com/ngocthanh909"><img src="images/social_icon/icon_instagram.svg" class="social-icon"></a> </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <center>
+    Copyright 2020 by ngocthanh909
+  </center>
+</footer>
+<button onclick="topFunction()" id="myBtn" title="Go to top"><i class="far fa-arrow-to-top"></i>&nbsp;Về đầu trang</button>
+</body>
+	<script>
+//Get the button
+var mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+</script>
+<script>
+//Get the button
+var mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+</script>
+</html>

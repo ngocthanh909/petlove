@@ -1,166 +1,32 @@
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container">
-        <a class="navbar-brand" href="{{ route('user.index') }}"><img src="{{ asset('frontend/images/header-logo.svg') }}"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <div class="nav-wrapper">
-                <ul class="navbar-nav mr-auto">
-                    <div class="tab-nav-desktop">
-                        <!--Nav For Desktop-->
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{ route('user.index') }}">trang chủ <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" onclick="showCategories()">danh mục sản phẩm</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('user.blog') }}">blog và tin tức</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">liên hệ</a>
-                        </li>
-                    </div>
-                    <!--Nav For Mobile-->
-                    <div class="tab-nav-mobile">
-                        <div id="tab-nav" class="tabcontent">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">trang chủ <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">danh mục sản phẩm</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">blog và tin tức</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">liên hệ</a>
-                            </li>
-                        </div>
-                        <div id="tab-search" class="tabcontent">
-                            <input class="form-control" type="text" placeholder="Nhập vào sản phẩm bạn cần tìm">
-                        </div>
-                        
-                        <div id="tab-fav" class="tabcontent">
-                            Danh sách trống
-                        </div>
-
-                        <div id="tab-carts" class="tabcontent">
-                            <div class="container-fluid" style="background-color: white; border-radius: 25px; margin-top: 20px;">
-                                <table width="100%">
-                                    <tr>
-                                      <td rowspan="2"><img src="https://www.petcity.vn/media/product/4458_dc8eeacd86a7f0c396b13b01c6c2ec40.jpg" height="40px"></td>
-                                      <td>Thức ăn Pedigree Adlut...</td>
-                                      <td class="price">179.000đ</td>
-                                    </tr>
-                                    <tr>
-                                      <td class="simple-menu-des">Phân loại hàng: 40</td>
-                                      <td style="text-align: right;">Xóa</td>
-                                    </tr>
-                                    <td><div class="spacer"></div></td>
-                                    <tr>
-                                        <td rowspan="2"><img src="https://www.petcity.vn/media/product/4458_dc8eeacd86a7f0c396b13b01c6c2ec40.jpg" height="40px"></td>
-                                        <td>Thức ăn Pedigree Adlut...</td>
-                                        <td class="price">179.000đ</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="simple-menu-des">Phân loại hàng: 40</td>
-                                        <td style="text-align: right;">Xóa</td>
-                                    </tr>
-    
-                                </table>
-                            </div>
-
-                        </div>
-                        <div id="tab-users" class="tabcontent">
-                            <div class="user-card shadow p-3">
-                                <h5>Chào bạn: Phan Văn Quốc Tuấn</h5>
-                            </div>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#"><i class="fas fa-user-cog"></i> cài đặt tài khoản</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> đăng xuất</a>
-                            </li>
-                        </div>
-                    </div>
-                </ul>
-            </div>
-            <!--Nav Buttons For Handling Events-->
-            <div class="nav-controller">
-                <div class="hid-on--desktop">
-                    <button class="nav-button nav-button--wide" onclick="openNav(event,'tab-nav')">
-                        <span class="fas fa-network-wired"></span>
-                    </button>
-                </div>
-                <button class="nav-button nav-button--wide" onclick="openNav(event,'tab-search')">
-                 
-                    <span class="fas fa-search"></span>
-                    <span class="count hid-on--mobile" data-toggle="modal" data-target="#exampleModal">Tìm kiếm</span>
-                </button>
-                <span style="color: white;" class="hid-on--mobile">|</span>
-                <button class="nav-button nav-button--wide" onclick="openNav(event,'tab-fav')">
-                    <span class="fa fa-bell"></span>
-                    <span class="count">0</span>
-                </button>
-
-                <button class="nav-button nav-button--wide" style="margin-right: 10px;" onclick="openNav(event,'tab-carts')">
-                    
-                    <span class="fas fa-shopping-cart"></span>
-                    <span class="count">0</span>
-                </button>
-
-                <div class="nav-button avatar" onclick="openNav(event,'tab-users')"></div>
-                <!--End Nav Buttons For Handling Events-->
-
-
-                <!--Popovers-->
-                <!--Popovers Favorites For Desktop-->
-                <div class="simple-menu" id="tab-fav-desktop" style="transform: translateX(-40px);">
-                    Test
-                </div>
-                <!--Popovers Carts For Desktop-->
-                <div class="simple-menu shadow-sm p-3 mb-5" id="tab-carts-desktop" style="transform: translateX(40px); width: 350px;">
-                    <span class="simple-menu-header">Sản phẩm mới thêm</span>
-                    <hr>
-                    <table width="100%">
-                        <tr>
-                          <td rowspan="2"><img src="https://www.petcity.vn/media/product/4458_dc8eeacd86a7f0c396b13b01c6c2ec40.jpg" height="40px"></td>
-                          <td>Thức ăn Pedigree Adlut...</td>
-                          <td class="price">179.000đ</td>
-                        </tr>
-                        <tr>
-                          <td class="simple-menu-des">Phân loại hàng: 40</td>
-                          <td style="text-align: right;">Xóa</td>
-                        </tr>
-                        <td><div class="spacer"></div></td>
-                        <tr>
-                            <td rowspan="2"><img src="https://www.petcity.vn/media/product/4458_dc8eeacd86a7f0c396b13b01c6c2ec40.jpg" height="40px"></td>
-                            <td>Thức ăn Pedigree Adlut...</td>
-                            <td class="price">179.000đ</td>
-                        </tr>
-                        <tr>
-                            <td class="simple-menu-des">Phân loại hàng: 40</td>
-                            <td style="text-align: right;">Xóa</td>
-                        </tr>
-                    </table>
-                    <button class="btn btn-primary" style="float: right;">Xem giỏ hàng</button>
-                </div>
-                <!--Popovers User Section For Desktop-->
-                <div class="simple-menu shadow-sm" id="tab-users-desktop" style="transform: translateX(130px); width: 300px;">
-                    <div class="vertical-menu ">
-                        <a class="active">Chào bạn: Phan Văn Quốc Tuấn</a>
-                        <a href="#"><i class="fas fa-address-card"></i> Tài khoản của tôi</a>
-                        <a href="#"><i class="fas fa-shopping-cart"></i> Đơn mua</a>
-                        <a href="#"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-                      </div>
-                </div>
-                <!--End Popovers-->
-
-            </div>
-
-        </div>
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark sticky-top"><a href="{{ route('user.index') }}" class="navbar-brand"><img
+    src="{{ asset('frontend/images/logo-petlove.svg') }}" alt="petlove logo" class=""></a>
+<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse"> <span
+    class="navbar-toggler-icon"></span> </button>
+<!-- Collection of nav links, forms, and other content for toggling -->
+<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+  <form class="navbar-form form-inline" onsubmit="return false">
+    <div class="input-group search-box">
+      <input type="text" id="search" class="form-control" placeholder="Tìm kiếm...">
+      <button id="searchbtn" class="input-group-addon"><i class="fal fa-search"></i></button>
     </div>
+  </form>
+  <div class="navbar-nav ml-auto"> <a href="{{ route('user.index') }}" class="nav-item nav-link active"><i
+        class="fa fa-home"></i><span>Trang chủ</span></a> <a href="{{ route('user.collection', ['tendanhmuc'=>'all']) }}" class="nav-item nav-link"><i
+        class="fas fa-bags-shopping"></i><span>Gian hàng</span></a><a href="{{ route('user.blog') }}" class="nav-item nav-link"><i
+        class="fas fa-book"></i><span>Blog và tin tức</span></a> <a href="{{ route('user.carts') }}" class="nav-item nav-link"><i
+        class="fad fa-shopping-cart"></i><span>Giỏ hàng</span></a> <a href="{{ route('user.favorite') }}"
+      class="nav-item nav-link"><i class="fad fa-box-heart"></i><span>Yêu thích</span></a> <a href="{{ route('user.about') }}"
+      class="nav-item nav-link"><i class="fas fa-info-circle"></i><span>Về chúng tôi</span></a>
+    <div class="nav-item dropdown"> <a href="#" data-toggle="dropdown"
+        class="nav-item nav-link dropdown-toggle user-action"><img src="{{ asset('frontend/images/hhoahi.jpg') }}"
+          class="avatar rounded-circle" alt="Avatar"> Thanh Hoa <strong class="caret"></strong></a>
+      <div class="dropdown-menu"> <a href="{{ route('user.settings') }}" class="dropdown-item"><i class="fal fa-address-card"></i>
+          Hồ sơ</a> <a href="{{ route('user.delivery') }}" class="dropdown-item"><i class="fal fa-truck"></i> Tiến độ giao hàng</a>
+        <a href="{{ route('user.favorite') }}" class="dropdown-item"><i class="fad fa-box-heart"></i> Yêu thích</a>
+        <div class="divider dropdown-divider"></div>
+        <a href="login.html" class="dropdown-item"><i class="fal fa-sign-out-alt"></i> Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
 </nav>

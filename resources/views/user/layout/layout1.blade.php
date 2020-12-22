@@ -1,50 +1,144 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-    <head>
-        <title>Petlove</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 
-        <script src="{{ asset('frontend/script.js') }}"></script>
-        <link rel="stylesheet" href="{{ asset('frontend/style.css') }}">
-    </head>
-    <body>
-        <!--Search Bar For Desktop-->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content" style="margin-top: 120px;">
-                <input class="form-control" placeholder="Nhập vào sản phẩm bạn cần tìm">
+<head>
+  <meta charset="utf-8">
+  <title>Petlove - Shop thú cưng trực tuyến</title>
+  <!--CSS-->
+  <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.css')}}">
+  <link rel="stylesheet" href="{{ asset('frontend/css/styles.css')}} ">
+  <link rel="stylesheet" href="{{ asset('frontend/css/all.css') }}">
+  <link rel="stylesheet" href="{{ asset('frontend/css/flaticon.css')}}">
+  <!--Script-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="{{ asset('frontend/js/bootstrap.js') }}"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" href="{{ asset('frontend/images/favicon/favicon.ico') }}">
+  <!-- End User Define-->
+  <style></style>
+  @stack('css')
+</head>
+
+<body>
+  <!--Navbar-->
+  @include('user.partials.navbar');
+  <!--Model---->
+  @stack('model')
+  <!-- Ko có kết quả -->
+  <div class="modal fade" id="modalFalse">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title">Kết quả tìm kiếm</h5>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <p>Không có sản phẩm nào trùng khớp với từ khoá&nbsp;<span id="keywordfalse"></span></p>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Có kết quả -->
+  <div class="modal fade" id="modalTrue">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title">Kết quả tìm kiếm</h5>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <p>Tìm thấy&nbsp;<span>1</span>&nbsp;kết quả cho từ khoá&nbsp;<span id="keywordtrue"></span></p>
+          <div class="cartpage-productlist">
+            <div id="item" class="cartpage-productlist-item">
+              <div class="cartpage-productlist-item-img">
+                <img src="{{ asset('frontend/images/product/dog/royal canin/4372_ava.jpg') }}">
+              </div>
+              <div class="cartpage-productlist-item-section">
+                <div class="cartpage-productlist-item-section-name">
+                  <a href="html/sanpham/cho/sanpham1.html">Royal Canin Urinary Canine Dog 2kg - Dành cho chó bị sỏi
+                    thận</a>
+                </div>
+                <div class="cartpage-productlist-item-section-price">
+                  <span>100.000</span><span> VNĐ</span>
+                </div>
               </div>
             </div>
-        </div>
-        <!--End Search Bar For Desktop-->
-        <div class="level2" id="categoriesExpand" style="margin-top: 55px;">
-            <div class="container">
-                <div class="dropdown">
-                    @foreach ($categories as $category)
-                        @if ($category->ParentID == 0)
-                            <a href="{{ route('user.browse', $category->Slug) }}"><h5 class="level2-root">{{$category->Name}}</h5></a>
-                        @endif
-                    @endforeach
-                </div>
-            </div> 
+
+          </div>
         </div>
 
-        <!--Navbar-->
-        @include('user.partials.navbar')
-        <!--EndNavbar-->
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+        </div>
 
-        <!--Content-->
-        @yield('content')
-        <!--EndContent-->
+      </div>
+    </div>
+  </div>
 
-    </body>
+  <script>
+    $(document).ready(function () {
+      $("#searchbtn").click(function () {
+        var key = document.getElementById("search").value;
+        if (key == "royal") {
+          var keywordtrue = document.getElementById("keywordtrue").innerHTML = key;
+          $("#modalTrue").modal();
+        } else {
+          var keywordfalse = document.getElementById("keywordfalse").innerHTML = key;
+          $("#modalFalse").modal();
+        }
+      });
+    });
+  </script>
+    <!--Breadcrumb-->
+    @yield('breadcrumb')
+    @yield('content');
+  <!--===============FOOTER==============-->
+  @include('user.partials.footer');
+  <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="far fa-arrow-to-top"></i>&nbsp;Về đầu
+    trang</button>
+</body>
+
+
+@stack('scripts')
+
+
+
+<script>
+  //Get the button
+  var mybutton = document.getElementById("myBtn");
+
+  // When the user scrolls down 20px from the top of the document, show the button
+  window.onscroll = function () { scrollFunction() };
+
+  function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      mybutton.style.display = "block";
+    } else {
+      mybutton.style.display = "none";
+    }
+  }
+
+  // When the user clicks on the button, scroll to the top of the document
+  function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+</script>
 
 </html>
