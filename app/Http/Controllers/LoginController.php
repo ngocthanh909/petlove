@@ -21,6 +21,12 @@ class LoginController extends Controller
     public function redirect(){
         return Socialite::driver('facebook')->redirect();
     }
+    /*
+
+        userData = ID NAME
+
+
+    */
     public function callback(){
         $user = Socialite::driver('facebook')->user();
         var_dump($user);

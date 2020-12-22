@@ -16,9 +16,11 @@ use App\Http\Controllers\UserController as us;
 |
 */
 // Route::get('/', [ad::class, 'index']);
-Route::get('/auth/redirect', [login::class, 'redirect'])->name('login.facebook');
-Route::get('/auth/callback', [login::class, 'callback']);
 
+//USER
+Route::get('/auth/redirect', [login::class, 'redirect'])->name('login.facebook');
+Route::get('/auth/callback', [login::class, 'callback'])->name('login.callback');
+//ADMIN
 Route::get('admin/login', [login::class, 'adminLoginIndex'])->name('admin.login');
 Route::post('admin/login', [login::class, 'authAdmin'])->name('admin.login.auth');
 Route::get('admin/logout', [login::class, 'adminLogout'])->name('admin.logout');
