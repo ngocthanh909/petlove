@@ -55,9 +55,9 @@
                         <td>{{$product->Price}}</td>
                         <td>@if($product->Status == 1)
                             Có
-                        @else
+                            @else
                             Không
-                        @endif</td>
+                            @endif</td>
                         <td>{{$product->Rate}}</td>
                         <td>{{$product->Time}}</td>
                         <td>
@@ -145,6 +145,18 @@
                         <div class="col-8">
                             <textarea id="Description" name="Description" cols="40" rows="10" class="form-control"></textarea>
                         </div>
+                        <script>
+                            ClassicEditor
+                                .create(document.querySelector('#Description'), {
+                                    ckfinder: {
+                                        // Use named route for CKFinder connector entry point
+                                        uploadUrl: '{{ route('ckfinder_connector') }}?command=QuickUpload&type=Files'
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error(error);
+                                });
+                        </script>
                     </div>
                     <div class="form-group row">
                         <label for="Status" class="col-4 col-form-label">Giảm giá</label>
@@ -243,8 +255,22 @@
                     <div class="form-group row">
                         <label for="Description" class="col-4 col-form-label">Mô tả sản phẩm</label>
                         <div class="col-8">
-                            <textarea id="Description" name="Description" cols="40" rows="10" class="form-control"></textarea>
+                            <textarea id="Description2" name="Description" cols="40" rows="10" class="form-control"></textarea>
                         </div>
+                        <script>
+                            ClassicEditor
+                                .create(document.querySelector('#Description2'), {
+                                    ckfinder: {
+                                        // Use named route for CKFinder connector entry point
+                                        uploadUrl: '{{ route('ckfinder_connector') }}?command=QuickUpload&type=Files'
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error(error);
+                                });
+                        </script>
+                        <script>
+                        </script>
                     </div>
                     <div class="form-group row">
                         <label for="Status" class="col-4 col-form-label">Giảm giá</label>
@@ -302,7 +328,7 @@
         modal.find('#Slug').val(button.data('slug'));
         modal.find('#Price').val(button.data('price'));
         modal.find('#Sku').val(button.data('sku'));
-        modal.find('#Description').val(button.data('description'));
+        modal.find('#Description2').val(button.data('description'));
         modal.find('#Status').val(button.data('status'));
         modal.find('#OriginalPrice').val(button.data('originalprice'));
         modal.find('#Rate').val(button.data('rate'));

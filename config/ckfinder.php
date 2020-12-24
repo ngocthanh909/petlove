@@ -22,15 +22,16 @@
 
 $config = array();
 
-$config['loadRoutes'] = false;
+$config['loadRoutes'] = true;
 
-$config['authentication'] = '\App\Http\Middleware\CustomCKFinderAuth';
+// $config['authentication'] = '\App\Http\Middleware\CustomCKFinderAuth';
+$config['authentication'] = function() {return true;};
 
 /*============================ License Key ============================================*/
 // http://docs.cksource.com/ckfinder3-php/configuration.html#configuration_options_licenseKey
 
-$config['licenseName'] = '';
-$config['licenseKey']  = '';
+$config['licenseName'] = 'localhost';
+$config['licenseKey']  = 'QTUTC1VHAXJGUBV8H7YY41B9J3HKR';
 
 /*============================ CKFinder Internal Directory ============================*/
 // http://docs.cksource.com/ckfinder3-php/configuration.html#configuration_options_privateDir
@@ -153,7 +154,7 @@ $config['forceAscii'] = false;
 $config['xSendfile'] = false;
 
 // http://docs.cksource.com/ckfinder3-php/configuration.html#configuration_options_debug
-$config['debug'] = false;
+$config['debug'] = true;
 
 /*==================================== Plugins ========================================*/
 // http://docs.cksource.com/ckfinder3-php/configuration.html#configuration_options_plugins

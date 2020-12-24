@@ -16,6 +16,8 @@
     <script src="{{asset('assets\admin\js\scripts.js')}}"></script>
     <script src="{{asset('assets\admin\js\slug.js')}}"></script>
     <script src="{{asset('assets\admin\js\table-renderer.js')}}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/24.0.0/classic/ckeditor.js"></script>
+    @include('ckfinder::setup')
 </head>
 <body>
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">

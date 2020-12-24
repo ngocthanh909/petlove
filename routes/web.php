@@ -60,6 +60,15 @@ Route::prefix('admin')->middleware('adminAuth')->group(function () {
         Route::post('/update', [ad::class, 'updateCms'])->name('admin.cms.update');
         Route::get('/delete', [ad::class, 'deleteCms'])->name('admin.cms.delete');       
     });
+    Route::prefix('/adminman')->group(function () {
+        Route::get('/', [ad::class, 'adminManagerIndex'])->name('admin.adminman');
+        Route::post('/update/role', [ad::class, 'adminUpdateRole'])->name('admin.adminman.updateRole');
+        Route::post('/update/active', [ad::class, 'adminUpdateActive'])->name('admin.adminman.updateActive');
+        Route::post('/update/create', [ad::class, 'adminCreate'])->name('admin.adminman.create');
+        // Route::post('/create', [ad::class, 'createCms'])->name('admin.cms.create');
+        // Route::post('/update', [ad::class, 'updateCms'])->name('admin.cms.update');
+        // Route::get('/delete', [ad::class, 'deleteCms'])->name('admin.cms.delete');       
+    });
 
 });
 

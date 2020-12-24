@@ -25,7 +25,6 @@ class LoginController extends Controller
 
         userData = ID NAME
 
-
     */
     public function callback(){
         $user = Socialite::driver('facebook')->user();

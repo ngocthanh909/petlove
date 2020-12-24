@@ -15,10 +15,7 @@ class CustomCKFinderAuth
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
-    {   
-        config(['ckfinder.authentication' => function() {
-            return true;
-        }]);
+    {
         return $next($request);
     }
 }
