@@ -18,7 +18,7 @@
     <div class="dpd-block1">
       <div class="row">
         <div class="col-md-7">
-          <div class="dpd-block1-img" id="img-container"> <img id="myImg" src="{{ asset('frontend/images/product/dog/royal canin/4372_ava.jpg') }}" alt="Royal Canin Urinary Canine Dog 2kg - Dành cho chó bị sỏi thận"> </div>
+          <div class="dpd-block1-img" id="img-container"> <img id="myImg" src="{{url($product->Avatar)}}" alt="{{$product->Name}}"> </div>
          <!-- The Modal -->
   <div id="img-modal" class="modal1">
     <span class="close1" onClick="closemodal()">&times;</span>
