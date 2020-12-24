@@ -63,15 +63,12 @@
         <!--For Cats-->
         <div class="cartpage-block mt-3">
           <div class="dogcat-sidebar-categories mt-0">
-            <div class="dogcat-sidebar-title"><a href="#" data-toggle="collapse" data-target="#demo1" class="navbar-toggler collapse-icons"><i class="fas fa-cat"></i> SẢN PHẨM CHO MÈO</a></div>
+            <div class="dogcat-sidebar-title"><a href="#" data-toggle="collapse" data-target="#demo1" class="navbar-toggler collapse-icons"><i class="fas fa-cat"></i> Lọc theo thương hiệu</a></div>
             <div id="demo1" class="dogcat-sidebar-subcategories data-toggle collapse in show" aria-expanded="true">
               <ul>
-                <li><a href="#">Thức ăn</a></li>
-                <li><a href="#">Quần áo</a></li>
-                <li><a href="#">Phụ kiện</a></li>
-                <li><a href="#">Nhà ở</a></li>
-                <li><a href="#">Đồ cho ăn</a></li>
-                <li><a href="#">Đồ vệ sinh</a></li>
+                <li><a href="#">Monge (Italy)</a></li>
+                <li><a href="#">MORANDO (Italy)</a></li>
+                <li><a href="#">Royal Canin (Pháp)</a></li>
               </ul>
             </div>
           </div>
@@ -116,10 +113,20 @@
         <div class="dogcat-main">
           <div class="dogcat-main-head">
             <div class="dogcat-main-head-1">
-              <div class="dogcat-main-head-title"> DANH MỤC CHO CHÓ / THỨC ĂN </div>
+             
               <div class="dogcat-main-head-chosedisplay"> 
                 <!--            	<span>Kiểu hiển thị</span> <a href="#"><i class="fal fa-list-alt"></i> Lưới</a> <a href="#"><i class="far fa-th"></i> Danh sách</a> --> 
-                Kết quả: 1/3 </div>
+         
+  
+
+                <select name="cars" id="cars" style="margin-left: 10px">
+                  <option value="volvo">Sắp xếp theo</option>
+                  <option value="saab">Giá tăng dần</option>
+                  <option value="mercedes">Giá giảm dần</option>
+                  <option value="audi">Đánh giá</option>
+                </select>
+              
+              </div>
             </div>
             <div class="dogcat-main-head-2">
               <ul>
