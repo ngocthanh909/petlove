@@ -7,12 +7,16 @@
   <!--CSS-->
   <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.css')}}">
   <link rel="stylesheet" href="{{ asset('frontend/css/styles.css')}} ">
+  <link rel="stylesheet" href="{{ asset('frontend/css/navbar.css')}} ">
   <link rel="stylesheet" href="{{ asset('frontend/css/all.css') }}">
   <link rel="stylesheet" href="{{ asset('frontend/css/flaticon.css')}}">
+  <link rel="stylesheet" href="{{ asset('frontend/css/sidebar.css')}}">
   <!--Script-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="{{ asset('frontend/js/bootstrap.js') }}"></script>
+  <script src="{{ asset('frontend/js/navbar.js') }}"></script>
+
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="icon" href="{{ asset('frontend/images/favicon/favicon.ico') }}">
   <!-- End User Define-->
@@ -21,8 +25,13 @@
 </head>
 
 <body>
+
   <!--Navbar-->
   @include('user.partials.navbar');
+
+  <!--Sidebar-->
+  @include('user.partials.sidebar');
+  
   <!--Model---->
   @stack('model')
   <!-- Ko có kết quả -->
@@ -105,6 +114,8 @@
       });
     });
   </script>
+
+
     <!--Breadcrumb-->
     @yield('breadcrumb')
     @yield('content');
@@ -139,6 +150,55 @@
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }
+
+
 </script>
 
+
+<script type="text/javascript">
+  $(document).ready(function () {
+      $("#sidebar").mCustomScrollbar({
+          theme: "minimal"
+      });
+
+      $('#dismiss, .overlay').on('click', function () {
+          $('#sidebar').removeClass('active');
+          $('.overlay').removeClass('active');
+      });
+
+      $('#sidebarCollapse').on('click', function () {
+          $('#sidebar').addClass('active');
+          $('.overlay').addClass('active');
+          $('.collapse.in').toggleClass('in');
+          $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+      });
+  });
+</script>
+
+<script>
+  function openSidebar() {
+    document.getElementById("mySidenav").style.width = "250px";
+  }
+  
+  function closeSidebar() {
+    document.getElementById("mySidenav").style.width = "0";
+  }
+
+  var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+  </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 </html>

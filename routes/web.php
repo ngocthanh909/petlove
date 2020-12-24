@@ -88,6 +88,11 @@ Route::prefix('/')->group(function() {
 });
 
 
+
+Route::get('/crawl', [us::class, 'petCityCrawler']);
+Route::get('/test', [us::class, 'testSaveImage']);
+Route::post('/crawl', [us::class, 'petCityCrawlerHandle'])->name('crawl.post');
+
 Route::prefix('/user')->group(function() {
     Route::get('/favorite', [us::class, 'profileFavorite'])->name('user.favorite');
     Route::get('/profile', [us::class, 'profileSettings'])->name('user.settings');

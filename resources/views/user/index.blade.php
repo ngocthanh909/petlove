@@ -80,73 +80,48 @@
         <h5>Sản phẩm </h5>
         <h5><b>Mới</b></h5>
       </div>
-      <div id="newproduct-carousel" class="carousel slide" data-ride="carousel">
+      {{-- <div id="newproduct-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
+          @foreach ($getLastestProduct as $lastestProduct)
+
+       
           <div class="carousel-item active">
             <div class="row pl-0 pr-0">
               <div class="col-md-6">
                 <div class="new-body">
-                  <div class="new-body-picture"> <img src="{{ asset('frontend/images/product/product0.jpg') }}"> </div>
+                  <div class="new-body-picture"> <img src="{{$getLastestProduct['Avatar']}}"> </div>
                   <div class="new-body-section">
-                    <div class="new-section-title"> <a href="html/sanpham/cho/sanpham1.html">Bánh thưởng cho chó chăm
-                        sóc răng miệng Jerry Stick</a> </div>
-                    <div class="new-section-price"> 95.000 VNĐ </div>
+                    <div class="new-section-title"> <a href="{{ route('user.product', ['tensanpham'=> $lastestProduct['Slug']]) }}">{{$lastestProduct['Name']}}</a> </div>
+                    <div class="new-section-price"> {{$lastestProduct['Price']}} </div>
                     <div class="new-section-detail"> Bánh thưởng cho chó chăm sóc răng miệng Best Bone Dental Snack phù
                       hợp với tất cả các giống chó. </div>
                     <div class="new-section-countdown"> </div>
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="row pl-0 pr-0">
               <div class="col-md-6">
                 <div class="new-body">
-                  <div class="new-body-picture"> <img src="{{ asset('frontend/images/product/product1.jpg') }}"> </div>
+                  <div class="new-body-picture"> <img src="{{$getLastestProduct['Avatar']}}"> </div>
                   <div class="new-body-section">
-                    <div class="new-section-title"> <a href="html/sanpham/cho/sanpham1.html">Thức ăn khô cho chó 8 tuổi
-                        ANF Organic Lamb</a> </div>
-                    <div class="new-section-price"> 300.000 VNĐ </div>
-                    <div class="new-section-detail"> Thức ăn cho chó ANF Organic Lamb là thức ăn dành riêng cho các
-                      giống chó từ 3 tháng tuổi trở lên. </div>
+                    <div class="new-section-title"> <a href="{{ route('user.product', ['tensanpham'=> $lastestProduct['Slug']]) }}">{{$lastestProduct['Name']}}</a> </div>
+                    <div class="new-section-price"> {{$lastestProduct['Price']}} </div>
+                    <div class="new-section-detail"> Bánh thưởng cho chó chăm sóc răng miệng Best Bone Dental Snack phù
+                      hợp với tất cả các giống chó. </div>
                     <div class="new-section-countdown"> </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="carousel-item">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="new-body">
-                  <div class="new-body-picture"> <img src="{{ asset('frontend/images/product/product2.jpg') }}"> </div>
-                  <div class="new-body-section">
-                    <div class="new-section-title"> <a href="html/sanpham/cho/sanpham1.html">Thức ăn cho chó con Josera
-                        Josidog Family</a> </div>
-                    <div class="new-section-price"> 650.000 VNĐ </div>
-                    <div class="new-section-detail"> Thức ăn cho chó Josera Josidog Family cho chó mang thai, cho con bú
-                      và đang phát triển. </div>
-                    <div class="new-section-countdown"> </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="new-body">
-                  <div class="new-body-picture"> <img src="{{ asset('frontend/images/product/product3.jpg') }}"> </div>
-                  <div class="new-body-section">
-                    <div class="new-section-title"> <a href="html/sanpham/cho/sanpham1.html">Thức ăn cho mèo Anh lông
-                        ngắn Catidea British Shorthair</a> </div>
-                    <div class="new-section-price"> 1.550.000 VNĐ </div>
-                    <div class="new-section-detail"> Thức ăn cho mèo Anh lông ngắn Catidea British Shorthair là thức ăn
-                      dành riêng cho giống mèo anh lông ngắn mới cai sữa và mèo trưởng thành. </div>
-                    <div class="new-section-countdown"> </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          @endforeach
+     
         </div>
         <p style="text-align: right"> <a href="#newproduct-carousel" role="button" data-slide="prev"><span
               class="next-icon"><i class="fas fa-arrow-left"></i></span></a> <a href="#newproduct-carousel"
             role="button" data-slide="next"><span class="next-icon"><i class="fas fa-arrow-right"></i></span></a> </p>
-      </div>
+      </div> --}}
     </div>
   </div>
   <!--================== saleoffF AND TOP PRODUCT ==================-->
@@ -158,109 +133,22 @@
           <div class="saleoff-title">
             <h5>Sản phẩm <b>giảm giá</b></h5>
           </div>
+
+          
           <div class="row test-overflow">
+            @foreach ($products as $product)
             <div class="col-md-3 col-6">
               <div class="saleoff-body">
-                <div class="saleoff-body-picture"> <img src="{{ asset('frontend/images/product/product 20.jpg') }}"> </div>
+                <div class="saleoff-body-picture"> <img src="{{$product->Avatar}}" style="height: 87px ; width: 87px"> </div>
                 <div class="saleoff-body-section">
-                  <div class="saleoff-section-title"><a href="html/sanpham/cho/sanpham1.html">Máy tự động hẹn giờ cho
-                      Pet ăn</a></div>
+                  <div class="saleoff-section-title" style="overflow: hidden;"><a href="html/sanpham/cho/sanpham1.html" style="  white-space: nowrap;  overflow: hidden; text-overflow: ellipsis;">{{$product->Name}}</a></div>
                   <div class="saleoff-section-price"><span class="old-price">350.000 VND</span><span
                       class="new-price">350.000 VND</span></div>
                 </div>
-                <span class="badge-sale">Giảm giá</span>
+                <span class="badge-sale">Giảm giá {{$product->Rate}} %</span>
               </div>
             </div>
-            <!--          ==============================-->
-            <div class="col-md-3 col-6">
-              <div class="saleoff-body">
-                <div class="saleoff-body-picture"> <img src="{{ asset('frontend/images/product/product 21.jpg') }}"> </div>
-                <div class="saleoff-body-section">
-                  <div class="saleoff-section-title"><a href="html/sanpham/cho/sanpham1.html">Đĩa đựng thức ăn chó
-                      mèo</a></div>
-                  <div class="saleoff-section-price"><span class="old-price">350.000 VND</span><span
-                      class="new-price">350.000 VND</span></div>
-                </div>
-                <span class="badge-sale">Giảm giá</span>
-              </div>
-            </div>
-            <!--          ==============================-->
-            <div class="col-md-3 col-6">
-              <div class="saleoff-body">
-                <div class="saleoff-body-picture"> <img src="{{ asset('frontend/images/product/product 22.jpg') }}"> </div>
-                <div class="saleoff-body-section">
-                  <div class="saleoff-section-title"><a href="html/sanpham/cho/sanpham1.html">Snack Xương Canxi ORGO cho
-                      Chó 90gr</a></div>
-                  <div class="saleoff-section-price"><span class="old-price">350.000 VND</span><span
-                      class="new-price">350.000 VND</span></div>
-                </div>
-                <span class="badge-sale">Giảm giá</span>
-              </div>
-            </div>
-            <!--          ==============================-->
-            <div class="col-md-3 col-6">
-              <div class="saleoff-body">
-                <div class="saleoff-body-picture"> <img src="{{ asset('frontend/images/product/product 23.jpg') }}"> </div>
-                <div class="saleoff-body-section">
-                  <div class="saleoff-section-title"><a href="html/sanpham/cho/sanpham1.html">Bình Sữa Ti Nhỏ Cho Chó
-                      Mèo</a></div>
-                  <div class="saleoff-section-price"><span class="old-price">350.000 VND</span><span
-                      class="new-price">350.000 VND</span></div>
-                </div>
-                <span class="badge-sale">Giảm giá</span>
-              </div>
-            </div>
-            <!--          ==============================-->
-            <div class="col-md-3 col-6">
-              <div class="saleoff-body">
-                <div class="saleoff-body-picture"> <img src="{{ asset('frontend/images/product/product8.jpg') }}"> </div>
-                <div class="saleoff-body-section">
-                  <div class="saleoff-section-title"><a href="html/sanpham/cho/sanpham1.html">Thức ăn hạt cho mèo Hàn
-                      Quốc Catsrang</a></div>
-                  <div class="saleoff-section-price"><span class="old-price">350.000 VND</span><span
-                      class="new-price">350.000 VND</span></div>
-                </div>
-                <span class="badge-sale">Giảm giá</span>
-              </div>
-            </div>
-            <!--          ==============================-->
-            <div class="col-md-3 col-6">
-              <div class="saleoff-body">
-                <div class="saleoff-body-picture"> <img src="{{ asset('frontend/images/product/product1.jpg') }}"> </div>
-                <div class="saleoff-body-section">
-                  <div class="saleoff-section-title"><a href="html/sanpham/cho/sanpham1.html">Cẩu lương</a></div>
-                  <div class="saleoff-section-price"><span class="old-price">350.000 VND</span><span
-                      class="new-price">350.000 VND</span></div>
-                </div>
-                <span class="badge-sale">Giảm giá</span>
-              </div>
-            </div>
-            <!--          ==============================-->
-            <div class="col-md-3 col-6">
-              <div class="saleoff-body">
-                <div class="saleoff-body-picture"> <img src="{{ asset('frontend/images/product/product2.jpg') }}"> </div>
-                <div class="saleoff-body-section">
-                  <div class="saleoff-section-title"><a href="html/sanpham/cho/sanpham1.html">Thức ăn cho mèo lớn</a>
-                  </div>
-                  <div class="saleoff-section-price"><span class="old-price">350.000 VND</span><span
-                      class="new-price">350.000 VND</span></div>
-                </div>
-                <span class="badge-sale">Giảm giá</span>
-              </div>
-            </div>
-            <!--          ==============================-->
-            <div class="col-md-3 col-6">
-              <div class="saleoff-body">
-                <div class="saleoff-body-picture"> <img src="{{ asset('frontend/images/product/product4.jpg') }}"> </div>
-                <div class="saleoff-body-section">
-                  <div class="saleoff-section-title"><a href="html/sanpham/cho/sanpham1.html">Thức ăn cho chó lớn</a>
-                  </div>
-                  <div class="saleoff-section-price"><span class="old-price">350.000 VND</span><span
-                      class="new-price">350.000 VND</span></div>
-                </div>
-                <span class="badge-sale">Giảm giá</span>
-              </div>
-            </div>
+            @endforeach
             <!--          ==============================-->
           </div>
         </div>
@@ -388,6 +276,7 @@
               </div>
             </div>
           </div>
+          
           <!--		=============================-->
           <div class="col-md-3 col-12 col-sm-6">
             <div class="puppy-center-body">
@@ -448,6 +337,7 @@
               </div>
             </div>
           </div>
+          <button class = "btn btn-primary" style=" margin-left: auto ; background: #B224EF ; border: none">Xem thêm</button>
           <!--		=============================-->
           <!--END Puppy=============================-->
         </div>
@@ -556,6 +446,7 @@
               </div>
             </div>
           </div>
+          <button class = "btn btn-primary" style=" margin-left: auto ; background: #B224EF ; border: none">Xem thêm</button>
           <!--		=============================-->
           <!--END Puppy=============================-->
         </div>
