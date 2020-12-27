@@ -10,6 +10,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
+        session(['carts' => "Giỏ hàng"]);
         $categoryQuery = "";
         $rootCategories = DB::table('productcategory')->where('ParentID' , '=' , 0)->get();
         foreach ($rootCategories as $item){
@@ -65,7 +66,13 @@ class UserController extends Controller
 
     }
 
+
+    public function addCarts(Request $request){
+        dd($request);
+    }
     public function getIndex(){
+        // dd(session()->get('carts'));
+
         $lastestProduct = DB::table('product')->latest("ProductID")->take(4)->get();
         $discountProduct = DB::table('product')->where('Status', '=', 1)->take(8)->get();
         return view('user.index',compact('discountProduct','lastestProduct'));
@@ -92,8 +99,39 @@ class UserController extends Controller
     public function getProduct($tensanpham){
         $product = DB::table('product')->where('Slug', $tensanpham)->first();
         $brand = DB::table('brand')->where('BrandID', $product->BrandID)->first();
+
+        $rateAvg = DB::table('Rate')->selectRaw('CAST(AVG(rate) AS DECIMAL(2,1)) AS avg')->first();
         
-        return view('user.product')->with(array('product' => $product , 'brand' => $brand->Name ));
+        
+        $rateCount = DB::select('SELECT COUNT(Rate) as rateCount FROM rate WHERE ProductID = ' . $product->ProductID);
+        
+
+        
+        $htmlRate = "";
+
+        $htmlRate .= '
+        <ul class="rating" style="text-align: left">
+        ';
+
+        if ($rateAvg != null){
+            $roundedRateAvg = round($rateAvg->avg);
+            for ($i = 0 ; $i < $roundedRateAvg ; $i++){
+                $htmlRate .= '<li><i class="fa fa-star"></i></li>';
+            } 
+            if ($roundedRateAvg != 5){
+                for ($i = 0 ; $i < 5 - $roundedRateAvg ; $i++){
+                    $htmlRate .= '<li><i class="fa fa-star" style = "color: grey"></i></li>';
+                }
+            }
+        }
+        else {
+            for ($i = 0 ; $i < $roundedRateAvg ; $i++){
+                $htmlRate .= '<li><i class="fa fa-star" style = "color: grey"></i></li>';
+            } 
+        }
+
+        $htmlRate .= '</ul>';
+        return view('user.product')->with(array('product' => $product , 'brand' => $brand->Name , 'htmlRate' => $htmlRate , 'rateCount' => $rateCount[0]->rateCount));
     }
     public function getBlog(){
         return view('user.blog');

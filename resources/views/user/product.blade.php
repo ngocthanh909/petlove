@@ -14,15 +14,14 @@
 @section('content')
 
 
+
+
+
 <div class="container">
     <div class="dpd-block1">
       <div class="row">
         <div class="col-md-7">
-<<<<<<< HEAD
           <div class="dpd-block1-img" id="img-container"> <img id="myImg" src="/{{$product->Avatar}}" alt="{{$product->Name}}"> </div>
-=======
-          <div class="dpd-block1-img" id="img-container"> <img id="myImg" src="{{url($product->Avatar)}}" alt="{{$product->Name}}"> </div>
->>>>>>> b4cc21155d9c2f2a6bb5b9a1c0cbd523348840a6
          <!-- The Modal -->
   <div id="img-modal" class="modal1">
     <span class="close1" onClick="closemodal()">&times;</span>
@@ -38,15 +37,10 @@
 
             <div class="dpd-block-section-brand"> <span class="label">Thương hiệu: </span> <span class="brand">{{$brand}}</span> </div>
             <div class="dpd-block-section-pid"> <span class="label">Mã sản phẩm: </span> <span class="id">{{$product->Sku}}</span> </div>
-            <div class="dpd-block-section-rating">
-              <ul class="rating" style="text-align: left">
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-              </ul>
-            </div>
+            {!!$htmlRate!!}
+            <span>Có {{$rateCount}} người dùng đánh giá</span>
+
+            
             <div class="dpd-block-section-price"> <span>{{$product->Price}}</span><span> VNĐ</span><br>
             </div>
             <div class="dpd-block-section-quality">
@@ -57,7 +51,14 @@
             <div class="dpd-block-section-furtherinfo"> <span><b>Miễn phí giao hàng trong nội thành Đà Nẵng</b> </span><span><a href="#" data-toggle="modal" data-target="#myModal3">( Xem chính sách )</a></span>
               <p>Có: <span>69 </span> người đã mua sản phẩm này</p>
             </div>
-            <div class="dpd-block-section-button"> <a href="#"   data-toggle="modal" data-target="#myModal2" class="btn-buy shadow-hover"><i class="fal fa-shopping-cart"></i> Thêm vào giỏ</a> <a href="#"  data-toggle="modal" data-target="#myModal" class="btn-wish shadow-hover"><i class="fal fa-heart"></i> Yêu thích</a></div>
+            <form action="{{ route('user.add.carts') }}" method="post">
+              @csrf
+              <input disabled value="{{$product->Sku}}" name="sku">
+              <input disabled id="soluongform" name="soluong">
+              <button type="submit" class="btn-buy shadow-hover"><i class="fal fa-shopping-cart"></i>Thêm vào giỏ</button>
+
+            </form>
+  
           </div>
         </div>
       </div>
@@ -312,6 +313,7 @@
     }
     </script>
     <script>
+
     //	$("#tab-1").hide();
         $("#tab-2").hide();
         $("#tab-3").hide();
@@ -346,11 +348,38 @@
         $("#phanhoi").removeClass("active");
         $("#danhgia").addClass("active");
     });
+
+    $("#cong").click(function(){
+      var temp = document.getElementById("soluong").value;
+      var qual = Number(temp);
+      qual += 1;
+      document.getElementById("soluong").value = qual;
+      document.getElementById("soluongform").value = qual;
+    });
+    $("#tru").click(function(){
+      var temp = document.getElementById("soluong").value;
+
+      var qual = Number(temp);
+      qual -= 1;
+      if (qual != 0){
+        document.getElementById("soluong").value = qual;
+        document.getElementById("soluongform").value = qual;
+      }
+
+
+    
+    });
+
     </script>
-    <script src="{{ asset('frontend/js/scripts.js') }}"></script>
+
+    
+
     <script src="{{ asset('frontend/js/js-image-zoom.js') }}"></script> 
     <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
 @endpush
+
+
+
 
 @push('model')
 <div class="modal" id="myModal3">

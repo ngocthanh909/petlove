@@ -81,9 +81,11 @@ Route::post('/testupload', [ad::class, 'fileUpload2'])->name('upload');
 
 //User Routes
 
+
 Route::prefix('/')->group(function() {
     Route::get('/', [us::class, 'getIndex'])->name('user.index');
     Route::get('/carts', [us::class, 'getCarts'])->name('user.carts');
+    Route::post('/carts', [us::class, 'addCarts'])->name('user.add.carts');
     Route::get('/san-pham/{tensanpham}', [us::class, 'getProduct'])->name('user.product');
     Route::get('/gian-hang/{tendanhmuc}', [us::class, 'getCollection'])->name('user.collection');
     Route::get('/gian-hang/{tendanhmuc}/{filter}', [us::class, 'getCollectionWithFilter'])->name('user.collection.filter');
