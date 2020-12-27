@@ -18,11 +18,7 @@
     <div class="dpd-block1">
       <div class="row">
         <div class="col-md-7">
-<<<<<<< HEAD
-          <div class="dpd-block1-img" id="img-container"> <img id="myImg" src="/{{$product->Avatar}}" alt="{{$product->Name}}"> </div>
-=======
           <div class="dpd-block1-img" id="img-container"> <img id="myImg" src="{{url($product->Avatar)}}" alt="{{$product->Name}}"> </div>
->>>>>>> b4cc21155d9c2f2a6bb5b9a1c0cbd523348840a6
          <!-- The Modal -->
   <div id="img-modal" class="modal1">
     <span class="close1" onClick="closemodal()">&times;</span>

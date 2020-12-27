@@ -28,7 +28,6 @@ Route::get('/testlogin', function (Request $request){
 })->middleware('auth.user');
 
 
-
 //ADMIN
 Route::get('admin/login', [login::class, 'adminLoginIndex'])->name('admin.login');
 Route::post('admin/login', [login::class, 'authAdmin'])->name('admin.login.auth');
