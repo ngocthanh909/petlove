@@ -24,7 +24,7 @@ class LoginController extends Controller
     /*
 
         userData = ID NAME
-
+        logged = 
 
     */
     public function callback(){

@@ -1,5 +1,5 @@
 @extends('admin.layouts.layout')
-@section('title', 'Danh mục nhãn hàng')
+@section('title', 'Quản lý danh mục nhãn hàng')
 @section('heading', 'Danh mục nhãn hàng')
 @section('body')
 <div class="container-fluid">

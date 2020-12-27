@@ -1,0 +1,11 @@
+1. Sửa header, thay trang chủ - 
+2. Hoàn thiện trang duyệt sản phẩm
+3. Show sản phẩm
+
+
+4. đặt hàng, giỏ hàng
+5. User, Blog
+
+    CMS
+        tIN TỨC
+        BLOG

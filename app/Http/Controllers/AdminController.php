@@ -7,13 +7,14 @@ use DB;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\HelplerController as Helpler;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
     //Helper methods
     function returnStatus($result){
         if ($result) {
-            Helpler::message(1, ['Thao tác thành công!', 'Vãi lon']);
+            Helpler::message(1, ['Thao tác thành công!']);
         } else {
             Helpler::message(0, ['Thao tác thất bại! Vui lòng kiểm tra lại!']);
         }
@@ -185,5 +186,36 @@ class AdminController extends Controller
         $result = DB::table('cms')->where('CmsID', $request->CmsID)->delete();
         $this->returnStatus($result);
         return redirect(url('admin/cms'));
+    }
+    // Admin Manager
+    function adminManagerIndex(Request $request){
+        $admins = DB::table('admin')->get();
+        return view('admin.adminmanager')->with('admins', $admins);
+    }
+    function adminUpdateRole(Request $request){
+        return  DB::table('admin')->where('AdminID', $request->AdminID)->update(['Role' => $request->Role]);
+    }
+    function adminUpdateActive(Request $request){
+        return  DB::table('admin')->where('AdminID', $request->AdminID)->update(['Active' => $request->Active]);
+    }
+    function adminCreate(Request $request){
+        $result =  DB::table('admin')->insert(['Username' => $request->Username, 'Password' => md5(1234, true), 'Name' => $request->Name, 'Role' => $request->Role, 'Active' => $request->Active]);
+        $this->returnStatus($result);
+        return redirect(url('admin/adminman'));
+    }
+    // User account managers
+    function userManagerIndex(Request $request){
+        $users = DB::table('user')->paginate(10);
+        return view('admin.userman')->with('users', $users);
+    }
+    function userUpdateActive(Request $request){
+        $result = DB::table('user')->where('UserID', $request->UserID)->update(['Active' => $request->Active]);
+        $this->returnStatus($result);
+        return redirect(route('admin.userman'));
+    }
+    function userDelete(Request $request){
+        $result = DB::table('user')->where('UserID', $request->UserID)->delete();
+        $this->returnStatus($result);
+        return redirect(route('admin.userman'));
     }
 }

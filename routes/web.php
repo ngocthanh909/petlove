@@ -60,6 +60,19 @@ Route::prefix('admin')->middleware('adminAuth')->group(function () {
         Route::post('/update', [ad::class, 'updateCms'])->name('admin.cms.update');
         Route::get('/delete', [ad::class, 'deleteCms'])->name('admin.cms.delete');       
     });
+    Route::prefix('/adminman')->group(function () {
+        Route::get('/', [ad::class, 'adminManagerIndex'])->name('admin.adminman');
+        Route::post('/update/role', [ad::class, 'adminUpdateRole'])->name('admin.adminman.updateRole');
+        Route::post('/update/active', [ad::class, 'adminUpdateActive'])->name('admin.adminman.updateActive');
+        Route::post('/update/create', [ad::class, 'adminCreate'])->name('admin.adminman.create');     
+    });
+    Route::prefix('/userman')->group(function () {
+        Route::get('/', [ad::class, 'userManagerIndex'])->name('admin.userman');
+        Route::post('/update/active', [ad::class, 'userUpdateActive'])->name('admin.userman.updateActive');
+        Route::post('/delete', [ad::class, 'userDelete'])->name('admin.userman.delete');
+        // Route::post('/update/active', [ad::class, 'adminUpdateActive'])->name('admin.adminman.updateActive');
+        // Route::post('/update/create', [ad::class, 'adminCreate'])->name('admin.adminman.create');     
+    });
 
 });
 
@@ -78,8 +91,6 @@ Route::prefix('/')->group(function() {
 
     Route::get('/about', [us::class, 'getAbout'])->name('user.about');
 });
-
-
 
 Route::get('/crawl', [us::class, 'petCityCrawler']);
 Route::get('/test', [us::class, 'testSaveImage']);
