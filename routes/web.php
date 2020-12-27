@@ -20,12 +20,21 @@ use App\Http\Controllers\UserController as us;
 //USER
 Route::get('/auth/redirect', [login::class, 'redirect'])->name('login.facebook');
 Route::get('/auth/callback', [login::class, 'callback'])->name('login.callback');
+Route::get('/logout', [login::class, 'logout'])->name('user.logout');
+Route::view('/login', 'user.login')->name('user.login');
+// Test route login
+Route::get('/testlogin', function (Request $request){
+    echo 'hihi';
+})->middleware('auth.user');
+
+
+
 //ADMIN
 Route::get('admin/login', [login::class, 'adminLoginIndex'])->name('admin.login');
 Route::post('admin/login', [login::class, 'authAdmin'])->name('admin.login.auth');
 Route::get('admin/logout', [login::class, 'adminLogout'])->name('admin.logout');
 
-Route::prefix('admin')->middleware('adminAuth')->group(function () {
+Route::prefix('admin')->middleware('auth.admin')->group(function () {
     Route::get('/', [ad::class, 'dashboard'])->name('admin.dashboard');
     Route::prefix('/category')->group(function () {
         Route::get('/', [ad::class, 'categoryIndex'])->name('admin.category');
@@ -100,3 +109,4 @@ Route::prefix('/user')->group(function() {
     Route::get('/profile', [us::class, 'profileSettings'])->name('user.settings');
     Route::get('/delivery', [us::class, 'profileDelivery'])->name('user.delivery');
 });
+
