@@ -4,7 +4,7 @@
 <div class="container">
   <div id="tree">
   <ul class="breadcrumb">
-    <a href="{{ route('user.collection', "all") }}"><i class="fa fa-home"></i></a>
+    <a><i class="fa fa-home"></i></a>
     @foreach (array_reverse($categoriesArr) as $category)
       @foreach(explode('|', $category) as $key=>$item)
         @if($key == 0)
@@ -25,6 +25,7 @@
 @endsection
 
 @section('content')
+
 <div class="container">
   <div class="row">
     <div class="col-lg-3 pl-0 pr-0">
@@ -66,9 +67,32 @@
             <div class="dogcat-sidebar-title"><a href="#" data-toggle="collapse" data-target="#demo1" class="navbar-toggler collapse-icons"><i class="fas fa-cat"></i> Lọc theo thương hiệu</a></div>
             <div id="demo1" class="dogcat-sidebar-subcategories data-toggle collapse in show" aria-expanded="true">
               <ul>
-                <li><a href="#">Monge (Italy)</a></li>
-                <li><a href="#">MORANDO (Italy)</a></li>
-                <li><a href="#">Royal Canin (Pháp)</a></li>
+     
+
+                @foreach ($brandCount as $count)
+                  @foreach ($productBrand as $brand)
+                      @if ($count->BrandID === $brand->BrandID)
+
+                        @if($brandFilter == 1)
+
+                        <li><a href="/gian-hang/{{$tendanhmuc}}/brand={{$brand->BrandID}}">{{$brand->Name}} ({{$count->DuplicateTimes}})</a></li>
+                        
+                        @elseif($brandFilter == 0)
+                    
+                        <li><a href="/gian-hang/{{$tendanhmuc}}">{{$brand->Name}} ({{$count->DuplicateTimes}}) (Xóa)</a></li>
+                        
+                        @endif
+                      
+                      @endif
+                  @endforeach
+              
+                @endforeach
+               
+      
+
+
+                
+          
               </ul>
             </div>
           </div>
@@ -119,198 +143,69 @@
          
   
 
-                <select name="cars" id="cars" style="margin-left: 10px">
-                  <option value="volvo">Sắp xếp theo</option>
-                  <option value="saab">Giá tăng dần</option>
-                  <option value="mercedes">Giá giảm dần</option>
-                  <option value="audi">Đánh giá</option>
+                <select style="margin-left: 10px" onChange="window.location='?sort='+this.value">
+                  
+                  <option>Sắp xếp theo</option>
+                  
+       
+                  <option value="/price-asc">Giá tăng dần</option>
+                  <option value="/price-desc">Giá giảm dần</option>
+                  
+         
+
+
+                  
                 </select>
               
               </div>
             </div>
-            <div class="dogcat-main-head-2">
+            {{-- <div class="dogcat-main-head-2">
               <ul>
                 <li>Ưu tiên hiển thị:</li>
-                <li class="active"><a href="#">Tất cả sản phẩm</a></li>
+                
+                
+                <li class="active"><a href="#"></a></li>
+                <a href =  > <button class="btn btn-primary" style="background-color: #B224EF ; border: none">Xóa</button> </a>
+              --}}
+            
                 <!--
               <li><a href="#">Mới nhất</a></li>
               <li><a href="#">Mua nhiều nhất</a></li>
 -->
-              </ul>
-            </div>
+              {{-- </ul>
+            </div> --}}
           </div>
           <div class="dogcat-main-body">
             <div id="product" class="row m-0 mt-3 p-2">
-				            <div class="col-md-3 ml-0 mr-0 pl-0 p-0">
-              <div class="gv-item-container">
-                <div class="gv-item-img"> <img src="{{ asset('frontend/images/product/product0.jpg') }}"> </div>
-                <div class="gv-item-section">
-                  <div class="gv-item-section-pname"> <span><a href="html/sanpham/cho/sanpham1.html">Thức ăn cho chó con 1</a></span> </div>
-                  <div class="gv-item-section-rate">
-                    <ul class="rating">
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                    </ul>
-                  </div>
-                  <div class="gv-item-section-price">
-                  	<span>150.000 VNĐ</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 ml-0 mr-0 pl-0 p-0">
-              <div class="gv-item-container">
-                <div class="gv-item-img"> <img src="{{ asset('frontend/images/product/product1.jpg') }}"> </div>
-                <div class="gv-item-section">
-                  <div class="gv-item-section-pname"> <span><a href="html/sanpham/cho/sanpham1.html">Thức ăn cho chó con 2</a></span> </div>
-                  <div class="gv-item-section-rate">
-                    <ul class="rating">
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                    </ul>
-                  </div>
-                  <div class="gv-item-section-price">
-                  	<span>150.000 VNĐ</span>
+              @foreach ($productList as $product)
+              <div class="col-md-3 ml-0 mr-0 pl-0 p-0">
+                <div class="gv-item-container">
+                  <div class="gv-item-img"> <img style="height: 160px ; width: 160px" src="{{ asset($product->Avatar) }}"> </div>
+                  <div class="gv-item-section">
+                    <div class="gv-item-section-pname"> <span><a href="{{ route('user.product', ['tensanpham'=>$product->Slug]) }}">{{$product->Name}}</a></span> </div>
+                    <div class="gv-item-section-rate">
+                      <ul class="rating">
+                        <li><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                      </ul>
+                    </div>
+                    <div class="gv-item-section-price">
+                      <span>{{$product->Price}}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-md-3 ml-0 mr-0 pl-0 p-0">
-              <div class="gv-item-container">
-                <div class="gv-item-img"> <img src="{{ asset('frontend/images/product/product2.jpg') }}"> </div>
-                <div class="gv-item-section">
-                  <div class="gv-item-section-pname"> <span><a href="html/sanpham/cho/sanpham1.html">Thức ăn cho chó con 3</a></span> </div>
-                  <div class="gv-item-section-rate">
-                    <ul class="rating">
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                    </ul>
-                  </div>
-                  <div class="gv-item-section-price">
-                  	<span>150.000 VNĐ</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 ml-0 mr-0 pl-0 p-0">
-              <div class="gv-item-container">
-                <div class="gv-item-img"> <img src="{{ asset('frontend/images/product/product3.jpg') }}"> </div>
-                <div class="gv-item-section">
-                  <div class="gv-item-section-pname"> <span><a href="html/sanpham/cho/sanpham1.html">Thức ăn cho chó con 4</a></span> </div>
-                  <div class="gv-item-section-rate">
-                    <ul class="rating">
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                    </ul>
-                  </div>
-                  <div class="gv-item-section-price">
-                  	<span>150.000 VNĐ</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 ml-0 mr-0 pl-0 p-0">
-              <div class="gv-item-container">
-                <div class="gv-item-img"> <img src="{{ asset('frontend/images/product/product4.jpg') }}"> </div>
-                <div class="gv-item-section">
-                  <div class="gv-item-section-pname"> <span><a href="html/sanpham/cho/sanpham1.html">Thức ăn cho chó con 5</a></span> </div>
-                  <div class="gv-item-section-rate">
-                    <ul class="rating">
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                    </ul>
-                  </div>
-                  <div class="gv-item-section-price">
-                  	<span>150.000 VNĐ</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 ml-0 mr-0 pl-0 p-0">
-              <div class="gv-item-container">
-                <div class="gv-item-img"> <img src="{{ asset('frontend/images/product/product5.jpg') }}"> </div>
-                <div class="gv-item-section">
-                  <div class="gv-item-section-pname"> <span><a href="html/sanpham/cho/sanpham1.html">Thức ăn cho chó con 6</a></span> </div>
-                  <div class="gv-item-section-rate">
-                    <ul class="rating">
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                    </ul>
-                  </div>
-                  <div class="gv-item-section-price">
-                  	<span>150.000 VNĐ</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 ml-0 mr-0 pl-0 p-0">
-              <div class="gv-item-container">
-                <div class="gv-item-img"> <img src="{{ asset('frontend/images/product/product6.jpg') }}"> </div>
-                <div class="gv-item-section">
-                  <div class="gv-item-section-pname"> <span><a href="html/sanpham/cho/sanpham1.html">Thức ăn cho chó con 7</a></span> </div>
-                  <div class="gv-item-section-rate">
-                    <ul class="rating">
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                    </ul>
-                  </div>
-                  <div class="gv-item-section-price">
-                  	<span>150.000 VNĐ</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 ml-0 mr-0 pl-0 p-0">
-              <div class="gv-item-container">
-                <div class="gv-item-img"> <img src="{{ asset('frontend/images/product/product7.jpg') }}"> </div>
-                <div class="gv-item-section">
-                  <div class="gv-item-section-pname"> <span><a href="html/sanpham/cho/sanpham1.html">Thức ăn cho chó con 8</a></span> </div>
-                  <div class="gv-item-section-rate">
-                    <ul class="rating">
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                    </ul>
-                  </div>
-                  <div class="gv-item-section-price">
-                  	<span>150.000 VNĐ</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+              @endforeach
+
+
 			</div>
           </div>
           <div class="dogcat-main-footer">
             <div class="dogcat-main-footer-pagination">
-              <ul class="pagination">
-                <li id="prev" class="page-item disabled"><a class="page-link" href="#">Trước</a></li>
-                <li id="1" class="page-item active" ><a class="page-link" href="#">1</a></li>
-                <li id="2" class="page-item"><a class="page-link" href="#">2</a></li>
-                <li id="next" class="page-item"><a class="page-link" href="#">Sau</a></li>
-              </ul>
+              {{$productList->appends(request()->input())->links('pagination::bootstrap-4')}}
             </div>
           </div>
         </div>

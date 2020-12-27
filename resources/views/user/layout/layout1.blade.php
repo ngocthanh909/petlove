@@ -19,13 +19,14 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="icon" href="{{ asset('frontend/images/favicon/favicon.ico') }}">
+
   <!-- End User Define-->
   <style></style>
   @stack('css')
 </head>
 
 <body>
-
+  <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
   <!--Navbar-->
   @include('user.partials.navbar');
 
@@ -126,7 +127,7 @@
 </body>
 
 
-@stack('scripts')
+
 
 
 
@@ -199,6 +200,8 @@ for (i = 0; i < coll.length; i++) {
   });
 }
   </script>
+
+@stack('scripts')
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 </html>

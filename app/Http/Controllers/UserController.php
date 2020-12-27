@@ -8,66 +8,71 @@ use Goutte\Client;
 use View;
 class UserController extends Controller
 {
-    public function __construct(){
-        $categories = DB::table('productcategory')->get();
+    public function __construct()
+    {
+        $categoryQuery = "";
+        $rootCategories = DB::table('productcategory')->where('ParentID' , '=' , 0)->get();
+        foreach ($rootCategories as $item){
+            $categoryQuery .= $item->CategoryID . " OR ";
+        }
+        $categoryQuery = substr($categoryQuery, 0,-3);
+        $categories = DB::select('select * from productcategory where ParentID = ' . $categoryQuery);
         View::share('categories', $categories);
     }
+
+    public function getProductAjax (Request $request) {
+        $productHTML = '';
+        if($request->get('query')){
+            $this->getCategoriesRecursive($request->get('query'));
+        }   
+
+        $product = DB::select('select * from product where Price != 0 AND (CategoryID = ' . substr($this->recursiveCategories,0,-3) . ')ORDER BY ProductID DESC LIMIT 4;');
+        foreach ($product as $item){
+            $productHTML .= '
+            <div class="col-md-3 col-12 col-sm-6">
+                <div class="puppy-center-body">
+                    <div class="puppy-center-body-picture"><img style="height:173px; width:173px ; background-color: rgb(300, 300, 300);" src="'. $item->Avatar . '"></div>
+                        <div class="puppy-center-body-section">
+                            <div class="puppy-center-section-title"><a href="san-pham/' .$item->Slug. '">'.$item->Name .'</a></div>
+                            <ul class="rating">
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                            </ul>
+                            <div class="puppy-center-section-price">
+                                <div class="new-price">'. $item->Price . '</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>';
+        }
+        $productHTML .= '</div>';
+        echo $productHTML;
+    }
+
+    private $recursiveCategories = "";
+    function getCategoriesRecursive($id){
+        $indexPoint = DB::table('productcategory')->where('ParentID' , '=' , $id)->get();
+        if (!$indexPoint->isEmpty()){
+            foreach ($indexPoint as $item){
+                $this->recursiveCategories .= "CategoryID = " . $item->CategoryID . " OR ";
+                $this->getCategoriesRecursive($item->CategoryID);
+            }
+        }
+
+    }
+
     public function getIndex(){
-        $categories = DB::table('productcategory')->get();
-        $products = DB::table('product')->where('Status', '=', 1)->take(8)->get();
-        // $dogProduct = DB::table('product')->where('Status', '=', 1)->take(8)->get();
-
-        // $catProduct = DB::table('product')->where('Status', '=', 1)->take(8)->get();
-
-   
-        // $startID = 1;
-        // $unionVar = DB::table('product')->where("CategoryID" , '=' , $startID)->get();
-        // $test = $this->recursiveGetProduct($startID , $unionVar);
-        // dd($test);
- 
-        // foreach ($test as $item){
-        //     echo $item->Name . '<br>';
-        // }
-
-  
-        // $category = DB::table('productcategory')->get();
-        // $list_cat = $this->data_tree($category, 0);
-        
-
-        $this->recursiveProduct(1);
-
-
-        // $getLastestProduct = DB::table('product')->where('CategoryID', '=' , 1)->get();
-        // foreach ($this->resultID as $item){
-        //     $getLastestProduct = $getLastestProduct->merge($this->Merged($item));
-        // }
-
-        
-        // $getLastestProduct = DB::select('SELECT * FROM product WHERE CategoryID=?', $this->resultID)->get();
-          
-
-        
-        // $stringObj = "";
-        // foreach ($this->resultID as $index => $item){
-        //     if ($index == count($this->resultID) - 1){
-        //         $stringObj .= 'CategoryID =' .$item;
-        //     }
-        //     else {
-        //         $stringObj .= 'CategoryID =' . $item . " OR ";
-                
-        //     }
-        // }
-
-
-        // $getLastestProduct = DB::table('product')::whereRaw($stringObj)->get();
-
-        // dd($getLastestProduct);
-
-        return view('user.index',compact('categories','products','getLastestProduct'));
+        $lastestProduct = DB::table('product')->latest("ProductID")->take(4)->get();
+        $discountProduct = DB::table('product')->where('Status', '=', 1)->take(8)->get();
+        return view('user.index',compact('discountProduct','lastestProduct'));
     }
 
     function Merged($id){
-        return DB::table('product')->where('CategoryID', '=' , $id)->get()->last();
+        return DB::table('product')->where('CategoryID', '=' , $id)->get();
     }
 
     private $resultID = [1];
@@ -78,10 +83,6 @@ class UserController extends Controller
 
             if ($category->ParentID == $id){
                 array_push($this->resultID,$category->CategoryID);
-                // $query = DB::table('product')->where("CategoryID" , '=' , $category->CategoryID)->count();
-                // if ($query != 0){
-                    
-                // }
                 $this->recursiveProduct($category->CategoryID ); 
             }
         }
@@ -91,6 +92,7 @@ class UserController extends Controller
     public function getProduct($tensanpham){
         $product = DB::table('product')->where('Slug', $tensanpham)->first();
         $brand = DB::table('brand')->where('BrandID', $product->BrandID)->first();
+        
         return view('user.product')->with(array('product' => $product , 'brand' => $brand->Name ));
     }
     public function getBlog(){
@@ -122,17 +124,110 @@ class UserController extends Controller
         }
 
     }
-    public function getCollection($tendanhmuc){
+
+    public function getCollectionWithFilter($tendanhmuc , $filter , Request $request){
+        $query = "";
+        $sort = substr($request->input('sort'), 1);
+        $brand = "";
+        if (strpos($filter, '=') !== false) {
+            $brandID = explode( '=', $filter );
+            if ($brandID[0] == "brand"){
+                $brand = $brandID[1];
+            }
+        }
+
         $categories = DB::table('productcategory')->get();
         foreach($categories as $category){
             if ($category->Slug == $tendanhmuc){
-                $test = $this->findParentCategories( $category->CategoryID);
+                
+                $this->findParentCategories( $category->CategoryID);
+                $this->getCategoriesRecursive($category->CategoryID);
+                if ($this->recursiveCategories == null){
+                    $this->recursiveCategories = $category->CategoryID;
+                }
+                else {
+                    $this->recursiveCategories = substr($this->recursiveCategories,0,-3);
+                }
+
                 break;
             }
         }
 
+        $queryRequest = "";
+
+        if (trim($brand) != ''){
+            $query .= "BrandID = ".$brand;
+        }
+        
+        if (trim($sort) == "price-asc"){
+            $queryRequest .= "ASC";
+        }
+        else if (trim($sort) == "price-desc"){
+            $queryRequest .= "DESC";
+        }
+
+        if ($queryRequest != ""){
+            $productList = DB::table('product')->whereRaw('(CategoryID = ' . $this->recursiveCategories . ") AND " . $query)->orderBy('Price',$queryRequest)->paginate(8);
+        }
+        else {
+            $productList = DB::table('product')->whereRaw('(CategoryID = ' . $this->recursiveCategories . ") AND " . $query)->paginate(8);
+        }
+    
+        $brandCount = DB::select('SELECT BrandID, COUNT(BrandID) as DuplicateTimes FROM product WHERE CategoryID = ' . $this->recursiveCategories . ' GROUP BY BrandID HAVING COUNT(BrandID)>1');
+        $productBrand = DB::table('brand')->where('BrandID' , '=' , $brand )->get();
         $categoriesArr = explode("/",$this->parentCategories);
-        return view('user.collection')->with(array('categories'=> $categories , 'tendanhmuc' => $tendanhmuc , 'categoriesArr' => $categoriesArr));
+
+
+
+        return view('user.collection')->with(array('categories'=> $categories , 'tendanhmuc' => $tendanhmuc , 'categoriesArr' => $categoriesArr , 'productList' => $productList , 'brandCount' => $brandCount , 'productBrand' => $productBrand , 'brandFilter' => 0));
+        
+    }
+
+
+
+    public function getCollection($tendanhmuc , Request $request){
+        $sort = substr($request->input('sort'), 1);
+        $categories = DB::table('productcategory')->get();
+        foreach($categories as $category){
+            if ($category->Slug == $tendanhmuc){
+                
+                $this->findParentCategories( $category->CategoryID);
+                $this->getCategoriesRecursive($category->CategoryID);
+                if ($this->recursiveCategories == null){
+                    $this->recursiveCategories = $category->CategoryID;
+                }
+                else {
+                    $this->recursiveCategories = substr($this->recursiveCategories,0,-3);
+                }
+
+                break;
+            }
+        }
+
+        $queryRequest = "";
+        
+        if (trim($sort) == "price-asc"){
+            $queryRequest .= "ASC";
+        }
+        else if (trim($sort) == "price-desc"){
+            $queryRequest .= "DESC";
+        }
+  
+        
+
+
+        $productBrand = DB::table('brand')->get();
+        $brandCount = DB::select('SELECT BrandID, COUNT(BrandID) as DuplicateTimes FROM product WHERE CategoryID = ' . $this->recursiveCategories . ' GROUP BY BrandID HAVING COUNT(BrandID)>1');
+        if ($queryRequest != ""){
+            $productList = DB::table('product')->whereRaw(' CategoryID = ' . $this->recursiveCategories)->orderBy('Price',$queryRequest)->paginate(8);
+        }
+        else {
+            $productList = DB::table('product')->whereRaw(' CategoryID = ' . $this->recursiveCategories)->paginate(8);
+        }
+     
+        $categoriesArr = explode("/",$this->parentCategories);
+
+        return view('user.collection')->with(array('categories'=> $categories , 'tendanhmuc' => $tendanhmuc , 'categoriesArr' => $categoriesArr , 'productList' => $productList , 'brandCount' => $brandCount , 'productBrand' => $productBrand , 'brandFilter' => 1));
     }
 
     public function profileDelivery(){
@@ -141,7 +236,6 @@ class UserController extends Controller
 
     public function petCityCrawler(){
         $this->categoryRecursive(0);
-        
         return view('user.crawler')->with('htmlOption',$this->htmlOption);
     }
 
@@ -181,91 +275,6 @@ class UserController extends Controller
         set_time_limit(600);
         $client = new Client();
         $crawler = $client->request('GET', 'https://www.petcity.vn/'.$url);
-
-
-        // $elements = $crawler->filter('.p_container');
-        // foreach ($elements as $node){
-      
-        //     $link = $node->filter('a')->first()->extract(array('href'));
-
-        //     $client2 = new Client();
-        //     $crawler2 = $client2->request('GET','https://www.petcity.vn/'. implode($link));
-        //     $avatarImg = $crawler2->filter('#img-large')->filter('img')->first()->getNode(0)->getAttribute('src');
-        //     $avatarImgName = explode("/",$avatarImg);
-            
-        //     echo "https://www.petcity.vn" . $avatarImg . '<br>';
-        //     file_put_contents(storage_path('app/public/ProductAvatar/' . end($avatarImgName)), file_get_contents("https://www.petcity.vn" . $avatarImg));
-        //     $productName = $crawler2->filter('#detail-name')->first()->html();
-        //     $productBrand = $crawler2->filter('.pink')->eq(0)->html();
-        //     $productSKU= $crawler2->filter('.pink')->eq(1)->html();
-        //     // eq(3)->filter('p')->first()->html();
-        //     $productFinalPrice = $crawler2->filter('#price_config')->first()->html();
-        //     $productFinalPrice =  str_replace("đ","",$productFinalPrice);
-        //     if ($crawler2->filter('.Dprice')->first()->filter('span')->count() > 1){
-        //         $productOrginalPrice = $crawler2->filter('.Dprice')->first()->filter('span')->eq(1)->html();
-        //     }
-        //     else {
-        //         $productOrginalPrice = "0";
-        //     }
-
-        //     $productOrginalPrice =  str_replace("đ","",$productOrginalPrice);
-
-        //     $content = $crawler2->filter('#tab1')->html();
-        //     $contentHandled = str_replace("http://www.petcity.vn","",str_replace("/media/lib/","/".'storage/ProductContent/',preg_replace('/<a href="(.+)">/', '', $content)));
-        //     $crawler2->filter('#tab1')->filter('img')->each(function($image){
-        //         $imageSrc = $image->getNode(0)->getAttribute('src');
-        //         $imageSrc = str_replace("http://www.petcity.vn","",$imageSrc);
-        //         $domain = "https://www.petcity.vn";
-        //         echo "https://www.petcity.vn" . $imageSrc . '<br>';
-           
-        //         try {
-        //             $imageObj = file_get_contents($domain . $imageSrc);
-
-        //             $imgName = explode("/",$imageSrc);
-        //             file_put_contents(storage_path('app/public/ProductContent/' . end($imgName)), $imageObj);
-        //         }
-        //         catch (\Exception $e){
-
-        //         }
-
-        //     });
-            
-
-            
-        //     $brandDB = DB::table('brand')->where('Name', '=', $productBrand )->first();
-        //     if ($brandDB === null) {
-        //         DB::table('brand')->insert(
-        //             array(
-        //                 'Name'   =>   $productBrand,
-        //                 'Slug'   =>   Str::slug($productBrand)
-        //             )
-        //         );
-        //     }
-
-        //     $brandDB = DB::table('brand')->where('Name', '=', $productBrand )->first();
-
-
-
-
-        //     DB::table('product')->insert([
-       
-        //         'CategoryID'   =>  $CategoryID,
-        //         'BrandID'   =>   $brandDB->BrandID,
-        //         'Name' => $productName,
-        //         'SKU' => $productSKU,
-        //         'Slug' =>  Str::slug($productName),
-        //         'Avatar' => 'storage/ProductAvatar/' . end($avatarImgName) ,
-        //         'Description' => $contentHandled,
-        //         'Price' => (float)$productFinalPrice,
-        //         'OriginalPrice' => (float)$productOrginalPrice,
-        //         'Status' => 1,
-        //         'Rate' => 69
-            
-        //     ]);
-
-  
-            
-        // }
         $elements = $crawler->filter('.p_container')->each(function($node) use (&$CategoryID){
             $link = $node->filter('a')->first()->extract(array('href'));
 
@@ -354,23 +363,6 @@ class UserController extends Controller
                 'Rate' => (int)$rate
             
             ]);
-
-  
-            
-
-
-            
-            // echo $avatarImg . '<br>' .$productName . '<br>' . $productBrand . '<br>' .$productSKU . '<br>' .$productFinalPrice . '<br>' . $productOrginalPrice;
-            // echo '<br>';
-
-            
-            // foreach ($contentRegrex[1] as $ht){
-            //     echo $ht . '<br>';
-            // }
-            // echo substr(implode($contentRegrex), 5) . "<br>";
-
-            // $imgSrc = explode("/",implode($contentRegrex), 5);
-
             echo '<br>';
         });
 
@@ -395,32 +387,11 @@ class UserController extends Controller
     public function petCityCrawlerHandle(Request $request){
 
         $this->crawlFunc($request->url , $request->categoryid , $request->option);
-        // echo $request->categoryid;
-        // echo $request->option;
+
     }
 
     public function testSaveImage(){
-        // $image = file_get_contents("https://www.petcity.vn/media/product/4124_pate_cho_mat_truoc_408x600.jpg");
-        // file_put_contents(storage_path('app/public/images/productimg/a.png'), $image);
-        // echo "DOne";
-        // $brandName = "nani2";
 
-        // $user = DB::table('brand')->where('Name', '=', $brandName )->first();
-        // if ($user === null) {
-        //     DB::table('brand')->insert(
-        //         array(
-        //             'Name'   =>   $brandName,
-        //             'Slug'   =>   Str::slug($brandName)
-        //         )
-        //     );
-        // }
-
-        // else {
-        //     echo $user->BrandID;
-        // }
-
-        $product = DB::table('product')->get();
-        return view('user.test',compact('product'));
     }
 
 }
