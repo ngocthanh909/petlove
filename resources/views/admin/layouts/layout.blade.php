@@ -117,11 +117,11 @@
                             </nav>
                         </div>
                         <div class="sb-sidenav-menu-heading">Quản lý tài khoản</div>
-                        <a class="nav-link" href="charts.html">
+                        <a class="nav-link" href="{{route('admin.userman')}}">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Tài khoản thành viên
                         </a>
-                        <a class="nav-link" href="tables.html">
+                        <a class="nav-link" href="{{route('admin.adminman')}}">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Tài khoản quản trị
                         </a>
@@ -147,8 +147,8 @@
                 <div class="container-fluid">
                     <h1 class="mt-4">@yield('heading')</h1>
                     <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Quản lý danh mục</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">@yield('title')</li>
                     </ol>
 
                     <div class="mb-4">

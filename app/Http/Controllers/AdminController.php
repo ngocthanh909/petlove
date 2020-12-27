@@ -203,4 +203,19 @@ class AdminController extends Controller
         $this->returnStatus($result);
         return redirect(url('admin/adminman'));
     }
+    // User account managers
+    function userManagerIndex(Request $request){
+        $users = DB::table('user')->paginate(10);
+        return view('admin.userman')->with('users', $users);
+    }
+    function userUpdateActive(Request $request){
+        $result = DB::table('user')->where('UserID', $request->UserID)->update(['Active' => $request->Active]);
+        $this->returnStatus($result);
+        return redirect(route('admin.userman'));
+    }
+    function userDelete(Request $request){
+        $result = DB::table('user')->where('UserID', $request->UserID)->delete();
+        $this->returnStatus($result);
+        return redirect(route('admin.userman'));
+    }
 }

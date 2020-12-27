@@ -1,6 +1,6 @@
 @extends('admin.layouts.layout')
-@section('title', 'Danh mục nhãn hàng')
-@section('heading', 'Danh nhãn hàng')
+@section('title', 'Quản lý sản phẩm')
+@section('heading', 'Danh sách sản phẩm')
 @section('body')
 <div class="container-fluid">
     <div class="table-responsive">
