@@ -73,6 +73,7 @@ Route::prefix('/')->group(function() {
     Route::get('/carts', [us::class, 'getCarts'])->name('user.carts');
     Route::get('/san-pham/{tensanpham}', [us::class, 'getProduct'])->name('user.product');
     Route::get('/gian-hang/{tendanhmuc}', [us::class, 'getCollection'])->name('user.collection');
+    Route::get('/gian-hang/{tendanhmuc}/{filter}', [us::class, 'getCollectionWithFilter'])->name('user.collection.filter');
     Route::get('/blog', [us::class, 'getBlog'])->name('user.blog');
 
     Route::get('/about', [us::class, 'getAbout'])->name('user.about');
@@ -84,6 +85,8 @@ Route::get('/crawl', [us::class, 'petCityCrawler']);
 Route::get('/test', [us::class, 'testSaveImage']);
 Route::post('/crawl', [us::class, 'petCityCrawlerHandle'])->name('crawl.post');
 
+
+Route::get('/ajax',[us::class , 'getProductAjax'])->name('ajax.product');
 Route::prefix('/user')->group(function() {
     Route::get('/favorite', [us::class, 'profileFavorite'])->name('user.favorite');
     Route::get('/profile', [us::class, 'profileSettings'])->name('user.settings');

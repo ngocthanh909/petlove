@@ -1,6 +1,9 @@
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
 @import url(https://fonts.googleapis.com/css?family=Roboto);
+
+
+#cover {position: fixed; height: 100%; width: 100%; top:0; left: 0; background: #000; z-index:9999;}
 /*================RESET CSS==================*/
 a, a:focus {
   /*	color: #5A1E82;*/
@@ -2116,4 +2119,9 @@ a {
   .drift-bounding-box {
     display: none;
   }
+}
+
+#tab-1 img{
+  max-width:100%;
+max-height:100%;
 }
