@@ -1,9 +1,11 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController as ad;
 use App\Http\Controllers\LoginController as login;
 use App\Http\Controllers\UserController as us;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -80,6 +82,22 @@ Route::prefix('admin')->middleware('auth.admin')->group(function () {
         Route::post('/delete', [ad::class, 'userDelete'])->name('admin.userman.delete');
         // Route::post('/update/active', [ad::class, 'adminUpdateActive'])->name('admin.adminman.updateActive');
         // Route::post('/update/create', [ad::class, 'adminCreate'])->name('admin.adminman.create');     
+    });
+    Route::prefix('/order')->group(function () {
+        Route::get('/', [ad::class, 'orderIndex'])->name('admin.order');
+        Route::get('/{OrderID}', [ad::class, 'orderDetailIndex'])->name('admin.order.detail');
+        Route::get('/{OrderID}/approve/{Status}', [ad::class, 'orderApprove'])->name('admin.order.approve');
+        Route::get('/{OrderID}/paid/{PaymentStatus}', [ad::class, 'orderPaid'])->name('admin.order.paid');
+        Route::get('/invoice/{OrderID}', [ad::class, 'invoiceIndex'])->name('admin.order.invoice');
+
+        // Route::get('/{OrderID}/unapprove', [ad::class, 'orderDetail'])->name('admin.order.unapprove');
+        // Route::get('/{OrderID}/paid', [ad::class, 'orderDetail'])->name('admin.order.paid');
+        // Route::get('/{OrderID}/unpaid', [ad::class, 'orderDetail'])->name('admin.order.unpaid');
+
+        // Route::get('/{OrderID}', [ad::class, 'orderDetail'])->name('admin.order.detail');
+        // Route::get('/{OrderID}', [ad::class, 'orderDetail'])->name('admin.order.detail');
+        // Route::post('/update/active', [ad::class, 'userUpdateActive'])->name('admin.userman.updateActive');
+        // Route::post('/delete', [ad::class, 'userDelete'])->name('admin.userman.delete');  
     });
 
 });
