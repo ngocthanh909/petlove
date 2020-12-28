@@ -40,6 +40,7 @@
                         <img src="https://avatars0.githubusercontent.com/u/4692034?s=200&v=4">
                     </span>
                     @php
+					$loginData = session()->get('loginData');
                     $code = session()->pull('code');
                     $msg = session()->pull('msg');
                     var_dump($code);

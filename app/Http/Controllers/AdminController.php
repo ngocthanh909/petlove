@@ -218,4 +218,60 @@ class AdminController extends Controller
         $this->returnStatus($result);
         return redirect(route('admin.userman'));
     }
+    // Order
+    function orderIndex(Request $request){
+        $stmt = DB::table('order')->join('user', 'user.UserID', '=', 'order.UserID')->select('order.OrderID', 'user.UserID', 'user.Name', 'order.Price', 'order.PaymentMethod', 'order.Status', 'order.Status', 'order.PaymentStatus', 'order.Address', 'order.Phone');
+        $approved = null;
+        $sort = null;
+        //Init fillter
+        if (isset($request->approved)){
+            $approved = $request->approved;
+        }
+        if (isset($request->sort)){
+            $sort = $request->sort;
+        }
+        if($sort){
+            switch($sort){
+                case 'asc':
+                    $stmt->orderBy('time', 'asc');
+                    break; 
+                case 'desc':
+                    $stmt->orderBy('time', 'desc');
+                    break; 
+            }
+        }
+        if(isset($approved)){
+            switch($approved){
+                case 1:
+                    $stmt->where('Status', '=', 1);
+                    break; 
+                case 0:
+                    $stmt->where('Status', '=', 0);
+                    break; 
+            }
+        }
+        // dd($stmt->toSql());
+       $result = $stmt->get();
+        return view('admin.order')->with('orders', $result);      
+    }
+    function orderDetailIndex(Request $request, $orderID) {
+        $result = DB::table('orderdetail')->join('product',  'orderdetail.ProductID', '=', 'product.ProductID')->select('product.ProductID', 'product.Name', 'product.Price AS OriginalPrice', 'orderdetail.Quality', 'orderdetail.Price')->where('orderdetail.OrderID', '=',$orderID)->get();
+        $detail = DB::table('order')->join('user', 'user.UserID', '=', 'order.UserID')->select('order.OrderID', 'user.UserID', 'user.Name', 'order.Price', 'order.PaymentMethod', 'order.Status', 'order.Status', 'order.PaymentStatus', 'order.Address', 'order.Phone', 'order.Time')->where('order.OrderID', '=', $orderID)->get();
+        return view('admin.orderdetail')->with('orderds', $result)->with('detail', $detail);
+    }
+    function orderApprove(Request $request, $OrderID, $Status) {
+        $result = DB::table('order')->where('OrderID', $OrderID)->update(['Status'=> $Status]);
+        $this->returnStatus($result);
+        return redirect(route('admin.order'));
+    }
+    function orderPaid(Request $request, $OrderID, $PaymentStatus) {
+        $result = DB::table('order')->where('OrderID', $OrderID)->update(['PaymentStatus'=> $PaymentStatus]);
+        $this->returnStatus($result);
+        return redirect(route('admin.order'));
+    }
+    function invoiceIndex(Request $request, $orderID) {
+        $result = DB::table('orderdetail')->join('product',  'orderdetail.ProductID', '=', 'product.ProductID')->select('product.ProductID', 'product.Name', 'product.Price AS OriginalPrice', 'orderdetail.Quality', 'orderdetail.Price')->where('orderdetail.OrderID', '=',$orderID)->get();
+        $detail = DB::table('order')->join('user', 'user.UserID', '=', 'order.UserID')->select('order.OrderID', 'user.UserID', 'user.Name', 'order.Price', 'order.PaymentMethod', 'order.Status', 'order.Status', 'order.PaymentStatus', 'order.Address', 'order.Phone', 'order.Time')->where('order.OrderID', '=', $orderID)->get();
+        return view('admin.invoice')->with('orderds', $result)->with('detail', $detail);
+    }
 }
