@@ -4,8 +4,8 @@
 <div class="container">
   <div id="tree">
   <ul class="breadcrumb">
-    <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
-    <li class="breadcrumb-item"><a href="blog.html">dfdfdf</a></li>
+    <li class="breadcrumb-item"><a><i class="fa fa-home"></i></a></li>
+    <li class="breadcrumb-item"><a>Trang chủ</a></li>
   </ul>
   </div>
 </div>
@@ -92,7 +92,7 @@
             <div class="new-body-picture"> <img style="height: 127px; width: 127px ;background-color: rgb(300, 300, 300); " src="{{$product->Avatar}}"> </div>
             <div class="new-body-section">
               <div class="new-section-title"> <a href="{{ route('user.product', ['tensanpham'=>$product->Slug]) }}">{{$product->Name}}</a> </div>
-              <div class="new-section-price"> {{$product->Price}} </div>
+              <div class="new-section-price"> {{number_format($product->Price, 0, '', ',')}}đ </div>
               <div class="new-section-detail"> Xem chi tiết </div>
               <div class="new-section-countdown"> </div>
             </div>
@@ -105,7 +105,7 @@
             <div class="new-body-picture"> <img style="height: 127px; width: 127px ; background-color: rgb(300, 300, 300);" src="{{$product->Avatar}}"> </div>
             <div class="new-body-section">
               <div class="new-section-title"> <a href="{{ route('user.product', ['tensanpham'=>$product->Slug]) }}">{{$product->Name}}</a> </div>
-              <div class="new-section-price">{{$product->Price}} </div>
+              <div class="new-section-price">{{number_format($product->Price, 0, '', ',')}}đ </div>
               <div class="new-section-detail"> Xem chi tiết </div>
               <div class="new-section-countdown"> </div>
             </div>
@@ -122,7 +122,7 @@
               <div class="new-body-picture"> <img style="height: 127px; width: 127px; background-color: rgb(300, 300, 300);" src="{{$product->Avatar}}"> </div>
               <div class="new-body-section">
                 <div class="new-section-title"> <a href="{{ route('user.product', ['tensanpham'=>$product->Slug]) }}">{{$product->Name}}</a> </div>
-                <div class="new-section-price"> {{$product->Price}} </div>
+                <div class="new-section-price"> {{number_format($product->Price, 0, '', ',')}}đ </div>
                 <div class="new-section-detail"> Xem chi tiết </div>
                 <div class="new-section-countdown"> </div>
               </div>
@@ -135,7 +135,7 @@
           <div class="new-body-picture"> <img style="height: 127px; width: 127px; background-color: rgb(300, 300, 300);" src="{{$product->Avatar}}"> </div>
           <div class="new-body-section">
             <div class="new-section-title"> <a href="{{ route('user.product', ['tensanpham'=>$product->Slug]) }}">{{$product->Name}}</a> </div>
-            <div class="new-section-price"> {{$product->Price}} </div>
+            <div class="new-section-price"> {{number_format($product->Price, 0, '', ',')}}đ </div>
             <div class="new-section-detail"> Xem chi tiết </div>
             <div class="new-section-countdown"> </div>
           </div>
@@ -173,8 +173,8 @@
               <div class="saleoff-body-picture"> <img style="height: 87px ; width: 87px" src="{{ asset($item->Avatar) }}"> </div>
               <div class="saleoff-body-section">
                 <div class="saleoff-section-title" style="   white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"><a href="{{ route('user.product', ['tensanpham'=>$item->Slug]) }}" >{{$item->Name}}</a></div>
-                <div class="saleoff-section-price"><span class="old-price">{{$item->OriginalPrice}}</span><span
-                    class="new-price">{{$item->Price}}</span></div>
+                <div class="saleoff-section-price"><span class="old-price">{{number_format($item->OriginalPrice, 0, '', ',')}}đ</span><span
+                    class="new-price">{{number_format($item->Price, 0, '', ',')}}đ</span></div>
               </div>
               <span class="badge-sale">Giảm giá {{$item->Rate}}%</span>
             </div>
@@ -190,61 +190,8 @@
         <div class="topproduct-title">
           <h5>Sản phẩm <b>Hàng đầu</b></h5>
         </div>
-        <div class="topproduct-body">
-          <div class="topproduct-body-picture"><img src="{{ asset('frontend/images/product/product1.jpg') }}"><span class="badge-top">#1</span>
-          </div>
-          <div class="topproduct-body-section">
-            <div class="topproduct-section-title"><a href="html/sanpham/cho/sanpham1.html">Thức ăn khô cho chó con</a>
-            </div>
-            <div class="topproduct-section-price">500.000VNĐ</div>
-            <div class="topproduct-rate">
-              <ul class="rating" style="text-align: left">
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <!--        ==============================-->
-        <div class="topproduct-body">
-          <div class="topproduct-body-picture"><img src="{{ asset('frontend/images/product/product3.jpg') }}"><span class="badge-top">#2</span>
-          </div>
-          <div class="topproduct-body-section">
-            <div class="topproduct-section-title"><a href="html/sanpham/cho/sanpham1.html">Thức ăn khô Me-O</a></div>
-            <div class="topproduct-section-price">500.000VNĐ</div>
-            <div class="topproduct-rate">
-              <ul class="rating" style="text-align: left">
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <!--        ==============================-->
-        <div class="topproduct-body no-boder-bottom">
-          <div class="topproduct-body-picture"><img src="{{ asset('frontend/images/product/product9.jpg') }}"><span class="badge-top">#3</span>
-          </div>
-          <div class="topproduct-body-section">
-            <div class="topproduct-section-title"><a href="html/sanpham/cho/sanpham1.html">Thức ăn khô Catrangs cho
-                mèo</a></div>
-            <div class="topproduct-section-price">500.000VNĐ</div>
-            <div class="topproduct-rate">
-              <ul class="rating" style="text-align: left">
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        {!!$highestRatedProductHTML!!}
+
         <!--        ==============================-->
       </div>
     </div>
@@ -276,9 +223,14 @@
 
               <!--END Puppy=============================-->
             </div>
+            <br>
+            <a style="margin-left: auto" href="{{ route('user.collection', ['tendanhmuc'=> $root->Slug ]) }}"><button class="btn btn-primary" style="background: #B224EF; border: none; width: 100px;">Xem thêm</button></a>
           </div>
+        
         </div>
+       
       </div>
+      
     @endif
 @endforeach
 

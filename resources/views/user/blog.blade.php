@@ -4,7 +4,7 @@
   <div id="tree">
   <ul class="breadcrumb">
     <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
-    <li class="breadcrumb-item"><a href="blog.html">dfdfdf</a></li>
+    <li class="breadcrumb-item"><a href="blog.html">Blog và tin tức</a></li>
   </ul>
   </div>
 </div>

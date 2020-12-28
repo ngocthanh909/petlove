@@ -5,20 +5,8 @@
   <div id="tree">
   <ul class="breadcrumb">
     <a><i class="fa fa-home"></i></a>
-    @foreach (array_reverse($categoriesArr) as $category)
-      @foreach(explode('|', $category) as $key=>$item)
-        @if($key == 0)
-          <li class="breadcrumb-item"><a href="{{ route('user.collection', $item) }}">
-    
-        @elseif($key == 1)
-          <span>{{ $item }}<span></a></li>
-        
-        @endif
-      @endforeach
-    @endforeach
-    
-   
-    
+    <li class="breadcrumb-item"><a> Tìm kiếm </a></li>
+  
   </ul>
   </div>
 </div>
@@ -33,21 +21,6 @@
         <!--For DOG-->
         <div class="dogcat-sidebar-categories">
           <div class="cartpage-block">
-            @foreach ($categories as $category)
-              @if ($category->Slug == $tendanhmuc || $tendanhmuc == "all")
-                @if($tendanhmuc != "all")
-                  <div class="dogcat-sidebar-title"><a href="#" data-toggle="collapse" data-target="#demo" class="navbar-toggler collapse-icons"><i class="fad fa-dog"></i> {{$category->Name}}</a></div>
-                  <div id="demo" class="dogcat-sidebar-subcategories data-toggle collapse in show" aria-expanded="true">
-                    <ul>
-                  @foreach ($categories as $subCategory)
-                    @if ($subCategory->ParentID == $category->CategoryID)
-                      <li><a href="{{ route('user.collection', ['tendanhmuc'=> $subCategory->Slug]) }}">{{$subCategory->Name}}</a></li>
-                    @endif
-                  @endforeach
-              @endif
-              @endif
-            @endforeach
-            @if($tendanhmuc == "all")
               <div class="dogcat-sidebar-title"><a href="#" data-toggle="collapse" data-target="#demo" class="navbar-toggler collapse-icons"><i class="fad fa-dog"></i> DANH MỤC SẢN PHẨM</a></div>
               <div id="demo" class="dogcat-sidebar-subcategories data-toggle collapse in show" aria-expanded="true">
               <ul>
@@ -56,7 +29,7 @@
                 <li><a href="{{ route('user.collection', ['tendanhmuc'=> $subCategory->Slug]) }}">{{$subCategory->Name}}</a></li>
               @endif
               @endforeach
-            @endif
+          
               </ul>
             </div>
           </div>
@@ -64,12 +37,12 @@
         <!--For Cats-->
         <div class="cartpage-block mt-3">
           <div class="dogcat-sidebar-categories mt-0">
-            <div class="dogcat-sidebar-title"><a href="#" data-toggle="collapse" data-target="#demo1" class="navbar-toggler collapse-icons"><i class="fas fa-cat"></i> Lọc theo thương hiệu</a></div>
+            <div class="dogcat-sidebar-title"><a href="#" data-toggle="collapse" data-target="#demo1" class="navbar-toggler collapse-icons"><i class="fas fa-cat"></i> Sản phẩm hàng đầu</a></div>
             <div id="demo1" class="dogcat-sidebar-subcategories data-toggle collapse in show" aria-expanded="true">
               <ul>
      
 
-                @foreach ($brandCount as $count)
+                {{-- @foreach ($brandCount as $count)
                   @foreach ($productBrand as $brand)
                       @if ($count->BrandID === $brand->BrandID)
 
@@ -86,7 +59,7 @@
                       @endif
                   @endforeach
               
-                @endforeach
+                @endforeach --}}
                
       
 
@@ -246,3 +219,4 @@
   </div>
 </div>
 @endsection
+

@@ -1,8 +1,8 @@
         <!--Search Bar For Desktop-->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
-            <div class="modal-content" style="margin-top: 120px;">
-              <input class="form-control" placeholder="Nhập vào sản phẩm bạn cần tìm">
+            <div class="modal-content" style="margin-top: 120px; background: transparent; border: none">
+              <input class="form-control" id = "searchInput" placeholder="Nhập vào sản phẩm bạn cần tìm">
             </div>
           </div>
       </div>
@@ -59,27 +59,23 @@
   
                               <div id="tab-carts" class="tabcontent">
                                   <div class="container-fluid" style="background-color: white; border-radius: 25px; margin-top: 20px;">
-                                      <table width="100%">
-                                          <tr>
-                                            <td rowspan="2"><img src="https://www.petcity.vn/media/product/4458_dc8eeacd86a7f0c396b13b01c6c2ec40.jpg" height="40px"></td>
-                                            <td>Thức ăn Pedigree Adlut...</td>
-                                            <td class="price">179.000đ</td>
-                                          </tr>
-                                          <tr>
-                                            <td class="simple-menu-des">Phân loại hàng: 40</td>
-                                            <td style="text-align: right;">Xóa</td>
-                                          </tr>
-                                          <td><div class="spacer"></div></td>
-                                          <tr>
-                                              <td rowspan="2"><img src="https://www.petcity.vn/media/product/4458_dc8eeacd86a7f0c396b13b01c6c2ec40.jpg" height="40px"></td>
-                                              <td>Thức ăn Pedigree Adlut...</td>
-                                              <td class="price">179.000đ</td>
-                                          </tr>
-                                          <tr>
-                                              <td class="simple-menu-des">Phân loại hàng: 40</td>
-                                              <td style="text-align: right;">Xóa</td>
-                                          </tr>
-          
+                                      <table width="100%" style="table-layout:fixed" >
+                                        @if (Session::get('cartsData') != null)
+                                        @foreach (Session::get('cartsData') as $item)
+                                        
+                                        <tr>
+                                          <td rowspan="2" style="width: 60px"><img src="https://www.petcity.vn/media/product/4458_dc8eeacd86a7f0c396b13b01c6c2ec40.jpg" height="40px"></td>
+                                          <td style="overflow: hidden ; text-overflow: ellipsis; white-space: nowrap; width: 170px">{{$item['ProductName']}}</td>
+                                          <td class="price">{{number_format($item['ProductPrice'], 0, '', ',')}}đ</td>
+                                        </tr>
+                                        <tr>
+                                          <td class="simple-menu-des">Số lượng: {{$item['Quantity']}}</td>
+                                          <td style="text-align: right;"><a href="{{ route('user.remove.carts', ['id'=> $item['ProductID']]) }}">Xóa</a></td>
+                                        </tr>
+                                        <td><div class="spacer"></div></td>
+                                        @endforeach
+                                            
+                                        @endif
                                       </table>
                                   </div>
 
@@ -116,13 +112,30 @@
                           <span class="count">0</span>
                       </button>
 
-                      <button class="nav-button nav-button--wide" style="margin-right: 10px;" onclick="openNav(event,'tab-carts')">
+                      <button class="nav-button nav-button--wide" onclick="openNav(event,'tab-carts')">
                           
                           <span class="fas fa-shopping-cart"></span>
-                          <span class="count">0</span>
+                            @if (Session::get('cartsData') != null)
+                            <span class="count">{{count(Session::get('cartsData'))}}</span>
+                            @else 
+                            <span class="count">0</span>
+                            @endif
+                          
                       </button>
 
-                      <div class="nav-button avatar" onclick="openNav(event,'tab-users')"></div>
+                      @if (session()->get('loginData')['logged'] == 1)
+                        <div class="nav-button avatar" style="background-size: cover; background-image: url({{session()->get('loginData')['data']['Avatar']}});" onclick="openNav(event,'tab-users')"></div>
+                      @else 
+                      <a href="{{ route('user.login') }} " style = "margin-left:-1px;">
+                        <button class="nav-button nav-button--wide">
+                          
+                            <span class="fas fa-user"></span>
+                            <span class="count">Đăng nhập</span>
+                        </button>
+                      </a>
+          
+                      @endif
+
                       <!--End Nav Buttons For Handling Events-->
 
 
@@ -135,38 +148,44 @@
                       <div class="simple-menu shadow-sm p-3 mb-5" id="tab-carts-desktop" style="transform: translateX(40px); width: 350px;">
                           <span class="simple-menu-header">Sản phẩm mới thêm</span>
                           <hr>
-                          <table width="100%">
-                              <tr>
-                                <td rowspan="2"><img src="https://www.petcity.vn/media/product/4458_dc8eeacd86a7f0c396b13b01c6c2ec40.jpg" height="40px"></td>
-                                <td>Thức ăn Pedigree Adlut...</td>
-                                <td class="price">179.000đ</td>
-                              </tr>
-                              <tr>
-                                <td class="simple-menu-des">Phân loại hàng: 40</td>
-                                <td style="text-align: right;">Xóa</td>
-                              </tr>
-                              <td><div class="spacer"></div></td>
-                              <tr>
-                                  <td rowspan="2"><img src="https://www.petcity.vn/media/product/4458_dc8eeacd86a7f0c396b13b01c6c2ec40.jpg" height="40px"></td>
-                                  <td>Thức ăn Pedigree Adlut...</td>
-                                  <td class="price">179.000đ</td>
-                              </tr>
-                              <tr>
-                                  <td class="simple-menu-des">Phân loại hàng: 40</td>
-                                  <td style="text-align: right;">Xóa</td>
-                              </tr>
+                          <table width="100%" style="table-layout:fixed">
+                            @if (Session::get('cartsData') != null)
+                            @foreach (Session::get('cartsData') as $item)
+                            
+                            <tr>
+                              <td rowspan="2" style="width: 60px"><img src="https://www.petcity.vn/media/product/4458_dc8eeacd86a7f0c396b13b01c6c2ec40.jpg" height="40px"></td>
+                              <td style="overflow: hidden ; text-overflow: ellipsis; white-space: nowrap; width: 170px">{{$item['ProductName']}}</td>
+                              <td class="price">{{number_format($item['ProductPrice'], 0, '', ',')}}đ</td>
+                            </tr>
+                            <tr>
+                              <td class="simple-menu-des">Số lượng: {{$item['Quantity']}}</td>
+                              <td style="text-align: right;"><a href="{{ route('user.remove.carts', ['id'=> $item['ProductID']]) }}">Xóa</a></td>
+                            </tr>
+                            <td><div class="spacer"></div></td>
+                            @endforeach
+                                
+                            @endif
+                            
+           
+
+                       
+                              
+               
                           </table>
-                          <button class="btn btn-primary" style="float: right;">Xem giỏ hàng</button>
+                          <a href="{{ route('user.carts') }}"><button class="btn btn-primary" style="float: right;">Xem giỏ hàng</button></a>
                       </div>
                       <!--Popovers User Section For Desktop-->
+        
+
                       <div class="simple-menu shadow-sm" id="tab-users-desktop" style="transform: translateX(130px); width: 300px;">
-                          <div class="vertical-menu ">
-                              <a class="active">Chào bạn: Phan Văn Quốc Tuấn</a>
-                              <a href="{{ route('user.settings') }}"><i class="fas fa-address-card"></i> Tài khoản của tôi</a>
-                              <a href="{{ route('user.delivery') }}"><i class="fas fa-shopping-cart"></i> Đơn mua</a>
-                              <a href="#"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-                            </div>
-                      </div>
+                        <div class="vertical-menu ">
+                            <a class="active">Chào bạn: {{session()->get('loginData')['data']['Name']}}</a>
+                            <a href="{{ route('user.settings') }}"><i class="fas fa-address-card"></i> Tài khoản của tôi</a>
+                            <a href="{{ route('user.delivery') }}"><i class="fas fa-shopping-cart"></i> Đơn mua</a>
+                            <a href="{{ route('user.logout') }}"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                        </div>
+                    </div>
+
                       <!--End Popovers-->
 
                   </div>

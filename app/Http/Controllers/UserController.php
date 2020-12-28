@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        session(['carts' => "Giỏ hàng"]);
+        // $this->getCartsFromDB();
         $categoryQuery = "";
         $rootCategories = DB::table('productcategory')->where('ParentID' , '=' , 0)->get();
         foreach ($rootCategories as $item){
@@ -21,7 +21,40 @@ class UserController extends Controller
         View::share('categories', $categories);
     }
 
+
+    // function getCartsFromDB(){
+        
+    //     if (session()->get('loginData')['logged'] == 1){
+    //         session()->forget('cartsData');
+    //         $userID = session()->get('loginData')['data']['UserID'];
+    //         $cartDB = DB::table('cart')->where('UserID' , '=' , $userID)->get();
+    //         $cartsData[] = array ();
+    //         foreach ($cartDB as $cartItem){
+    //             $product = DB::table('product')->where('ProductID' , '=' , $cartItem->ProductID)->first();
+    //             $productPush = array (
+    //                 'ProductID' => $cartItem->ProductID,
+    //                 'Quantity' => $cartItem->Quality,
+    //                 'ProductName' => $product->Name,
+    //                 'ProductSKU' => $product->Sku,
+    //                 'ProductPrice' => $product->Price,
+    //             );
+    //             session()->push('cartsData', $productPush);
+    //         }
+    //     }
+    // }
+
+
+    public function getOrder(){
+        if(session()->get('cartsData') == null){
+            return redirect()->route('user.carts');
+        };
+        $getAccount = DB::table('user')->where('UserID' , '=' , session()->get('loginData')['data']['UserID'])->first();
+        return view('user.order',compact('getAccount'));
+    }
     public function getProductAjax (Request $request) {
+ 
+
+
         $productHTML = '';
         if($request->get('query')){
             $this->getCategoriesRecursive($request->get('query'));
@@ -34,16 +67,23 @@ class UserController extends Controller
                 <div class="puppy-center-body">
                     <div class="puppy-center-body-picture"><img style="height:173px; width:173px ; background-color: rgb(300, 300, 300);" src="'. $item->Avatar . '"></div>
                         <div class="puppy-center-body-section">
-                            <div class="puppy-center-section-title"><a href="san-pham/' .$item->Slug. '">'.$item->Name .'</a></div>
-                            <ul class="rating">
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                            </ul>
+                            <div style = "white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" class="puppy-center-section-title"><a href="san-pham/' .$item->Slug. '">'.$item->Name .'</a></div>
+                            <ul class="rating">';
+                            $productAjaxRated = DB::table('Rate')->selectRaw('CAST(AVG(rate) AS DECIMAL(2,1)) AS avg')->where('ProductID' , $item->ProductID)->first();
+                            $productAjaxRatedRounded = round($productAjaxRated->avg);
+                            for ($i = 0 ; $i < $productAjaxRatedRounded ; $i++){
+                                $productHTML .= '<li><i class="fa fa-star"></i></li>';
+                            }
+                            for ($i = 0 ; $i < 5 - $productAjaxRatedRounded ; $i++){
+                                $productHTML .= '<li><i class="fa fa-star" style = "color: grey"></i></li>';
+                        
+                            }
+
+         
+                       
+                            $productHTML .= '</ul>
                             <div class="puppy-center-section-price">
-                                <div class="new-price">'. $item->Price . '</div>
+                                <div class="new-price">'. number_format($item->Price, 0, '', ',') . 'đ</div>
                             </div>
                         </div>
                     </div>
@@ -68,14 +108,247 @@ class UserController extends Controller
 
 
     public function addCarts(Request $request){
-        dd($request);
+        $product = DB::table('product')->where('ProductID' , '=' , $request->ProductID)->first();
+        if ($product != null){
+            $exist = 0;
+            $getCartsData = session()->get('cartsData');
+            if ($getCartsData != null){
+                foreach ($getCartsData as $index => $cartProduct){
+                    if ($cartProduct['ProductID'] == $product->ProductID){
+
+                        $exist = 1;
+                        $productPush = array (
+                            'ProductID' => $cartProduct['ProductID'],
+                            'Quantity' => $cartProduct['Quantity'] + $request->Quantity,
+                            'ProductName' => $cartProduct['ProductName'],
+                            'ProductSKU' => $cartProduct['ProductSKU'],
+                            'ProductPrice' => $cartProduct['ProductPrice'],
+                        );
+                   
+                        unset($getCartsData[$index]);
+                        session(['cartsData' => $getCartsData]);
+                        session()->push('cartsData', $productPush);
+                        break;
+                    }
+                }
+            }
+
+           
+
+            if ($exist == 0){
+                $productPush = array (
+                    'ProductID' => $product->ProductID,
+                    'Quantity' => $request->Quantity,
+                    'ProductName' => $product->Name,
+                    'ProductSKU' => $product->Sku,
+                    'ProductPrice' => $product->Price,
+                );
+                $cartsData[] = array ();
+                
+                session()->push('cartsData', $productPush);
+                
+            }
+
+            $this->updateCartsInDB();
+
+            return redirect()->back();
+      
+        }
     }
-    public function getIndex(){
-        // dd(session()->get('carts'));
+
+ 
+
+
+
+    public function submitOrder(){
+        $price = 0;
+        if (session()->get('cartsData') != null){
+            foreach (session()->get('cartsData') as $item){
+                $price += $item['ProductPrice'] * $item['Quantity'];
+            }
+      
+            if ($price != 0){
+    
+                DB::table('order')->insert([
+                    'UserID'   =>  session()->get('loginData')['data']['UserID'],
+                    'Price'   =>   $price,
+                    'Status'   =>   0,
+                ]);
+                $orderID = DB::getPdo()->lastInsertId();
+                foreach (session()->get('cartsData') as $item){
+                    DB::table('orderdetail')->insert([
+                        'OrderID'   =>  $orderID,
+                        'ProductID'   =>   $item['ProductID'],
+                        'Quality'   =>   $item['Quantity'],
+                        'Price'   =>   $item['ProductPrice'],
+                    ]);
+                }
+                $this->clearCartInDB();
+            }
+        }
+
+        
+
+    
+
+        return view('user.ordered');
+    }
+    public function changeCartsAjax(Request $request){
+        // if($request->get('ammout')){
+        //     echo 
+        //     echo $request->get('ProductID');
+        // }  
+        
+        $finalResult = "";
+        $getCartsData = session()->get('cartsData');
+        if ($getCartsData != null){
+            foreach ($getCartsData as $index => $cartProduct){
+                if ($cartProduct['ProductID'] == $request->get('ProductID')){
+                    if ($request->get('action') == "+"){
+                        $finalResult = $cartProduct['Quantity'] + 1;
+                        $productPush = array (
+                            'ProductID' => $cartProduct['ProductID'],
+                            'Quantity' => $cartProduct['Quantity'] + 1,
+                            'ProductName' => $cartProduct['ProductName'],
+                            'ProductSKU' => $cartProduct['ProductSKU'],
+                            'ProductPrice' => $cartProduct['ProductPrice'],
+                        );
+                    }
+                    else {
+                        $finalResult = $cartProduct['Quantity'] - 1;
+                        $productPush = array (
+                            'ProductID' => $cartProduct['ProductID'],
+                            'Quantity' => $cartProduct['Quantity'] - 1,
+                            'ProductName' => $cartProduct['ProductName'],
+                            'ProductSKU' => $cartProduct['ProductSKU'],
+                            'ProductPrice' => $cartProduct['ProductPrice'],
+                        );
+                    }
+                    unset($getCartsData[$index]);
+                    session(['cartsData' => $getCartsData]);
+                    session()->push('cartsData', $productPush);
+                    break;
+                }
+            }
+        }
+        $this->updateCartsInDB();
+        echo $finalResult;
+
+
+    }
+
+    function updateCartsInDB(){
+        if (session()->get('loginData')['logged'] == 1){
+            $sessionCart = session()->get('cartsData');
+            $userID = session()->get('loginData')['data']['UserID'];
+            $user = DB::table('user')->where("UserID" , $userID)->first();
+            DB::table('cart')->where('UserID', $userID)->delete();
+            foreach (  $sessionCart as $item){
+                DB::table('cart')->insert([
+                    'UserID'   =>  $user->UserID,
+                    'ProductID'   =>   $item['ProductID'],
+                    'Quality' => $item['Quantity'],
+                ]);
+            }
+        }
+    }
+
+    function clearCartInDB(){
+        if (session()->get('loginData')['logged'] == 1){
+            DB::table('cart')->where('UserID', session()->get('loginData')['data']['UserID'])->delete();
+            session()->forget('cartsData');
+        }
+    }
+
+    public function rateProduct(Request $request){
+        if (session()->get('loginData')['logged'] == 1){
+
+            $userID = session()->get('loginData')['data']['UserID'];
+            DB::table('rate')->insert([
+                'UserID'   =>  $userID,
+                'ProductID'   =>   $request->ProductID,
+                'Rate' => $request->rating,
+                'Content' =>$request->comment,
+            ]);
+     
+        }
+
+        return redirect()->back();
+
+    }
+
+
+    public function removeProductCarts($id){
+    
+        $productPush = session()->get('cartsData');
+        foreach ($productPush as $index => $product){
+            if ($product['ProductID'] == $id){
+                unset($productPush[$index]);
+                break;
+            }
+        }
+        session(['cartsData' => $productPush]);
+
+        $this->updateCartsInDB();
+
+        return redirect()->back();
+        
+    }
+    public function getIndex(Request $request){
+   
+        // $this->getCartsFromDB();
+        // session()->forget('cartsData');
+        // dd(session()->get('cartsData'));
+        // session()->flush();
+        // dd(session()->get('loginData'));
+        $highestRatedQuery = "";
+        $highestRatedProduct = DB::table('rate')->orderBy('Rate','desc')->latest("RateID")->take(3)->get();
+        foreach ($highestRatedProduct as $product){
+            $highestRatedQuery .= "ProductID = " . $product->ProductID . " OR ";
+        }
+
+        if (strlen(substr($highestRatedQuery, 0 ,- 4)) < 10){
+            $highestRatedProduct = DB::table('product')->limit(3)->get();
+        }
+        else {
+            $highestRatedProduct = DB::table('product')->whereRaw(substr($highestRatedQuery, 0 ,- 4))->get();
+        }
+        
+
+        $highestRatedProductHTML = "";
+        foreach ($highestRatedProduct as $index => $item){
+            $highestRatedProductHTML .= '
+            <div class="topproduct-body">
+                <div class="topproduct-body-picture"><img src="'. $item->Avatar .'"><span class="badge-top">#' . ( $index + 1 ). '</span>
+                </div>
+                <div class="topproduct-body-section">
+                <div style = "white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" class="topproduct-section-title"><a href="/san-pham/' . $item->Slug  . '">'. $item->Name .'</a>
+                </div>
+                <div class="topproduct-section-price">' .  number_format($item->Price, 0, '', ',') . ' VNĐ</div>
+                <div class="topproduct-rate">
+                    <ul class="rating" style="text-align: left">';
+
+                    $highestRatedProductAvg = DB::table('Rate')->selectRaw('CAST(AVG(rate) AS DECIMAL(2,1)) AS avg')->where('ProductID' , $item->ProductID)->first();
+                    $hrpRounedAvg = round($highestRatedProductAvg->avg);
+                    for ($i = 0 ; $i < $hrpRounedAvg ; $i++){
+                        $highestRatedProductHTML .= '<li><i class="fa fa-star"></i></li>';
+                    }
+                    for ($i = 0 ; $i < 5 - $hrpRounedAvg ; $i++){
+                        $highestRatedProductHTML .= '<li><i class="fa fa-star" style = "color: grey"></i></li>';
+                
+                    }
+ 
+                    $highestRatedProductHTML .= '</ul>
+                </div>
+                </div>
+            </div>
+            ';
+        }
+      
 
         $lastestProduct = DB::table('product')->latest("ProductID")->take(4)->get();
         $discountProduct = DB::table('product')->where('Status', '=', 1)->take(8)->get();
-        return view('user.index',compact('discountProduct','lastestProduct'));
+        return view('user.index',compact('discountProduct','lastestProduct' , 'highestRatedProductHTML'));
     }
 
     function Merged($id){
@@ -97,12 +370,29 @@ class UserController extends Controller
     }
 
     public function getProduct($tensanpham){
-        $product = DB::table('product')->where('Slug', $tensanpham)->first();
+ 
+
+
+        $product = DB::table('product')->where('Slug' , '=' , $tensanpham)->first();
+               
+        $this->findParentCategories( $product->CategoryID);
+        $categoriesArr = explode("/",$this->parentCategories);
+
+        // $this->getCategoriesRecursive($product->CategoryID);
+        // if ($this->recursiveCategories == null){
+        //     $this->recursiveCategories = $product->CategoryID;
+        // }
+        // else {
+        //     $this->recursiveCategories = substr($this->recursiveCategories,0,-3);
+        // }
+
+        // dd($this->recursiveCategories);
+
         $brand = DB::table('brand')->where('BrandID', $product->BrandID)->first();
 
-        $rateAvg = DB::table('Rate')->selectRaw('CAST(AVG(rate) AS DECIMAL(2,1)) AS avg')->first();
+        $rateAvg = DB::table('Rate')->selectRaw('CAST(AVG(rate) AS DECIMAL(2,1)) AS avg')->where('ProductID' , $product->ProductID)->first();
         
-        
+
         $rateCount = DB::select('SELECT COUNT(Rate) as rateCount FROM rate WHERE ProductID = ' . $product->ProductID);
         
 
@@ -131,7 +421,93 @@ class UserController extends Controller
         }
 
         $htmlRate .= '</ul>';
-        return view('user.product')->with(array('product' => $product , 'brand' => $brand->Name , 'htmlRate' => $htmlRate , 'rateCount' => $rateCount[0]->rateCount));
+
+
+        $htmlSuggestedRate = "";
+        $suggestProduct = DB::table('product')->where('CategoryID', $product->CategoryID)->inRandomOrder()->limit(6)->get();
+        foreach ($suggestProduct as $item){
+            $suggestProductRate = DB::table('Rate')->selectRaw('CAST(AVG(rate) AS DECIMAL(2,1)) AS avg')->where('ProductID' , $item->ProductID)->first();
+            
+           
+            $htmlSuggestedRate .= '
+            <div class="topproduct-body">
+                <div class="topproduct-body-picture"><img style="background: white ; height: 105px ; width: 105px" src="/'. $item->Avatar .'"></div>
+                <div class="topproduct-body-section">
+                <div class="topproduct-section-title"><a href= "/san-pham/'.  $item->Slug . '">'.$item->Name.'</a></div>
+                <div class="topproduct-section-price">'. number_format($item->Price, 0, '', ',') .'VNĐ</div>
+                <div class="topproduct-rate">
+                    <ul class="rating" style="text-align: left">';
+                    if ($suggestProductRate != null){
+                        $suggestProductRate = round($suggestProductRate->avg);
+                        for ($i = 0 ; $i < $suggestProductRate ; $i++){
+                            $htmlSuggestedRate .= '<li><i class="fa fa-star"></i></li>';
+                        } 
+                        if ($suggestProductRate != 5){
+                            for ($i = 0 ; $i < 5 - $suggestProductRate ; $i++){
+                                $htmlSuggestedRate .= '<li><i class="fa fa-star" style = "color: grey"></i></li>';
+                            }
+                        }
+                    }
+                    else {
+                        for ($i = 0 ; $i < $suggestProductRate ; $i++){
+                            $htmlSuggestedRate .= '<li><i class="fa fa-star" style = "color: grey"></i></li>';
+                        } 
+                    }
+                $htmlSuggestedRate .= '
+                    </ul>
+                </div>
+                </div>
+            </div> ';
+
+
+
+        };
+
+        $ratingComments = DB::table('rate')->where('ProductID', $product->ProductID)->get();
+    
+        
+        $htmlRatingComments = '';
+        foreach ($ratingComments as $comment){
+            
+            $ratingUser = DB::table('user')->where('UserID', $comment->UserID)->first();
+
+
+            $htmlRatingComments .= '
+            <div class="media">
+                <div class="media-left"> <img src="'. $ratingUser->Avatar .'" class="media-object" style="width:60px"> </div>
+                <div class="media-body">
+                <h6 class="media-heading">'. $ratingUser->Name .'</h6>
+                <p>
+                <ul class="rating" style="text-align: left">';
+
+            $ratingStarsCount = $comment->Rate;
+            if ($ratingStarsCount != 0){
+                for ($i = 0 ; $i < $ratingStarsCount ; $i++){
+                    $htmlRatingComments .= '<li><i class="fa fa-star"></i></li>';
+                } 
+                if ($ratingStarsCount != 5){
+                    for ($i = 0 ; $i < 5 - $ratingStarsCount ; $i++){
+                        $htmlRatingComments .= '<li><i class="fa fa-star" style = "color: grey"></i></li>';
+                    }
+                }
+            }
+            else {
+                for ($i = 0 ; $i < $ratingStarsCount ; $i++){
+                    $htmlRatingComments .= '<li><i class="fa fa-star" style = "color: grey"></i></li>';
+                } 
+            }
+  
+            $htmlRatingComments .= '
+                </ul>
+                </p>
+                <p>'. $comment->Content .'</p>
+                </div>
+            </div>
+            ';
+        }
+     
+
+        return view('user.product')->with(array('product' => $product , 'brand' => $brand->Name , 'htmlRate' => $htmlRate , 'rateCount' => $rateCount[0]->rateCount , 'htmlSuggestedRate' => $htmlSuggestedRate , 'htmlRatingComments' => $htmlRatingComments ,'categoriesArr' => $categoriesArr));
     }
     public function getBlog(){
         return view('user.blog');
@@ -140,11 +516,28 @@ class UserController extends Controller
         return view('user.about');
     }
     public function getCarts(){
+        // dd(session()->get('cartsData'));
+     
         return view('user.carts');
     }
 
+
+    public function updateProfileSettings(Request $request){
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required',
+            'phone' => 'required|numeric|min:11',
+            'address' => 'required',
+        ]);
+
+        DB::table('user')->where('UserID', session()->get('loginData')['data']['UserID'])->update(['Address' => $request->address , 'Phone' => $request->phone]);
+        return redirect()->route('user.settings');
+
+    }
     public function profileSettings(){
-        return view('user.account.profile');
+        $getAccount = DB::table('user')->where('UserID' , '=' , session()->get('loginData')['data']['UserID'])->first();
+
+        return view('user.account.profile',compact('getAccount'));
     }
 
     public function profileFavorite(){
@@ -161,6 +554,32 @@ class UserController extends Controller
             $this->findParentCategories($category->ParentID);
         }
 
+    }
+
+
+    public function searchWithFilter($name , $filter , Request $request){
+        $sort = substr($request->input('sort'), 1);
+        if (trim($sort) == "price-asc"){
+            $queryRequest .= "ASC";
+        }
+        else if (trim($sort) == "price-desc"){
+            $queryRequest .= "DESC";
+        }
+
+        
+
+        $categories = DB::table('productcategory')->get();
+        $productList = DB::table('product')->where('Name', 'LIKE', "%{$name}%")->orderBy('Price',$queryRequest)->paginate(8);
+        $getRated = "";
+        $productList2 = DB::table('product')->where('Name', 'LIKE', "%{$name}%")->get();
+        foreach ($productList2 as $item){
+            $getRated .= "ProductID = " . $item->ProductID . " OR ";
+        }
+        $ratedList = "";
+        if (strlen(substr($getRated,0,-3)) > 10){
+            $ratedList = DB::table('rate')->whereRaw(substr($getRated,0,-3))->get();
+        }
+        return view('user.search')->with(array('categories'=> $categories , 'productList' => $productList , 'ratedList' => $ratedList));
     }
 
     public function getCollectionWithFilter($tendanhmuc , $filter , Request $request){
@@ -211,13 +630,22 @@ class UserController extends Controller
             $productList = DB::table('product')->whereRaw('(CategoryID = ' . $this->recursiveCategories . ") AND " . $query)->paginate(8);
         }
     
+
         $brandCount = DB::select('SELECT BrandID, COUNT(BrandID) as DuplicateTimes FROM product WHERE CategoryID = ' . $this->recursiveCategories . ' GROUP BY BrandID HAVING COUNT(BrandID)>1');
         $productBrand = DB::table('brand')->where('BrandID' , '=' , $brand )->get();
         $categoriesArr = explode("/",$this->parentCategories);
 
+        $getRated = "";
+        $productList2 = DB::table('product')->whereRaw(' CategoryID = ' . $this->recursiveCategories)->get();
+        foreach ($productList2 as $item){
+            $getRated .= "ProductID = " . $item->ProductID . " OR ";
+        }
+        $ratedList = "";
+        if (strlen(substr($getRated,0,-3)) > 10){
+            $ratedList = DB::table('rate')->whereRaw(substr($getRated,0,-3))->get();
+        }
 
-
-        return view('user.collection')->with(array('categories'=> $categories , 'tendanhmuc' => $tendanhmuc , 'categoriesArr' => $categoriesArr , 'productList' => $productList , 'brandCount' => $brandCount , 'productBrand' => $productBrand , 'brandFilter' => 0));
+        return view('user.collection')->with(array('categories'=> $categories , 'tendanhmuc' => $tendanhmuc , 'categoriesArr' => $categoriesArr , 'productList' => $productList , 'brandCount' => $brandCount , 'productBrand' => $productBrand , 'brandFilter' => 0 , 'ratedList' => $ratedList));
         
     }
 
@@ -265,11 +693,72 @@ class UserController extends Controller
      
         $categoriesArr = explode("/",$this->parentCategories);
 
-        return view('user.collection')->with(array('categories'=> $categories , 'tendanhmuc' => $tendanhmuc , 'categoriesArr' => $categoriesArr , 'productList' => $productList , 'brandCount' => $brandCount , 'productBrand' => $productBrand , 'brandFilter' => 1));
+        $getRated = "";
+        $productList2 = DB::table('product')->whereRaw(' CategoryID = ' . $this->recursiveCategories)->get();
+        foreach ($productList2 as $item){
+            $getRated .= "ProductID = " . $item->ProductID . " OR ";
+        }
+        $ratedList = "";
+        if (strlen(substr($getRated,0,-3)) > 10){
+            $ratedList = DB::table('rate')->whereRaw(substr($getRated,0,-3))->get();
+        }
+        
+        return view('user.collection')->with(array('categories'=> $categories , 'tendanhmuc' => $tendanhmuc , 'categoriesArr' => $categoriesArr , 'productList' => $productList , 'brandCount' => $brandCount , 'productBrand' => $productBrand , 'brandFilter' => 1 , 'ratedList' => $ratedList));
     }
 
+
+    public function search($name,Request $request){
+        $queryRequest = "";
+        $sort = substr($request->input('sort'), 1);
+        if (trim($sort) == "price-asc"){
+            $queryRequest .= "ASC";
+        }
+        else if (trim($sort) == "price-desc"){
+            $queryRequest .= "DESC";
+        }
+
+        $categories = DB::table('productcategory')->get();
+
+        if ($queryRequest != ""){
+            $productList = DB::table('product')->where('Name', 'LIKE', "%{$name}%")->orderBy('Price',$queryRequest)->paginate(8);
+        }
+        else {
+            $productList = DB::table('product')->where('Name', 'LIKE', "%{$name}%")->paginate(8);
+        }
+
+        
+        $getRated = "";
+        $productList2 = DB::table('product')->where('Name', 'LIKE', "%{$name}%")->get();
+        foreach ($productList2 as $item){
+            $getRated .= "ProductID = " . $item->ProductID . " OR ";
+        }
+        $ratedList = "";
+        if (strlen(substr($getRated,0,-3)) > 10){
+            $ratedList = DB::table('rate')->whereRaw(substr($getRated,0,-3))->get();
+        }
+        return view('user.search')->with(array('categories'=> $categories , 'productList' => $productList , 'ratedList' => $ratedList));
+    }
+
+
     public function profileDelivery(){
-        return view('user.account.delivery');
+        $orderList = DB::table('order')->where("UserID" ,session()->get('loginData')['data']['UserID'])->get();
+        $orderQuery = "";
+       
+        foreach ($orderList as $order){
+            $orderQuery .= "OrderID = " . $order->OrderID . " OR ";
+        }
+        
+        $orderListDetail = DB::table('orderdetail')->whereRaw(substr($orderQuery,0,-4))->get();
+       
+
+        $productListQuery = "";
+        foreach ($orderListDetail as $productDetail){
+            $productListQuery .= "ProductID = " . $productDetail->ProductID . " OR ";
+        }
+
+        $productList = DB::table('product')->whereRaw(substr($productListQuery,0,-3))->get();
+        
+        return view('user.account.delivery',compact('orderList','orderListDetail','productList'));
     }
 
     public function petCityCrawler(){

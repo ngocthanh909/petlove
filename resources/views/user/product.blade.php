@@ -3,12 +3,26 @@
 @section('breadcrumb')
 <div class="container">
   <div id="tree">
-  <ul class="breadcrumb">
-    <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
-    <li class="breadcrumb-item"><a href="blog.html">dfdfdf</a></li>
+  <ul class="breadcrumb" >
+    <a><i class="fa fa-home"></i></a>
+    @foreach (array_reverse($categoriesArr) as $category)
+      @foreach(explode('|', $category) as $key=>$item)
+        @if($key == 0)
+          <li class="breadcrumb-item"><a href="{{ route('user.collection', $item) }}">
+    
+        @elseif($key == 1)
+          <span>{{ $item }}<span></a></li>
+            
+        @endif
+      @endforeach
+    @endforeach
+    <li class="breadcrumb-item"><a href=""><span>{{$product->Name}}<span></a></li>
+  
+    
   </ul>
   </div>
 </div>
+
 @endsection
 
 @section('content')
@@ -41,7 +55,7 @@
             <span>Có {{$rateCount}} người dùng đánh giá</span>
 
             
-            <div class="dpd-block-section-price"> <span>{{$product->Price}}</span><span> VNĐ</span><br>
+            <div class="dpd-block-section-price"> <span>{{number_format($product->Price, 0, '', ',')}}</span><span> VNĐ</span><br>
             </div>
             <div class="dpd-block-section-quality">
               <button id="cong">+</button>
@@ -53,8 +67,8 @@
             </div>
             <form action="{{ route('user.add.carts') }}" method="post">
               @csrf
-              <input disabled value="{{$product->Sku}}" name="sku">
-              <input disabled id="soluongform" name="soluong">
+              <input hidden value="{{$product->ProductID}}" name="ProductID">
+              <input hidden id="soluongform" value="1" name="Quantity">
               <button type="submit" class="btn-buy shadow-hover"><i class="fal fa-shopping-cart"></i>Thêm vào giỏ</button>
 
             </form>
@@ -82,50 +96,44 @@
             </div>
             <div id="tab-2">
               <div class="dpd-comment-form">
-                <p style="margin-bottom: 10px; font-size: 16px"><b>Bình luận</b></p>
-                <p>
-                  <input type="text" style="width: 49%" placeholder="Tên của bạn">
-                  <input type="email" style="width: 49%" placeholder="Địa chỉ email">
-                </p>
-                <p style="margin-top: 10px;">Đánh giá sản phẩm của chúng tôi:
-                <div id="rating">
-                  <input type="radio" id="star5" name="rating" value="5" />
-                  <label class = "full" for="star5" title="Awesome - 5 stars"></label>
-                  <input type="radio" id="star4" name="rating" value="4" />
-                  <label class = "full" for="star4" title="Pretty good - 4 stars"></label>
-                  <input type="radio" id="star3" name="rating" value="3" />
-                  <label class = "full" for="star3" title="Meh - 3 stars"></label>
-                  <input type="radio" id="star2" name="rating" value="2" />
-                  <label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
-                  <input type="radio" id="star1" name="rating" value="1" />
-                  <label class = "full" for="star1" title="Sucks big time - 1 star"></label>
-                </div>
-                </p>
-                <p><br>
-                  <textarea placeholder="Bình luận của bạn" style="width: 100%"></textarea>
-                </p>
-                <p>
-                  <button class="btn-buy" type="reset" data-toggle="modal" data-target="#myModal4">Gửi đi</button>
-                </p>
+                <p style="margin-bottom: 10px; font-size: 16px"><b>Bình luận</b></p>   
+                @if (session()->get('loginData')['logged'] == 1)
+                <form action = "{{ route('rate.product') }}" method="POST">
+                  @csrf
+                  <p style="margin-top: 10px;">Đánh giá sản phẩm của chúng tôi:
+                    <div id="rating">
+                      <input type="radio" id="star5" name="rating" value="5" />
+                      <label class = "full" for="star5" title="Awesome - 5 stars"></label>
+                      <input type="radio" id="star4" name="rating" value="4" />
+                      <label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+                      <input type="radio" id="star3" name="rating" value="3" />
+                      <label class = "full" for="star3" title="Meh - 3 stars"></label>
+                      <input type="radio" id="star2" name="rating" value="2" />
+                      <label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+                      <input type="radio" id="star1" name="rating" value="1" />
+                      <label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                    </div>
+                    </p>
+                    <input hidden value="{{$product->ProductID}}" name = "ProductID">
+                    <p><br>
+                      <textarea placeholder="Bình luận của bạn" style="width: 100%" name="comment"></textarea>
+                    </p>
+                    <p>
+                      <button class="btn-buy" type="submit" data-toggle="modal" data-target="#myModal4">Gửi đi</button>
+                    </p>
+                </form>
+
+                @else 
+
+                  <h5>Bạn phải đăng nhập để đánh giá sản phẩm</h5>
+    
+                @endif
+
+
               </div>
             </div>
             <div id="tab-3">
-              <div class="media">
-                <div class="media-left"> <img src="{{ asset('frontend/images/user/95853632_1288908511314610_6236089456328179712_n.jpg') }}" class="media-object" style="width:60px"> </div>
-                <div class="media-body">
-                  <h6 class="media-heading">Thanh Do</h6>
-                  <p>
-                  <ul class="rating" style="text-align: left">
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                  </ul>
-                  </p>
-                  <p>Sản phẩm chất lượng lắm mọi người ạ! Thích thì mua, không thích thì mua nha :3</p>
-                </div>
-              </div>
+              {!!$htmlRatingComments!!}
             </div>
           </div>
         </div>
@@ -133,59 +141,14 @@
       <div class="col-md-5 pl-0 mt-3 mob-margin-left">
         <div class="dpd-block1">
           <div class="topproduct-title">
-            <h5>Sản phẩm <strong>Hàng đầu</strong></h5>
+            <h5>Sản phẩm <strong>Tương Tự</strong></h5>
           </div>
-          <div class="topproduct-body">
-            <div class="topproduct-body-picture"><img src="{{ asset('frontend/images/product/product2.jpg') }}"><span class="badge-top">#1</span></div>
-            <div class="topproduct-body-section">
-              <div class="topproduct-section-title"><a href="sanpham1.html">Thức ăn cho chó con</a></div>
-              <div class="topproduct-section-price">500.000VNĐ</div>
-              <div class="topproduct-rate">
-                <ul class="rating" style="text-align: left">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!--        ==============================-->
-          <div class="topproduct-body">
-            <div class="topproduct-body-picture"><img src="{{ asset('frontend/images/product/product1.jpg') }}"><span class="badge-top">#2</span></div>
-            <div class="topproduct-body-section">
-              <div class="topproduct-section-title"><a href="sanpham1.html">Thức ăn chó trưởng thành</a></div>
-              <div class="topproduct-section-price">500.000VNĐ</div>
-              <div class="topproduct-rate">
-                <ul class="rating" style="text-align: left">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!--        ==============================-->
-          <div class="topproduct-body no-boder-bottom">
-            <div class="topproduct-body-picture"><img src="{{ asset('frontend/images/product/dog/royal canin/4372_ava.jpg') }}"><span class="badge-top">#3</span></div>
-            <div class="topproduct-body-section">
-              <div class="topproduct-section-title"><a href="sanpham1.html">Royal Canin Urinary Canine Dog</a></div>
-              <div class="topproduct-section-price">500.000VNĐ</div>
-              <div class="topproduct-rate">
-                <ul class="rating" style="text-align: left">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!--        ==============================--> 
+
+
+          {!!$htmlSuggestedRate!!}
+
+
+
         </div>
       </div>
     </div>

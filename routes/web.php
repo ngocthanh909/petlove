@@ -95,6 +95,14 @@ Route::prefix('/')->group(function() {
     Route::get('/', [us::class, 'getIndex'])->name('user.index');
     Route::get('/carts', [us::class, 'getCarts'])->name('user.carts');
     Route::post('/carts', [us::class, 'addCarts'])->name('user.add.carts');
+    Route::post('/rate', [us::class, 'rateProduct'])->name('rate.product')->middleware('auth.user');
+    Route::get('/search/{name}', [us::class, 'search'])->name('user.search');
+    // Route::get('/search/{name}/{filter}', [us::class, 'searchWithFilter'])->name('user.search.filter');
+    Route::get('/carts/remove/{id}', [us::class, 'removeProductCarts'])->name('user.remove.carts');
+   
+    Route::get('/order',[us::class, 'getOrder'])->name('user.order.detail')->middleware('auth.user');
+    Route::get('/order/submited',[us::class , 'submitOrder'])->name('user.submit.order')->middleware('auth.user');
+
     Route::get('/san-pham/{tensanpham}', [us::class, 'getProduct'])->name('user.product');
     Route::get('/gian-hang/{tendanhmuc}', [us::class, 'getCollection'])->name('user.collection');
     Route::get('/gian-hang/{tendanhmuc}/{filter}', [us::class, 'getCollectionWithFilter'])->name('user.collection.filter');
@@ -103,15 +111,25 @@ Route::prefix('/')->group(function() {
     Route::get('/about', [us::class, 'getAbout'])->name('user.about');
 });
 
+
+
 Route::get('/crawl', [us::class, 'petCityCrawler']);
 Route::get('/test', [us::class, 'testSaveImage']);
 Route::post('/crawl', [us::class, 'petCityCrawlerHandle'])->name('crawl.post');
 
 
-Route::get('/ajax',[us::class , 'getProductAjax'])->name('ajax.product');
-Route::prefix('/user')->group(function() {
+Route::prefix('/ajax')->group(function() {
+    Route::get('/product',[us::class , 'getProductAjax'])->name('ajax.product');
+    Route::get('/carts',[us::class , 'changeCartsAjax'])->name('ajax.carts');
+});
+
+
+
+Route::get('/carts/remove/{id}', [us::class, 'removeProductCarts'])->name('user.remove.carts');
+Route::prefix('/user')->middleware('auth.user')->group(function() {
     Route::get('/favorite', [us::class, 'profileFavorite'])->name('user.favorite');
     Route::get('/profile', [us::class, 'profileSettings'])->name('user.settings');
+    Route::post('/profile', [us::class, 'updateProfileSettings'])->name('user.update.settings');
     Route::get('/delivery', [us::class, 'profileDelivery'])->name('user.delivery');
 });
 

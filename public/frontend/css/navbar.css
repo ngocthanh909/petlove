@@ -70,8 +70,8 @@ nav .navbar-nav li a{
     height:40px;
     border:3px solid hsla(0,0%,100%,.25);
     float: right;
-    background-image: url(https://a.ppy.sh/8006548?1584775387.jpeg);
-    background-size: cover;
+    
+    
 }
 .avatar:hover {
     border:3px solid white;

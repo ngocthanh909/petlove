@@ -17,11 +17,11 @@
       <div class="col-md-3 pl-0 pr-0">
         <div class="profile-sidebar"> 
           <!-- SIDEBAR USERPIC -->
-          <div class="profile-userpic"> <img src="{{ asset('frontend/images/hhoahi.jpg') }}" class="img-responsive d-flex"  alt=""> </div>
+          <div class="profile-userpic"> <img src="{{session()->get('loginData')['data']['Avatar']}}" class="img-responsive d-flex"  alt=""> </div>
           <!-- END SIDEBAR USERPIC --> 
           <!-- SIDEBAR USER TITLE -->
           <div class="profile-usertitle">
-            <div class="profile-usertitle-name"> Thanh Hoa </div>
+            <div class="profile-usertitle-name"> {{session()->get('loginData')['data']['Name']}} </div>
             <div class="profile-usertitle-job"> Khách hàng thân thiết <i class="far fa-crown"></i></div>
           </div>
           <!-- END SIDEBAR USER TITLE --> 

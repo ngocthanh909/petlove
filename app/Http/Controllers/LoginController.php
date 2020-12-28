@@ -35,7 +35,7 @@ class LoginController extends Controller
             'data' => null,
         ];
         session(['loginData'=> $loginData, 'msg' => 'Đăng xuất thành công', 'code' => 1]);
-        return redirect(route('user.login'));
+        return redirect(route('user.index'));
     }
     public function redirect(){
         return Socialite::driver('facebook')->redirect();
