@@ -50,7 +50,13 @@
             <div>
               @foreach ($orderList as $indexOrder => $order)
               <div id="profile-form">
-                <div class="dogcat-sidebar-title">#{{($indexOrder + 1)}} Trạng thái: Chưa xác nhận <span style="float: right">Tổng tiền: {{number_format($order->Price, 0, '', ',')}}đ</span> </div>
+                <div class="dogcat-sidebar-title">#{{($indexOrder + 1)}} Trạng thái:
+                @if($order->Status == 1)
+                  Đã duyệt
+                @else
+                  Chưa duyệt
+                @endif
+                <span style="float: right">Tổng tiền: {{number_format($order->Price, 0, '', ',')}}đ</span> </div>
                 @foreach ($orderListDetail as $orderDetail)
                     @if ($orderDetail->OrderID == $order->OrderID)
                     <div id="item" class="cartpage-productlist-item">
