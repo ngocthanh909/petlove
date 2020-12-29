@@ -14,9 +14,9 @@ class AdminController extends Controller
     //Helper methods
     function returnStatus($result){
         if ($result) {
-            Helpler::message(1, ['Thao tác thành công!']);
+            Helpler::message(1, 'Thao tác thành công!');
         } else {
-            Helpler::message(0, ['Thao tác thất bại! Vui lòng kiểm tra lại!']);
+            Helpler::message(0, 'Thao tác thất bại! Vui lòng kiểm tra lại!');
         }
     }
 

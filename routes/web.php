@@ -150,3 +150,6 @@ Route::prefix('/user')->middleware('auth.user')->group(function() {
     Route::get('/delivery', [us::class, 'profileDelivery'])->name('user.delivery');
 });
 
+Route::prefix('test')->group(function(){
+    Route::view('layout', 'admin.layouts.layout2');
+});
