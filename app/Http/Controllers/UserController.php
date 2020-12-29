@@ -173,6 +173,7 @@ class UserController extends Controller
                     'UserID'   =>  session()->get('loginData')['data']['UserID'],
                     'Price'   =>   $price,
                     'Status'   =>   0,
+                    'Time'      => date('Y-m-d H:i:s'),
                 ]);
                 $orderID = DB::getPdo()->lastInsertId();
                 foreach (session()->get('cartsData') as $item){

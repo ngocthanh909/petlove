@@ -1,0 +1,4 @@
+-- Total reward
+select sum(Price) FROM `order` where PaymentStatus = 1 and MONTH(Time) = 12
+-- Product perdate
+select count(OrderID), Time FROM `order` where PaymentStatus = 1 GROUP BY DATE(Time)
