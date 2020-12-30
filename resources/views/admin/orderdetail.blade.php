@@ -17,7 +17,9 @@
                         <a href="{{route('admin.order.approve', ['OrderID'=> $detail[0]->OrderID, 'Status' => 1])}}" class="btn btn-success"><span>Duyệt hoá đơn</span></a>
                     @endif
                     @if($detail[0]->PaymentStatus == 1)
+                        <a href="{{route('admin.order.invoice', $detail[0]->OrderID)}}" class="btn btn-success"><span>In hoá đơn</span></a>
                         <a href="{{route('admin.order.paid', ['OrderID'=> $detail[0]->OrderID, 'PaymentStatus' => 0])}}" class="btn btn-danger"><span>Bỏ đã thanh toán</span></a>
+                        
                     @else
                         <a href="{{route('admin.order.paid', ['OrderID'=> $detail[0]->OrderID, 'PaymentStatus' => 1])}}" class="btn btn-success"><span>Đã thanh toán</span></a>
                     @endif

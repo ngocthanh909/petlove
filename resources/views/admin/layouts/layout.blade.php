@@ -32,10 +32,10 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                <div class="sidebar-brand-icon">
+                    <img src="{{ asset('frontend/images/header-logo.svg') }} " style="height: 2rem; width: auto">
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3"><small>Admin</small></div>
             </a>
 
             <!-- Divider -->
@@ -204,7 +204,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                                    @if(session('msg') != null)
+                                    @if(session('msg') != null && is_array(session('msg')))
                                         <span class="badge badge-danger badge-counter">{{count(session('msg'))}}</span>                                        
                                     @endif
                                 
@@ -214,7 +214,7 @@
                                 <h6 class="dropdown-header">
                                     Trung tâm thông báo
                                 </h6>
-                                @if(session('msg') != null)
+                                @if(session('msg') != null && is_array(session('msg')))
                                     @foreach (session()->pull('msg') as $value)
                                     <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="mr-3">
@@ -238,7 +238,7 @@
                         </li>
 
                         <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow mx-1">
+                        <li class="nav-item dropdown no-arrow mx-1 d-none">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->
@@ -303,7 +303,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{session('userData')['Name']}} - {{session('userData')['RoleName']}}</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="{{asset('assets/admin2/img/undraw_profile.svg')}}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -399,6 +399,7 @@
     <!-- Custom JS -->
     <script src="{{asset('assets\admin\js\scripts.js')}}"></script>
     <script src="{{asset('assets\admin\js\slug.js')}}"></script>
+    @yield('CustomScript')
 </body>
 
 </html>

@@ -274,4 +274,12 @@ class AdminController extends Controller
         $detail = DB::table('order')->join('user', 'user.UserID', '=', 'order.UserID')->select('order.OrderID', 'user.UserID', 'user.Name', 'order.Price', 'order.PaymentMethod', 'order.Status', 'order.Status', 'order.PaymentStatus', 'order.Address', 'order.Phone', 'order.Time')->where('order.OrderID', '=', $orderID)->get();
         return view('admin.invoice')->with('orderds', $result)->with('detail', $detail);
     }
+    // Report
+    function dashboardIndex(){
+        $revenueMonth = DB::table('order')->where('PaymentStatus', '=', 1)->whereRaw('Month(Time) = ' . date('m'))->sum('Price');
+        $revenueYear = DB::table('order')->where('PaymentStatus', '=', 1)->whereRaw('YEAR(Time) = ' . date('Y'))->sum('Price');
+        $totalSoldYear = DB::table('order')->join('orderdetail', 'order.OrderID', '=', 'orderdetail.OrderID')->where('Order.PaymentStatus', '=', 1)->whereRaw('YEAR(Time) = ' . date('Y'))->sum('orderdetail.quality');
+        $totalSoldMonth = DB::table('order')->join('orderdetail', 'order.OrderID', '=', 'orderdetail.OrderID')->where('Order.PaymentStatus', '=', 1)->whereRaw('Month(Time) = ' . date('m'))->sum('orderdetail.quality');        
+        return view('admin.dashboard')->with(['total' => ['revenueMonth'=> $revenueMonth,'revenueYear'=> $revenueYear, 'totalYear' => $totalSoldYear, 'totalMonth' => $totalSoldMonth]]);
+    }
 }

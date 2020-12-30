@@ -17,9 +17,8 @@ use App\Http\Controllers\UserController as us;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Route::get('/', [ad::class, 'index']);
 
-//USER
+//USER LOGIN
 Route::get('/auth/redirect', [login::class, 'redirect'])->name('login.facebook');
 Route::get('/auth/callback', [login::class, 'callback'])->name('login.callback');
 Route::get('/logout', [login::class, 'logout'])->name('user.logout');
@@ -30,13 +29,13 @@ Route::get('/testlogin', function (Request $request){
 })->middleware('auth.user');
 
 
-//ADMIN
+//ADMIN LOGIN
 Route::get('admin/login', [login::class, 'adminLoginIndex'])->name('admin.login');
 Route::post('admin/login', [login::class, 'authAdmin'])->name('admin.login.auth');
 Route::get('admin/logout', [login::class, 'adminLogout'])->name('admin.logout');
 
 Route::prefix('admin')->middleware('auth.admin')->group(function () {
-    Route::get('/', [ad::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/', [ad::class, 'dashboardIndex'])->name('admin.dashboard');
     Route::prefix('/category')->group(function () {
         Route::get('/', [ad::class, 'categoryIndex'])->name('admin.category');
         Route::get('/create', [ad::class, 'createCategory'])->name('admin.category.create');
@@ -150,6 +149,6 @@ Route::prefix('/user')->middleware('auth.user')->group(function() {
     Route::get('/delivery', [us::class, 'profileDelivery'])->name('user.delivery');
 });
 
-Route::prefix('test')->group(function(){
-    Route::view('layout', 'admin.layouts.layout2');
-});
+// Route::prefix('test')->group(function(){
+//     Route::get('/dbraw', [ad::class, 'dashboardIndex']);
+// });
