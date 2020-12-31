@@ -234,25 +234,25 @@ class AdminController extends Controller
             switch($sort){
                 case 'asc':
                     $stmt->orderBy('time', 'asc');
-                    break; 
+                    break;
                 case 'desc':
                     $stmt->orderBy('time', 'desc');
-                    break; 
+                    break;
             }
         }
         if(isset($approved)){
             switch($approved){
                 case 1:
                     $stmt->where('Status', '=', 1);
-                    break; 
+                    break;
                 case 0:
                     $stmt->where('Status', '=', 0);
-                    break; 
+                    break;
             }
         }
         // dd($stmt->toSql());
        $result = $stmt->get();
-        return view('admin.order')->with('orders', $result);      
+        return view('admin.order')->with('orders', $result);
     }
     function orderDetailIndex(Request $request, $orderID) {
         $result = DB::table('orderdetail')->join('product',  'orderdetail.ProductID', '=', 'product.ProductID')->select('product.ProductID', 'product.Name', 'product.Price AS OriginalPrice', 'orderdetail.Quality', 'orderdetail.Price')->where('orderdetail.OrderID', '=',$orderID)->get();
@@ -279,7 +279,7 @@ class AdminController extends Controller
         $revenueMonth = DB::table('order')->where('PaymentStatus', '=', 1)->whereRaw('Month(Time) = ' . date('m'))->sum('Price');
         $revenueYear = DB::table('order')->where('PaymentStatus', '=', 1)->whereRaw('YEAR(Time) = ' . date('Y'))->sum('Price');
         $totalSoldYear = DB::table('order')->join('orderdetail', 'order.OrderID', '=', 'orderdetail.OrderID')->where('Order.PaymentStatus', '=', 1)->whereRaw('YEAR(Time) = ' . date('Y'))->sum('orderdetail.quality');
-        $totalSoldMonth = DB::table('order')->join('orderdetail', 'order.OrderID', '=', 'orderdetail.OrderID')->where('Order.PaymentStatus', '=', 1)->whereRaw('Month(Time) = ' . date('m'))->sum('orderdetail.quality');        
+        $totalSoldMonth = DB::table('order')->join('orderdetail', 'order.OrderID', '=', 'orderdetail.OrderID')->where('Order.PaymentStatus', '=', 1)->whereRaw('Month(Time) = ' . date('m'))->sum('orderdetail.quality');
         return view('admin.dashboard')->with(['total' => ['revenueMonth'=> $revenueMonth,'revenueYear'=> $revenueYear, 'totalYear' => $totalSoldYear, 'totalMonth' => $totalSoldMonth]]);
     }
 }
