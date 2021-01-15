@@ -2,6 +2,7 @@
 <html>
 
 <head>
+
   <meta charset="utf-8">
   <title>Petlove - Shop thú cưng trực tuyến</title>
   <!--CSS-->
@@ -11,10 +12,24 @@
   <link rel="stylesheet" href="{{ asset('frontend/css/all.css') }}">
   <link rel="stylesheet" href="{{ asset('frontend/css/flaticon.css')}}">
   <link rel="stylesheet" href="{{ asset('frontend/css/sidebar.css')}}">
+
   <!--Script-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="{{ asset('frontend/js/bootstrap.js') }}"></script>
+  <script>
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.onresult = function(event) {
+        if (event.results.length > 0) {
+            $('searchInput').val(event.results[0][0].transcript);
+            console.log();
+            searchInput.value = event.results[0][0].transcript;
+            window.location = "/search/" + input.value;
+        }
+    }
+</script>
+
   <script src="{{ asset('frontend/js/navbar.js') }}"></script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -193,6 +208,18 @@
 </script>
 
 <script>
+
+
+  function startRegVoice(evt){
+    console.log($(evt).attr('class'));
+    recognition.start()
+    $('.audio').removeAttr('hidden');
+    $('#searchInput').prop('hidden', true);
+    $(evt).attr('hidden',true);
+    
+  
+
+  }
   function openSidebar() {
     document.getElementById("mySidenav").style.width = "250px";
   }
@@ -202,7 +229,7 @@
   }
 
   var coll = document.getElementsByClassName("collapsible");
-var i;
+  var i;
 
 for (i = 0; i < coll.length; i++) {
   coll[i].addEventListener("click", function() {

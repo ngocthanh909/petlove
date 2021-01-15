@@ -35,6 +35,7 @@ Route::post('admin/login', [login::class, 'authAdmin'])->name('admin.login.auth'
 Route::get('admin/logout', [login::class, 'adminLogout'])->name('admin.logout');
 
 Route::prefix('admin')->middleware('auth.admin')->group(function () {
+    Route::post('/ckeditorupload' , [ad::class , 'ckEditorUpload'])->name('ckEditorUpload');
     Route::get('/', [ad::class, 'dashboardIndex'])->name('admin.dashboard');
     Route::prefix('/category')->group(function () {
         Route::get('/', [ad::class, 'categoryIndex'])->name('admin.category');

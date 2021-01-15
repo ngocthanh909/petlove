@@ -2,6 +2,9 @@
 @section('title', 'Quản lý sản phẩm')
 @section('heading', 'Danh sách sản phẩm')
 @section('body')
+
+<input id="testInput" value="dfdf">
+
 <div class="container-fluid">
     <div class="table-responsive">
         <div class="table-wrapper">
@@ -146,16 +149,11 @@
                             <textarea id="Description" name="Description" cols="40" rows="10" class="form-control"></textarea>
                         </div>
                         <script>
-                            ClassicEditor
-                                .create(document.querySelector('#Description'), {
-                                    ckfinder: {
-                                        // Use named route for CKFinder connector entry point
-                                        uploadUrl: '{{ route('ckfinder_connector') }}?command=QuickUpload&type=Files'
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error(error);
-                                });
+                            var valDes = $(".Description").html();
+                            CKEDITOR.replace( 'Description', {
+                                filebrowserUploadUrl: "{{route('ckEditorUpload', ['_token' => csrf_token() ])}}",
+                                filebrowserUploadMethod: 'form'
+                            } );
                         </script>
                     </div>
                     <div class="form-group row">
@@ -255,19 +253,11 @@
                     <div class="form-group row">
                         <label for="Description" class="col-4 col-form-label">Mô tả sản phẩm</label>
                         <div class="col-8">
-                            <textarea id="Description2" name="Description" cols="40" rows="10" class="form-control"></textarea>
+                            <textarea  id="Description2" name="Description" cols="40" rows="10" class="form-control"></textarea>
                         </div>
                         <script>
-                            ClassicEditor
-                                .create(document.querySelector('#Description2'), {
-                                    ckfinder: {
-                                        // Use named route for CKFinder connector entry point
-                                        uploadUrl: '{{ route('ckfinder_connector') }}?command=QuickUpload&type=Files'
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error(error);
-                                });
+                    
+                     
                         </script>
                         <script>
                         </script>
@@ -333,6 +323,11 @@
         modal.find('#OriginalPrice').val(button.data('originalprice'));
         modal.find('#Rate').val(button.data('rate'));
 
+        // var textarea = modal.find('#Description2');
+        modal.find('#Description2').ckeditor({ filebrowserUploadUrl: "{{route('ckEditorUpload', ['_token' => csrf_token() ])}}", filebrowserUploadMethod: 'form' });
+
+
+
     })
 
 </script>
@@ -359,6 +354,7 @@
     </div>
 </div>
 <script>
+ 
     $('#deleteModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var modal = $(this)

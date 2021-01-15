@@ -1,10 +1,19 @@
         <!--Search Bar For Desktop-->
+
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content" style="margin-top: 120px; background: transparent; border: none">
               <input class="form-control" id = "searchInput" placeholder="Nhập vào sản phẩm bạn cần tìm">
+              <br>
+              <button class="btn btn-primary" onclick="startRegVoice(this)"><i class="fas fa-microphone"></i></button>
+    
             </div>
+            <div class="icon audio" hidden style="margin-top: 150px">
+                <i></i>
+                <i></i>
+                </div>
           </div>
+        
       </div>
       <!--End Search Bar For Desktop-->
 
