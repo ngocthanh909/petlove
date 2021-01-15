@@ -27,7 +27,6 @@ class CartsProvider extends ServiceProvider
         view()->composer('user.layout.layout1', function ($view) {
             if(isset(session()->get('loginData')['logged'])){
                 if (session()->get('loginData')['logged'] == 1){
-                
                     session()->forget('cartsData');
                     $userID = session()->get('loginData')['data']['UserID'];
                     $cartDB = DB::table('cart')->where('UserID' , '=' , $userID)->get();

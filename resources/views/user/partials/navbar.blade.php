@@ -134,6 +134,7 @@
 
                         </button>
 
+                        @isset(session()->get('loginData')['logged'])
                         @if (session()->get('loginData')['logged'] == 1)
                         <div class="nav-button avatar" style="background-size: cover; background-image: url({{session()->get('loginData')['data']['Avatar']}});" onclick="openNav(event,'tab-users')"></div>
                         @else
@@ -146,6 +147,7 @@
                         </a>
 
                         @endif
+                        @endisset
 
                         <!--End Nav Buttons For Handling Events-->
 
