@@ -282,4 +282,22 @@ class AdminController extends Controller
         $totalSoldMonth = DB::table('order')->join('orderdetail', 'order.OrderID', '=', 'orderdetail.OrderID')->where('Order.PaymentStatus', '=', 1)->whereRaw('Month(Time) = ' . date('m'))->sum('orderdetail.quality');
         return view('admin.dashboard')->with(['total' => ['revenueMonth'=> $revenueMonth,'revenueYear'=> $revenueYear, 'totalYear' => $totalSoldYear, 'totalMonth' => $totalSoldMonth]]);
     }
+
+    public function ckEditorUpload(Request $request)
+    {
+        if($request->hasFile('upload')) {
+            $originName = $request->file('upload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('upload')->getClientOriginalExtension();
+            $fileName = $fileName.'_'.time().'.'.$extension;
+            $request->file('upload')->move(public_path('images'), $fileName);
+            $CKEditorFuncNum = $request->input('CKEditorFuncNum');
+            $url = asset('images/'.$fileName); 
+            $msg = 'Image uploaded successfully'; 
+            $response = "<script>window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$url', '$msg')</script>";
+               
+            @header('Content-type: text/html; charset=utf-8'); 
+            echo $response;
+        }
+    }
 }

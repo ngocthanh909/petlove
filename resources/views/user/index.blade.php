@@ -201,7 +201,7 @@
 
 
 @foreach ($categories as $root)
-    @if ($root->ParentID == 0)
+    @if ($root->ParentID == 0 && $root->CategoryID != 3)
       <div class="container  mt-3">
         <div class="puppy-container">
           <div class="puppy-left">
@@ -218,7 +218,10 @@
           </div>
           <!--========= CENTER PANEL =========-->
           <div class="puppy-center">
+        
             <div class="row ml-0 mr-0 puppycontent" id="puppy{{$root->CategoryID}}-content">
+        
+           
 
 
               <!--END Puppy=============================-->
