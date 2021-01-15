@@ -28,3 +28,9 @@ userID - ID của người dùng ứng dụng.
 Sau khi ứng dụng biết trạng thái đăng nhập của người dùng, ứng dụng đó có thể thực hiện một trong những điều sau:
 Nếu người đó đăng nhập vào Facebook và ứng dụng của bạn, hãy chuyển họ đến trải nghiệm đăng nhập của ứng dụng.
 Nếu người đó không đăng nhập ứng dụng của bạn hoặc không đăng nhập Facebook, hãy nhắc họ bằng hộp thoại Đăng nhập bằng FB.login() hoặc hiển thị cho họ nút Đăng nhập.
+
+
+
+FACEBOOK_CLIENT_ID = 947748449088802
+FACEBOOK_CLIENT_SECRET = 366a80c5bbacceedca3fde1657bcec7a
+FACEBOOK_CLIENT_CALLBACK = https://localhost/auth/callback
