@@ -14,7 +14,7 @@
 @section('content')
 
 <!--================== BANNER 1 ==================-->
-<div class="container mt-3">
+<div class="container mt-3 res1">
   <div id="home-banner" class="carousel slide" data-ride="carousel">
 
     <!-- Indicators -->
@@ -42,7 +42,7 @@
   </div>
 </div>
 <!--Info banner-->
-<div class="container mt-3">
+<div class="container mt-3 res1">
   <div class="row">
     <div class="col-md-4">
       <div class="pf-box default-block shadow-hover"> <img src="{{ asset('frontend/images/home/Feature Image/free-delivery.svg') }}">
@@ -75,7 +75,7 @@
 <!--================== BANNER 2 ==================-->
 
 <!--================== NEW PRODUCT ==================-->
-<div class="container mb-3 mt-3">
+<div class="container mb-3 mt-3 res1">
   <div class="new-container">
     <div class="new-title">
       <h5>Sản phẩm </h5>
@@ -158,7 +158,7 @@
   </div>
 </div>
 <!--================== saleoffF AND TOP PRODUCT ==================-->
-<div class="container  mt-3">
+<div class="container  mt-3 res1">
   <div class="row">
     <!--=========== SaleOff ===========-->
     <div class="col-md-8">
@@ -202,7 +202,7 @@
 
 @foreach ($categories as $root)
     @if ($root->ParentID == 0 && $root->CategoryID != 3)
-      <div class="container  mt-3">
+      <div class="container mt-3 res1">
         <div class="puppy-container">
           <div class="puppy-left">
             <div class="puppy-left-title" style="background: #B224EF"><a href="collection.html">{{$root->Name}}</a> </div>
@@ -239,7 +239,7 @@
 
 
 <!--================== HOME BLOG ==================-->
-<div class="container  mt-3">
+<div class="container  mt-3 res1">
   <div class="hblog-container">
     <div class="hblog-title">
       <h5>PETLOVE <b>Blogs</b></h5>
