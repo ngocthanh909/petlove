@@ -97,7 +97,7 @@
             <div id="tab-2">
               <div class="dpd-comment-form">
                 <p style="margin-bottom: 10px; font-size: 16px"><b>Bình luận</b></p>   
-                @if (session()->get('loginData')['logged'] == 1)
+                @if (isset(session()->get('loginData')['logged']) && session()->get('loginData')['logged'] == 1)
                 <form action = "{{ route('rate.product') }}" method="POST">
                   @csrf
                   <p style="margin-top: 10px;">Đánh giá sản phẩm của chúng tôi:
