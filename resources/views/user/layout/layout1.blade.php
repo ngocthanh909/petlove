@@ -245,6 +245,7 @@ for (i = 0; i < coll.length; i++) {
   </script>
 
 @stack('scripts')
+@stack('styles')
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 </html>

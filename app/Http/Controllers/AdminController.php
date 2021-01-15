@@ -300,4 +300,37 @@ class AdminController extends Controller
             echo $response;
         }
     }
+
+    public function getBlogPage(){
+        $blogs = DB::table('blog')->get();
+        return view('admin.blogmanager',compact('blogs'));
+    }
+
+    public function addBlogPage(Request $res){
+        
+        if ($res->Avatar != null){
+            DB::table('blog')->insert(['name' => $res->PostTitle , 'slug' => $res->Slug , 'content' => $res->Content , 'viewCount' => 0 ,'Avatar' => $this->fileUpload($res, 'Avatar', "BlogImage", $res->Slug)]);
+        }
+        else {
+            DB::table('blog')->insert(['name' => $res->PostTitle , 'slug' => $res->Slug , 'content' => $res->Content , 'viewCount' => 0 ,'Avatar' => 0]);
+        }
+        // dd($res->PostTitle);
+        // DB::table('blog')->where('id',$res->BlogID)->delete();
+        return redirect(url('admin/blogmanager'));
+    }
+
+    public function updateBlogPage(Request $res){
+        if ($res->Avatar != null){
+            DB::table('blog')->update(['name' => $res->PostTitle , 'slug' => $res->Slug , 'content' => $res->Content , 'viewCount' => 0 ,'Avatar' => $this->fileUpload($res, 'Avatar', "BlogImage", $res->Slug)]);
+        }
+        else {
+            DB::table('blog')->update(['name' => $res->PostTitle , 'slug' => $res->Slug , 'content' => $res->Content , 'viewCount' => 0 ,'Avatar' => 0]);
+        }
+        return redirect(url('admin/blogmanager'));
+    }
+
+    public function removeBlogPage(Request $res){
+        DB::table('blog')->where('id',$res->BlogID)->delete();
+        return redirect(url('admin/blogmanager'));
+    }
 }

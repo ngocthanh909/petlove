@@ -511,7 +511,11 @@ class UserController extends Controller
         return view('user.product')->with(array('product' => $product , 'brand' => $brand->Name , 'htmlRate' => $htmlRate , 'rateCount' => $rateCount[0]->rateCount , 'htmlSuggestedRate' => $htmlSuggestedRate , 'htmlRatingComments' => $htmlRatingComments ,'categoriesArr' => $categoriesArr));
     }
     public function getBlog(){
-        return view('user.blog');
+
+        $blog1 = DB::table('blog')->orderBy('id', 'desc')->first();
+        $blog2 = DB::table('blog')->orderBy('id', 'desc')->limit(5)->get();
+        $blog3 = DB::table('blog')->orderBy('id', 'desc')->paginate(3);
+        return view('user.blog',compact('blog1','blog2','blog3'));
     }
     public function getAbout(){
         return view('user.about');
@@ -798,7 +802,7 @@ class UserController extends Controller
     }
 
 
-
+    
     function crawlFunc($url , $CategoryID , $Option) {
         set_time_limit(600);
         $client = new Client();
@@ -920,6 +924,14 @@ class UserController extends Controller
 
     public function testSaveImage(){
 
+    }
+
+    public function getBlogDetail($slug){
+
+        $content = DB::table('blog')->where('slug',$slug)->first();
+        $blog2 = DB::table('blog')->orderBy('id', 'desc')->limit(4)->get();
+
+        return view('user.blogcontent' , compact('content','blog2'));
     }
 
 }

@@ -92,6 +92,14 @@ Route::prefix('admin')->middleware('auth.admin')->group(function () {
         Route::get('/invoice/{OrderID}', [ad::class, 'invoiceIndex'])->name('admin.order.invoice');
     });
 
+    Route::prefix('/blogmanager')->middleware('auth.admin')->group(function () {
+        Route::get('/' , [ad::class , 'getBlogPage'])->name('admin.blog.pages');
+        Route::post('/addblog' , [ad::class , 'addBlogPage'])->name('admin.blog.post');
+        Route::post('/updateblog' , [ad::class , 'updateBlogPage'])->name('admin.blog.update');
+        Route::get('/removeblog' , [ad::class , 'removeBlogPage'])->name('admin.blog.remove');
+
+    });
+
 });
 
 Route::post('/testupload', [ad::class, 'fileUpload2'])->name('upload');
@@ -99,6 +107,7 @@ Route::post('/testupload', [ad::class, 'fileUpload2'])->name('upload');
 //User Routes
 
 Route::prefix('/')->group(function () {
+
     Route::get('/', [us::class, 'getIndex'])->name('user.index');
     Route::get('/carts', [us::class, 'getCarts'])->name('user.carts');
     Route::post('/carts', [us::class, 'addCarts'])->name('user.add.carts');
@@ -114,7 +123,7 @@ Route::prefix('/')->group(function () {
     Route::get('/gian-hang/{tendanhmuc}', [us::class, 'getCollection'])->name('user.collection');
     Route::get('/gian-hang/{tendanhmuc}/{filter}', [us::class, 'getCollectionWithFilter'])->name('user.collection.filter');
     Route::get('/blog', [us::class, 'getBlog'])->name('user.blog');
-
+    Route::get('/blog/{slug}', [us::class, 'getBlogDetail'])->name('get.blog.content');
     Route::get('/about', [us::class, 'getAbout'])->name('user.about');
 });
 
