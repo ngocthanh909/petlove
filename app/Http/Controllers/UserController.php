@@ -329,7 +329,7 @@ class UserController extends Controller
                 <div class="topproduct-rate">
                     <ul class="rating" style="text-align: left">';
 
-                    $highestRatedProductAvg = DB::table('Rate')->selectRaw('CAST(AVG(rate) AS DECIMAL(2,1)) AS avg')->where('ProductID' , $item->ProductID)->first();
+                    $highestRatedProductAvg = DB::table('rate')->selectRaw('CAST(AVG(rate) AS DECIMAL(2,1)) AS avg')->where('ProductID' , $item->ProductID)->first();
                     $hrpRounedAvg = round($highestRatedProductAvg->avg);
                     for ($i = 0 ; $i < $hrpRounedAvg ; $i++){
                         $highestRatedProductHTML .= '<li><i class="fa fa-star"></i></li>';
