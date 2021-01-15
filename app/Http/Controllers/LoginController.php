@@ -38,6 +38,7 @@ class LoginController extends Controller
         return redirect(route('user.index'));
     }
     public function redirect(){
+        dd("hmm");
         return Socialite::driver('facebook')->redirect();
     }
     public function callback(){

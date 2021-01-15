@@ -29,7 +29,8 @@
     <!--===============================================================================================-->
 </head>
 <body>
-
+    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+    </fb:login-button>
     <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100">
@@ -40,7 +41,7 @@
                         <img src="https://avatars0.githubusercontent.com/u/4692034?s=200&v=4">
                     </span>
                     @php
-					$loginData = session()->get('loginData');
+                    $loginData = session()->get('loginData');
                     $code = session()->pull('code');
                     $msg = session()->pull('msg');
                     var_dump($code);
@@ -53,13 +54,13 @@
                             {{$msg}}
                         </div>
                     </p>
-					@elseif($code == 0)
+                    @elseif($code == 0)
                     <p>
                         <div class="alert alert-danger">
                             {{$msg}}
                         </div>
                     </p>
-					@elseif($code == 2)
+                    @elseif($code == 2)
                     <p>
                         <div class="alert alert-info">
                             {{$msg}}
