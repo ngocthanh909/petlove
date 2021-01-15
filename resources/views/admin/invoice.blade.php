@@ -44,9 +44,9 @@
                         <div class="email"><a href="mailto:john@example.com">{{$detail[0]->Phone}}</a></div>
                     </div>
                     <div class="col invoice-details">
-                        <h1 class="invoice-id">INVOICE 3-2-1</h1>
+                        {{-- <h1 class="invoice-id">INVOICE 3-2-1</h1>
                         <div class="date">Date of Invoice: 01/10/2018</div>
-                        <div class="date">Due Date: 30/10/2018</div>
+                        <div class="date">Due Date: 30/10/2018</div> --}}
                     </div>
                 </div>
                 <table border="0" cellspacing="0" cellpadding="0">

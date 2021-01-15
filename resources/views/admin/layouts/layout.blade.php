@@ -91,7 +91,8 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Quản lý</h6>
                         <a class="collapse-item" href="{{route('admin.cmscategory')}}">Danh mục</a>
-                        <a class="collapse-item" href="{{route('admin.cms')}}">Nội dung</a>
+                        {{-- <a class="collapse-item" href="{{route('admin.cms')}}">Nội dung</a> --}}
+                        <a class="collapse-item" href="{{route('admin.blog.pages')}}">Nội dung</a>
                     </div>
                 </div>
             </li>

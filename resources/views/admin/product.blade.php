@@ -3,7 +3,7 @@
 @section('heading', 'Danh sách sản phẩm')
 @section('body')
 
-<input id="testInput" value="dfdf">
+
 
 <div class="container-fluid">
     <div class="table-responsive">
@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-sm-6">
                         <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Thêm</span></a>
-                        <a href="#deleteModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Xoá</span></a>
+                        {{-- <a href="#deleteModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Xoá</span></a> --}}
                     </div>
                 </div>
             </div>

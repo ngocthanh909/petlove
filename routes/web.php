@@ -86,8 +86,6 @@ Route::prefix('admin')->middleware('auth.admin')->group(function () {
         Route::get('/', [ad::class, 'userManagerIndex'])->name('admin.userman');
         Route::post('/update/active', [ad::class, 'userUpdateActive'])->name('admin.userman.updateActive');
         Route::post('/delete', [ad::class, 'userDelete'])->name('admin.userman.delete');
-        // Route::post('/update/active', [ad::class, 'adminUpdateActive'])->name('admin.adminman.updateActive');
-        // Route::post('/update/create', [ad::class, 'adminCreate'])->name('admin.adminman.create');
     });
     Route::prefix('/order')->group(function () {
         Route::get('/', [ad::class, 'orderIndex'])->name('admin.order');
@@ -102,7 +100,6 @@ Route::prefix('admin')->middleware('auth.admin')->group(function () {
         Route::post('/addblog' , [ad::class , 'addBlogPage'])->name('admin.blog.post');
         Route::post('/updateblog' , [ad::class , 'updateBlogPage'])->name('admin.blog.update');
         Route::get('/removeblog' , [ad::class , 'removeBlogPage'])->name('admin.blog.remove');
-
     });
 
 });
@@ -118,7 +115,6 @@ Route::prefix('/')->group(function () {
     Route::post('/carts', [us::class, 'addCarts'])->name('user.add.carts');
     Route::post('/rate', [us::class, 'rateProduct'])->name('rate.product')->middleware('auth.user');
     Route::get('/search/{name}', [us::class, 'search'])->name('user.search');
-    // Route::get('/search/{name}/{filter}', [us::class, 'searchWithFilter'])->name('user.search.filter');
     Route::get('/carts/remove/{id}', [us::class, 'removeProductCarts'])->name('user.remove.carts');
 
     Route::get('/order', [us::class, 'getOrder'])->name('user.order.detail')->middleware('auth.user');

@@ -349,7 +349,8 @@ class UserController extends Controller
 
         $lastestProduct = DB::table('product')->latest("ProductID")->take(4)->get();
         $discountProduct = DB::table('product')->where('Status', '=', 1)->take(8)->get();
-        return view('user.index',compact('discountProduct','lastestProduct' , 'highestRatedProductHTML'));
+        $cmss = DB::table('blog')->limit(3)->get();
+        return view('user.index',compact('discountProduct','lastestProduct' , 'highestRatedProductHTML', 'cmss'));
     }
 
     function Merged($id){

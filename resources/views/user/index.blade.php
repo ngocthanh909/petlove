@@ -245,42 +245,18 @@
       <h5>PETLOVE <b>Blogs</b></h5>
     </div>
     <div class="row">
-      <div class="col-md-4">
+      @foreach($cmss as $key => $cms)
+        <div class="col-md-4">
         <div class="hblog-body">
-          <div class="hblog-body-picture"> <img src="{{ asset('frontend/images/cover.5e44b5bd154a2.jpg') }}"> <span
-              class="hblog-date-badge">24/6/2020</span> </div>
+          <div class="hblog-body-picture"> <img src="{{ asset($cms->avatar) }}"> <span
+              class="hblog-date-badge">{{date('m-d-Y',strtotime($cms->created_at))}}</span> </div>
           <div class="hblog-body-section">
-            <div class="hblog-section-title"><a href="html/blog/blog2.html">Chó Mang Thai Bao Lâu Thì Đẻ?</a></div>
-            <div class="hblog-section-nutshell">Chó mang bầu mấy tháng đẻ? Câu hỏi này chắc được rất nhiều "ông bà
-              ngoại" quan tâm...</div>
+            <div class="hblog-section-title"><a href="{{route('get.blog.content', ['slug' => $cms->slug])}}">{{$cms->name}}</a></div>
+            {{-- <div class="hblog-section-nutshell">{{$cms->Description}}</div> --}}
           </div>
         </div>
       </div>
-      <!--=====================================-->
-      <div class="col-md-4">
-        <div class="hblog-body">
-          <div class="hblog-body-picture"> <img src="{{ asset('frontend/images/Anhnen2.jpg') }}"> <span
-              class="hblog-date-badge">24/6/2020</span> </div>
-          <div class="hblog-body-section">
-            <div class="hblog-section-title"><a href="html/blog/blog0.html">Mẹo chụp ảnh đẹp cho thú cưng của bạn</a>
-            </div>
-            <div class="hblog-section-nutshell">Chó becgie nhỏ 2 tháng đã cai sữa mẹ và có thể xuất chuồng...</div>
-          </div>
-        </div>
-      </div>
-      <!--=====================================-->
-      <div class="col-md-4">
-        <div class="hblog-body">
-          <div class="hblog-body-picture"> <img src="{{ asset('frontend/images/Anhnen.jpg') }}"> <span class="hblog-date-badge">24/6/2020</span>
-          </div>
-          <div class="hblog-body-section">
-            <div class="hblog-section-title"><a href="html/blog/blog4.html">Phải làm gì khi cún yêu tiêu chảy?</a></div>
-            <div class="hblog-section-nutshell">Tiêu chảy là bệnh khá phổ biến ở cún yêu. Nếu áp dụng đúng biện pháp
-              chữa trị, bệnh ..</div>
-          </div>
-        </div>
-      </div>
-      <!--=====================================-->
+      @endforeach
     </div>
   </div>
 </div>
