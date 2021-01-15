@@ -6,6 +6,7 @@
   <meta charset="utf-8">
   <title>Petlove - Shop thú cưng trực tuyến</title>
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <meta property="og:image" content="https://play-lh.googleusercontent.com/t629QytnS1Cej3rv7jgjSxX5TA9_vlo7H6ENDg0ILlgvORvP3qhnEEt6Ag2QfOD5m44-" />
   <!--CSS-->
   <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.css')}}">
   <link rel="stylesheet" href="{{ asset('frontend/css/styles.css')}} ">
