@@ -140,7 +140,6 @@ Route::prefix('/ajax')->group(function() {
 });
 
 
-
 Route::get('/carts/remove/{id}', [us::class, 'removeProductCarts'])->name('user.remove.carts');
 Route::prefix('/user')->middleware('auth.user')->group(function() {
     Route::get('/favorite', [us::class, 'profileFavorite'])->name('user.favorite');
