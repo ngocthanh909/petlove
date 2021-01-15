@@ -69,7 +69,7 @@ class UserController extends Controller
                         <div class="puppy-center-body-section">
                             <div style = "white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" class="puppy-center-section-title"><a href="san-pham/' .$item->Slug. '">'.$item->Name .'</a></div>
                             <ul class="rating">';
-                            $productAjaxRated = DB::table('Rate')->selectRaw('CAST(AVG(rate) AS DECIMAL(2,1)) AS avg')->where('ProductID' , $item->ProductID)->first();
+                            $productAjaxRated = DB::table('rate')->selectRaw('CAST(AVG(rate) AS DECIMAL(2,1)) AS avg')->where('ProductID' , $item->ProductID)->first();
                             $productAjaxRatedRounded = round($productAjaxRated->avg);
                             for ($i = 0 ; $i < $productAjaxRatedRounded ; $i++){
                                 $productHTML .= '<li><i class="fa fa-star"></i></li>';
@@ -303,7 +303,7 @@ class UserController extends Controller
         // session()->flush();
         // dd(session()->get('loginData'));
         $highestRatedQuery = "";
-        $highestRatedProduct = DB::table('rate')->orderBy('Rate','desc')->latest("RateID")->take(3)->get();
+        $highestRatedProduct = DB::table('rate')->orderBy('rate','desc')->latest("RateID")->take(3)->get();
         foreach ($highestRatedProduct as $product){
             $highestRatedQuery .= "ProductID = " . $product->ProductID . " OR ";
         }
@@ -391,7 +391,7 @@ class UserController extends Controller
 
         $brand = DB::table('brand')->where('BrandID', $product->BrandID)->first();
 
-        $rateAvg = DB::table('Rate')->selectRaw('CAST(AVG(rate) AS DECIMAL(2,1)) AS avg')->where('ProductID' , $product->ProductID)->first();
+        $rateAvg = DB::table('rate')->selectRaw('CAST(AVG(rate) AS DECIMAL(2,1)) AS avg')->where('ProductID' , $product->ProductID)->first();
         
 
         $rateCount = DB::select('SELECT COUNT(Rate) as rateCount FROM rate WHERE ProductID = ' . $product->ProductID);
@@ -427,7 +427,7 @@ class UserController extends Controller
         $htmlSuggestedRate = "";
         $suggestProduct = DB::table('product')->where('CategoryID', $product->CategoryID)->inRandomOrder()->limit(6)->get();
         foreach ($suggestProduct as $item){
-            $suggestProductRate = DB::table('Rate')->selectRaw('CAST(AVG(rate) AS DECIMAL(2,1)) AS avg')->where('ProductID' , $item->ProductID)->first();
+            $suggestProductRate = DB::table('rate')->selectRaw('CAST(AVG(rate) AS DECIMAL(2,1)) AS avg')->where('ProductID' , $item->ProductID)->first();
             
            
             $htmlSuggestedRate .= '

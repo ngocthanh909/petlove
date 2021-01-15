@@ -38,12 +38,12 @@ class LoginController extends Controller
         return redirect(route('user.index'));
     }
     public function redirect(){
-        dd("hmm");
         return Socialite::driver('facebook')->redirect();
     }
     public function callback(){
         // Init
         $user = Socialite::driver('facebook')->user();
+        dd($user);
         // Facebook data return to array
         $userData = [
             'UserID' => $user->getId(),
