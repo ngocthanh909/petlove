@@ -133,21 +133,18 @@
                             @endif
 
                         </button>
-
-                        @isset(session()->get('loginData')['logged'])
-                        @if (session()->get('loginData')['logged'] == 1)
-                        <div class="nav-button avatar" style="background-size: cover; background-image: url({{session()->get('loginData')['data']['Avatar']}});" onclick="openNav(event,'tab-users')"></div>
-                        @else
+                        @if(isset(session()->get('loginData')['logged']) && session()->get('loginData')['logged'] == 1)
+                            @if (session()->get('loginData')['logged'] == 1)
+                            <div class="nav-button avatar" style="background-size: cover; background-image: url({{session()->get('loginData')['data']['Avatar']}});" onclick="openNav(event,'tab-users')"></div>
+                            @endif
+                        @else   
                         <a href="{{ route('user.login') }} " style="margin-left:-1px;">
                             <button class="nav-button nav-button--wide">
-
                                 <span class="fas fa-user"></span>
                                 <span class="count">Đăng nhập</span>
                             </button>
                         </a>
-
                         @endif
-                        @endisset
 
                         <!--End Nav Buttons For Handling Events-->
 
