@@ -22,6 +22,11 @@ Route::get('/auth/redirect', [login::class, 'redirect'])->name('login.facebook')
 Route::get('/auth/callback', [login::class, 'callback'])->name('login.callback');
 Route::get('/logout', [login::class, 'logout'])->name('user.logout');
 Route::view('/login', 'user.login')->name('user.login');
+
+Route::get('/blocked', function(){
+    return "Tài khoản của bạn tạm thời bị vô hiệu! Vui lòng liên lạc cho quản trị viên!";
+})->name('blocked');
+
 Route::get('/poli', function () {
     return "Poly";
 });

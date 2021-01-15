@@ -111,7 +111,8 @@
           <div class="dogcat-main-head">
             <div class="dogcat-main-head-1">
              
-              <div class="dogcat-main-head-chosedisplay"> 
+              <div class="dogcat-main-head-chosedisplay">
+              <div class="float-left">Từ khoá: {{$keyword}}</div>
                 <!--            	<span>Kiểu hiển thị</span> <a href="#"><i class="fal fa-list-alt"></i> Lưới</a> <a href="#"><i class="far fa-th"></i> Danh sách</a> --> 
          
   

@@ -1,93 +1,102 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use DB;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
-use DB;
-use App\Http\Controllers\HelplerController as Helper;
-
 
 class LoginController extends Controller
 {
     //UserLogin
-    public function login($logged, $type, $data){
+    public function login($logged, $type, $data)
+    {
         /*
-            logged: đăng nhập == 1, chưa đăng nhập  == 0
-            type: quản trị viên == 0, người dùng == 1
-            data: 
-                'UserID' => $user->getId(),
-                'Nickname' => $user->getNickname(),
-                'Name' => $user->getName(),
-                'Email' => $user->getEmail(),
-                'Avatar' => $user->getAvatar()
-        */
+        logged: đăng nhập == 1, chưa đăng nhập  == 0
+        type: quản trị viên == 0, người dùng == 1
+        data:
+        'UserID' => $user->getId(),
+        'Nickname' => $user->getNickname(),
+        'Name' => $user->getName(),
+        'Email' => $user->getEmail(),
+        'Avatar' => $user->getAvatar()
+         */
         $loginData = [
             'logged' => $logged,
             'type' => $type,
             'data' => $data,
         ];
-        session(['loginData'=> $loginData, 'msg' => 'Đăng nhập thành công', 'code' => 1]);
+        session(['loginData' => $loginData, 'msg' => 'Đăng nhập thành công', 'code' => 1]);
     }
-    public function logout(){
+    public function logout()
+    {
         $loginData = [
             'logged' => 0,
             'type' => 0,
             'data' => null,
         ];
-        session(['loginData'=> $loginData, 'msg' => 'Đăng xuất thành công', 'code' => 1]);
+        session(['loginData' => $loginData, 'msg' => 'Đăng xuất thành công', 'code' => 1]);
         return redirect(route('user.index'));
     }
-    public function redirect(){
+    public function redirect()
+    {
         return Socialite::driver('facebook')->redirect();
     }
-    public function callback(){
+    public function callback()
+    {
         // Init
         $user = Socialite::driver('facebook')->user();
-        dd($user);
         // Facebook data return to array
         $userData = [
             'UserID' => $user->getId(),
             'Nickname' => $user->getNickname(),
             'Name' => $user->getName(),
             'Email' => $user->getEmail(),
-            'Avatar' => $user->getAvatar()
+            'Avatar' => $user->getAvatar(),
         ];
         /*
-            Check already have infomation in db
-            Yes: Login then return home page
-            No: create
-        */
-        if ($this->checkUser($user->getId())){
-            $this->login(1, 1,$userData);
+        Check already have infomation in db
+        Yes: Login then return home page
+        No: create
+         */
+        if ($this->checkUser($user->getId()) == 1) {
+            $this->login(1, 1, $userData);
             return redirect(route('user.index'));
+        } elseif($this->checkUser($user->getId()) == 2) {
+            return redirect(route('blocked'));
         } else {
             $result = DB::table('user')->insert($userData);
-            if($result){
-                $this->login($userData);
+            if ($result) {
+                $this->login(1, 1, $userData);
                 return redirect(route('user.index'));
             } else {
                 return redirect(route('user.login'));
             }
         }
     }
-    public function checkUser($id){
+    public function checkUser($id)
+    {
         $user = DB::table('user')->where('UserID', $id)->first();
-        if($user){
-            return true;
+        if ($user && $user->Active == 1) {
+            return 1;
+        } elseif ($user && $user->Active == 0) {
+            return 2;
         } else {
-            return false;
+            return 0;
         }
     }
     //Admin login
-    public function adminLoginIndex(){
+    public function adminLoginIndex()
+    {
         return view('admin.login');
     }
-    public function authAdmin(Request $request){
+    public function authAdmin(Request $request)
+    {
         $result = DB::table('admin')->where('Username', $request->Username)->where('Password', $request->Password)->get();
-        if(isset($result[0])){
+        if (isset($result[0])) {
             $role = $result[0]->Role;
             $roleName = null;
-            if ($role){
+            if ($role) {
                 $roleName = "Nhân viên";
             } else {
                 $roleName = "Quản trị viên";
@@ -104,10 +113,12 @@ class LoginController extends Controller
             return redirect(route('admin.dashboard'));
         }
     }
-    public function adminLogin($userData){
-        session(['logged' => 1, 'userData'=> $userData, 'msg' => "Đăng nhập thành công"]);
+    public function adminLogin($userData)
+    {
+        session(['logged' => 1, 'userData' => $userData, 'msg' => "Đăng nhập thành công"]);
     }
-    public function adminLogout(){
+    public function adminLogout()
+    {
         session()->forget('userData');
         session()->forget('logged');
         session(['msg' => "Đã đăng xuất"]);

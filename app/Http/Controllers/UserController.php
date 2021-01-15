@@ -708,7 +708,7 @@ class UserController extends Controller
     }
 
 
-    public function search($name,Request $request){
+    public function search($name, Request $request){
         $queryRequest = "";
         $sort = substr($request->input('sort'), 1);
         if (trim($sort) == "price-asc"){
@@ -737,7 +737,7 @@ class UserController extends Controller
         if (strlen(substr($getRated,0,-3)) > 10){
             $ratedList = DB::table('rate')->whereRaw(substr($getRated,0,-3))->get();
         }
-        return view('user.search')->with(array('categories'=> $categories , 'productList' => $productList , 'ratedList' => $ratedList));
+        return view('user.search')->with(array('categories'=> $categories , 'productList' => $productList , 'ratedList' => $ratedList))->with('keyword', $name);
     }
 
 
