@@ -5,6 +5,7 @@
 
   <meta charset="utf-8">
   <title>Petlove - Shop thú cưng trực tuyến</title>
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <!--CSS-->
   <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.css')}}">
   <link rel="stylesheet" href="{{ asset('frontend/css/styles.css')}} ">
