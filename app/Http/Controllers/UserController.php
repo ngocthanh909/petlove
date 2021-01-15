@@ -929,6 +929,7 @@ class UserController extends Controller
     public function getBlogDetail($slug){
 
         $content = DB::table('blog')->where('slug',$slug)->first();
+        DB::table('blog')->where('id',$content->id)->update(['viewCount' => $content->viewCount + 1]);
         $blog2 = DB::table('blog')->orderBy('id', 'desc')->limit(4)->get();
 
         return view('user.blogcontent' , compact('content','blog2'));

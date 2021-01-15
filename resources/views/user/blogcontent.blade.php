@@ -21,7 +21,7 @@
           <div class="blog-info">
             <ul>
               <li><i class="fal fa-calendar-day"></i> {{$content->created_at}}</li>
-              <li><i class="fal fa-comments"></i> 100 comments</li>
+              <li><i class="fal fa-comments"></i> {{$content->viewCount}} lượt xem </li>
             </ul>
           </div>
           <div class="article_content">
