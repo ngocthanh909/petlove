@@ -36,7 +36,7 @@
 					@endphp
 					<div id="item" class="cartpage-productlist-item">
         				<div class="cartpage-productlist-item-img">
-        					<img src="{{ asset('frontend/images/product/dog/royal canin/4372_ava.jpg') }}">
+        					<img src="{{ asset($item['Avatar']) }}">
         				</div>
         				<div class="cartpage-productlist-item-section">
         					<div class="cartpage-productlist-item-section-name">
