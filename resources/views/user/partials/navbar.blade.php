@@ -6,7 +6,8 @@
                     <input class="form-control" id="searchInput" placeholder="Nhập vào sản phẩm bạn cần tìm">
                     <br>
                     <button class="btn btn-primary" onclick="startRegVoice(this)"><i class="fas fa-microphone"></i></button>
-
+            
+                   
                 </div>
                 <div class="icon audio" hidden style="margin-top: 150px">
                     <i></i>

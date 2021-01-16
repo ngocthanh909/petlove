@@ -21,12 +21,18 @@
   <script>
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     var recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.lang = 'vi-VN';
+
+    recognition.maxAlternatives = 1;
     recognition.onresult = function(event) {
+        $('searchInput').val(event.results[0][0].transcript);
         if (event.results.length > 0) {
-            $('searchInput').val(event.results[0][0].transcript);
-            console.log();
+           
+    
             searchInput.value = event.results[0][0].transcript;
-            window.location = "/search/" + input.value;
+           
+            //window.location = "/search/" + input.value;
         }
     }
 </script>
@@ -215,7 +221,8 @@
     console.log($(evt).attr('class'));
     recognition.start()
     $('.audio').removeAttr('hidden');
-    $('#searchInput').prop('hidden', true);
+  
+
     $(evt).attr('hidden',true);
     
   
